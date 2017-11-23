@@ -1,8 +1,8 @@
 {
-    "name": "mockups",
+    "name": "MapStore2 Mockups",
     "version": "1.0.0",
-    "description": "mockups",
-    "repository": "repo",
+    "description": "MapStore2 Mockups",
+    "repository": "https://github.com/geosolutions-it/MapStore2-Mockups.git",
     "main": "index.js",
     "devDependencies": {
         "acorn-jsx": "https://github.com/geosolutions-it/acorn-jsx/tarball/master",
