@@ -1,0 +1,23 @@
+{
+    "locale": "en-US",
+    "messages": {
+        "map": {
+            "thumbnail": "Thumbnail",
+            "message": "Drop or click to import an image",
+            "suggestion": "(best 300px X 180px, max 500kb)",
+            "permissions": {
+                "noRules": "No rules",
+                "addRule": "Add a rule",
+                "title": "Permissions Groups"
+            }
+        },
+        "groups": "Groups",
+        "permissions": "Permissions",
+        "manager": {
+            "openInANewTab": "Open map",
+            "editMapMetadata": "Edit map metadata",
+            "deleteMap": "Delete map"
+        }
+
+    }
+}

@@ -1,0 +1,101 @@
+{
+  "_from": "cesium@1.17.0",
+  "_id": "cesium@1.17.0",
+  "_inBundle": false,
+  "_integrity": "sha1-cwIchDRrKbTg4/3NI6IHJq2Ppaw=",
+  "_location": "/cesium",
+  "_phantomChildren": {},
+  "_requested": {
+    "type": "version",
+    "registry": true,
+    "raw": "cesium@1.17.0",
+    "name": "cesium",
+    "escapedName": "cesium",
+    "rawSpec": "1.17.0",
+    "saveSpec": null,
+    "fetchSpec": "1.17.0"
+  },
+  "_requiredBy": [
+    "#DEV:/"
+  ],
+  "_resolved": "https://registry.npmjs.org/cesium/-/cesium-1.17.0.tgz",
+  "_shasum": "73021c84346b29b4e0e3fdcd23a20726ad8fa5ac",
+  "_spec": "cesium@1.17.0",
+  "_where": "C:\\Users\\stefano\\Documents\\workspace\\mockups",
+  "author": {
+    "name": "Analytical Graphics, Inc.",
+    "url": "http://www.agi.com"
+  },
+  "bugs": {
+    "url": "https://github.com/AnalyticalGraphicsInc/cesium/issues",
+    "email": "cesium-dev@googlegroups.com"
+  },
+  "bundleDependencies": false,
+  "contributors": {
+    "name": "Cesium community",
+    "url": "https://github.com/AnalyticalGraphicsInc/cesium/blob/master/CONTRIBUTORS.md"
+  },
+  "dependencies": {
+    "requirejs": "2.1.22"
+  },
+  "deprecated": false,
+  "description": "Cesium is a JavaScript library for creating 3D globes and 2D maps in a web browser without a plugin.",
+  "devDependencies": {
+    "almond": "0.3.1",
+    "async": "1.5.0",
+    "bluebird": "3.0.5",
+    "compression": "1.6.0",
+    "event-stream": "3.3.2",
+    "express": "4.13.3",
+    "globby": "4.0.0",
+    "gulp": "3.9.0",
+    "gulp-insert": "0.5.0",
+    "gulp-jshint": "2.0.0",
+    "gulp-rename": "1.2.2",
+    "gulp-replace": "0.5.4",
+    "gulp-zip": "3.0.2",
+    "jsdoc": "3.4.0",
+    "jshint": "2.8.0",
+    "jshint-stylish": "2.1.0",
+    "mkdirp": "0.5.1",
+    "request": "2.67.0",
+    "rimraf": "2.4.4",
+    "strip-comments": "0.3.2",
+    "yargs": "3.30.0"
+  },
+  "homepage": "http://cesiumjs.org",
+  "keywords": [
+    "3D",
+    "webgl",
+    "geospatial",
+    "map",
+    "globe"
+  ],
+  "license": "Apache-2.0",
+  "name": "cesium",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/AnalyticalGraphicsInc/cesium.git"
+  },
+  "scripts": {
+    "build": "gulp build",
+    "build-watch": "gulp build-watch",
+    "buildApps": "gulp buildApps",
+    "clean": "gulp clean",
+    "cloc": "gulp cloc",
+    "combine": "gulp combine",
+    "combineRelease": "gulp combineRelease",
+    "generateDocumentation": "gulp generateDocumentation",
+    "generateStubs": "gulp generateStubs",
+    "instrumentForCoverage": "gulp instrumentForCoverage",
+    "jsHint": "gulp jsHint",
+    "jsHint-watch": "gulp jsHint-watch",
+    "makeZipFile": "gulp makeZipFile",
+    "minify": "gulp minify",
+    "minifyRelease": "gulp minifyRelease",
+    "release": "gulp release",
+    "sortRequires": "gulp sortRequires",
+    "start": "node server.js"
+  },
+  "version": "1.17.0"
+}

@@ -1,0 +1,24 @@
+{
+	"proxyUrl": "/mapstore/proxy/?url=",
+	"geoStoreUrl": "/mapstore/rest/geostore",
+	"printUrl": "https://demo.geo-solutions.it/geoserver/pdf/info.json",
+  "themePrefix": "mockups",
+	"translationsPath": "./assets/translations",
+	"plugins": {
+      "index": [
+        "Archive"
+      ],
+			"query-builder": [
+        "Background",
+        "QueryBuilder",
+        "FakeFooter",
+        "FakeNavbar",
+        "FakeToolbar"
+      ],
+			"maps-list": [
+        "Header",
+        "Footer",
+        "MapArchive"
+      ]
+	}
+}

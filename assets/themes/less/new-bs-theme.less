@@ -1,0 +1,22 @@
+.button-disabled-variant(@color; @background; @opacity) {
+
+  &.disabled,
+  &[disabled],
+  fieldset[disabled] & {
+    &,
+    &:hover,
+    &:focus,
+    &.focus,
+    &:active,
+    &.active {
+      background-color: @background;
+      color: @color;
+      opacity: @opacity;
+    }
+  }
+
+}
+
+.btn-default {
+  .button-disabled-variant(@ms2-color-shade-light; @ms2-color-background; 0.5);
+}
