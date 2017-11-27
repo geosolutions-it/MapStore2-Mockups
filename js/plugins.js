@@ -19,7 +19,9 @@ module.exports = {
 
         HeaderPlugin: require('./plugins/Header'),
         FooterPlugin: require('./plugins/Footer'),
-        MapArchivePlugin: require('./plugins/MapArchive')
+        MapArchivePlugin: require('./plugins/MapArchive'),
+
+        HomePlugin: require('./plugins/Home')
 
     },
     requires: {}

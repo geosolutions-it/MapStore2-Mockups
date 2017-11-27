@@ -21,38 +21,38 @@ class ArchivePlugin extends React.Component {
     static defaultProps = {
         cards: [
             {
-                title: 'Style editor Point',
-                desc: 'Style editor for PointSymbolizer',
+                title: 'Style Editor Point',
+                desc: 'Style Editor for PointSymbolizer',
                 link: 'styleeditor',
                 src: 'p.png'
             },
             {
-                title: 'Style editor Line',
-                desc: 'Style editor for LineSymbolizer',
+                title: 'Style Editor Line',
+                desc: 'Style Editor for LineSymbolizer',
                 link: 'styleeditorline',
                 src: 'l.png'
             },
             {
-                title: 'Style editor Polygon',
-                desc: 'Style editor for PolygonSymbolizer',
+                title: 'Style Editor Polygon',
+                desc: 'Style Editor for PolygonSymbolizer',
                 link: 'styleeditorpolygon',
                 src: 'po.png'
             },
             {
-                title: 'Style editor Raster',
-                desc: 'Style editor for RasterSymbolizer',
+                title: 'Style Editor Raster',
+                desc: 'Style Editor for RasterSymbolizer',
                 link: 'styleeditorraster',
                 src: 'r.png'
             },
             {
-                title: 'Statistical query engine',
-                desc: 'Analysis with statistical query engine mockup',
+                title: 'Statistical Query Engine',
+                desc: 'Analysis with Statistical Query Engine Mockup',
                 link: 'statistical',
                 src: 's.png'
             },
             {
                 title: 'Widget',
-                desc: 'Chart and widget mockup',
+                desc: 'Chart and Widget Mockup',
                 link: 'widget',
                 src: 'w.png'
             },
@@ -61,6 +61,12 @@ class ArchivePlugin extends React.Component {
                 desc: 'Query Builder / Advanced Search',
                 link: 'query-builder',
                 src: 'toscana.png'
+            },
+            {
+                title: 'Edit Map Properties',
+                desc: 'Added Details Sheet',
+                link: 'maps-properties',
+                src: 'm-prop.png'
             }
         ]
     };
@@ -76,7 +82,7 @@ class ArchivePlugin extends React.Component {
     }
 
     render() {
-        const cards = this.props.cards.filter(c => c.title.match(this.state.filterText));
+        const cards = this.props.cards.filter(c => c.title.toLowerCase().match(this.state.filterText.toLowerCase()) || c.desc.toLowerCase().match(this.state.filterText.toLowerCase()));
         return (
             <span>
                 <div className="mapstore-archive-header">
@@ -85,7 +91,7 @@ class ArchivePlugin extends React.Component {
                         <div>&nbsp; MapStore Mockups</div>
                     </div>
                     </a>
-                    <Filter filterText={this.state.filterText} onFilter={(value) => {
+                    <Filter filterPlaceholder="Filter mockups..." filterText={this.state.filterText} onFilter={(value) => {
                         this.setState({
                             filterText: value
                         });

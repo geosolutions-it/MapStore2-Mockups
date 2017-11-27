@@ -1,0 +1,475 @@
+.m-left {
+    float: left;
+}
+.shadow-soft-inset-up {
+    -webkit-box-shadow: inset 0 -3px 6px rgba(0, 0, 0, 0.06), inset 0 -4px 8px rgba(0, 0, 0, 0.12);
+	-moz-box-shadow: inset 0 -3px 6px rgba(0, 0, 0, 0.06), inset 0 -4px 8px rgba(0, 0, 0, 0.12);
+	box-shadow: inset 0 -3px 6px rgba(0, 0, 0, 0.06), inset 0 -4px 8px rgba(0, 0, 0, 0.12);
+}
+
+.m-right {
+    float: right;
+}
+.mapstore-header {
+    position: fixed;
+    width: 100%;
+    height: @square-btn-size;
+    .shadow-soft;
+    z-index: 10;
+    background-color: @ms2-color-background;
+    .mapstore-filter {
+        float: right;
+        margin-right: @square-btn-size / 2;
+    }
+    .btn-group {
+        float: right;
+    }
+}
+
+
+.ms-logo-title {
+    font-size: @font-size-large * 1.5;
+    line-height: @square-btn-size;
+    height: @square-btn-size;
+    font-weight: bold;
+    margin-left: 15px;
+    a:hover {
+        text-decoration: none !important;
+    }
+
+}
+#mapstore-maps-grid {
+    .m-grid-cols {
+        margin-top: @square-btn-medium-size / 2;
+    }
+}
+
+.mapstore-body {
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    padding: @square-btn-size 0;
+    .ms-jumbotron {
+        padding: 0;
+        background-color: @ms2-color-primary;
+        color: @ms2-color-text-primary;
+        .jumbotron {
+            background-color: @ms2-color-primary;
+            color: @ms2-color-text-primary;
+        }
+    }
+    .ms2-border-layout-content {
+        border-left: 1px solid @ms2-color-shade-lighter;
+    }
+    .m-grid-cols {
+        /*padding: 5px;*/
+
+        .map-thumb {
+            height: @square-btn-size * 5;
+            .shadow-soft;
+
+            .gridcard-tools {
+                width: ~"calc(100% - 30px)";
+                position: absolute;
+                bottom: 0;
+                right: auto;
+                height: @square-btn-medium-size + 10px !important;
+                background-color: @ms2-color-background;
+
+                .btn {
+                    margin-top: 5px;
+                    float: right;
+                    &:first-child {
+                        margin-right: 10px;
+                    }
+                    &:last-child {
+                        span {
+                            &:before {
+                                content: "\e020"
+                            }
+                        }
+                    }
+                    .square-button-md;
+                }
+            }
+            .map-thumb-description {
+                width: ~"calc(100% - 30px)";
+                position: absolute;
+                height: @square-btn-medium-size !important;
+                bottom: @square-btn-medium-size + 10px;
+                background-color: @ms2-color-background;
+                line-height: @square-btn-medium-size;
+                padding: 0 10px;
+                text-overflow: ellipsis;
+                overflow: hidden;
+            }
+            .gridcard-title {
+                width: ~"calc(100% - 30px)";
+                position: absolute;
+                background-color: @ms2-color-background;
+                bottom: @square-btn-medium-size * 2 + 10px;
+                height: @square-btn-medium-size !important;
+
+                color: @ms2-color-text;
+                line-height: @square-btn-medium-size;
+                padding: 0 10px;
+
+                min-height: auto;
+                font-size: @font-size-large;
+                font-weight: bold;
+                text-overflow: ellipsis;
+                overflow: hidden;
+            }
+            transition: 0.3s;
+            &:hover {
+                .shadow-far;
+            }
+        }
+    }
+}
+
+.mapstore-footer {
+    position: fixed;
+    width: 100%;
+    height: @square-btn-size;
+    .shadow-soft-up;
+    z-index: 10;
+    background-color: @ms2-color-background;
+    bottom: 0;
+    .ms-circle-loader-md {
+        margin: ((@square-btn-size - @icon-size) / 2) ((@square-btn-size - @icon-size) / 2 + 5px);
+    }
+    .ms-logo-geosolutions {
+        height: @square-btn-size;
+        width: @square-btn-size * 3;
+        overflow: hidden;
+        margin-right: @square-btn-size / 2;
+        display: flex;
+        img {
+            width: 100%;
+            height: auto;
+            margin: auto;
+        }
+    }
+}
+
+.modal-details-sheet-container {
+    .quill {
+        display: flex;
+        flex-direction: column;
+        height: 100%;
+        .ql-toolbar {
+            border: none;
+            .shadow-soft;
+            min-height: @square-btn-size;
+            /* 24px height of quill icons */
+            padding: (@square-btn-size - 24px) / 2;
+
+        }
+        .ql-container {
+            flex: 1;
+            overflow-y: auto;
+            width: 100%;
+            height: auto;
+            border: none;
+        }
+    }
+
+}
+
+.modal-details-sheet-confirm {
+    .container-fluid {
+        .col-xs-12 {
+            margin-top: 15px;
+        }
+    }
+}
+
+.modal-properties-container {
+    flex: 1;
+    padding: 0;
+    overflow-y: auto;
+    &.ms-no-scroll {
+        overflow-y: hidden;
+    }
+    .container-fluid {
+        padding: 0;
+        .row {
+            width: 100%;
+            margin: 0;
+        }
+    }
+    .col-xs-12 {
+        margin-top: ( @square-btn-size - 34px) / 2;
+        .form-group {
+
+            height: @square-btn-size;
+            .row;
+            margin-left: 0;
+            margin-right: 0;
+            margin: 0;
+            label {
+
+                .col-xs-6;
+                float: left;
+                font-weight: normal;
+                line-height: 34px;
+                margin: 0;
+                margin-top:( @square-btn-size - 34px) / 2;
+            }
+            input {
+                margin-top:( @square-btn-size - 34px) / 2;
+                float: left;
+                .col-xs-6;
+            }
+        }
+    }
+    .dropzone-thumbnail-container {
+        label {
+            .col-xs-6;
+            float: left;
+            font-weight: normal;
+        }
+        .dropzone {
+            overflow: hidden;
+            float: left;
+            .col-xs-6;
+            transition: 0.3s;
+            &:hover {
+                transform: scale(1.05);
+                .dropzone-content-image {
+                    font-size: inherit !important;
+                }
+            }
+            background-color: @ms2-color-background;
+            .shadow-soft;
+            border: none;
+            max-width: 300px;
+            height: 141px;
+            margin: auto;
+        }
+    }
+    .ms-section {
+        overflow: hidden;
+        height: @square-btn-size;
+        border-bottom: 1px solid transparent;
+        box-shadow: none;
+        max-height: @square-btn-size;
+
+        .ms-details-preview {
+            width: ~"calc(100% - 30px)";
+            margin: 5px 15px;
+            padding: 10px;
+            height: @square-btn-size * 10;
+            .shadow;
+            display: table;
+            table-layout: fixed;
+            img {
+                width: 100%;
+                height: auto;
+            }
+            p {
+                word-wrap: break-word;
+                width: 100%;
+            }
+        }
+        &.ms-transition {
+            transition: 1.5s;
+            &:hover {
+                flex: 1;
+                height: auto;
+                border-bottom: 1px solid @ms2-color-shade-lighter;
+                /* workaround for height transition */
+                max-height: 1080px;
+                /* end - workaround for height transition */
+                .shadow-soft-inset-up;
+            }
+        }
+    }
+    .ms-map-properties {
+        padding-top: 15px;
+        display: flex;
+        flex-direction: column;
+    }
+    @media screen and (min-height: 900px) {
+        &.ms-flex {
+            display: flex;
+            overflow: hidden;
+            .container-fluid {
+                display: flex;
+                flex-direction: column;
+                .ms-permissions-container {
+                    flex: 1;
+                    overflow-y: auto;
+                }
+            }
+        }
+    }
+
+    .ms-permissions-container {
+        border-top: 1px solid @ms2-color-shade-lighter;
+        /*border-bottom: 1px solid @ms2-color-shade-lighter;*/
+
+        z-index: 50;
+        & > .row {
+            & > .col-xs-12 {
+                margin-top: 15px;
+            }
+        }
+        .ms-permission-row {
+            width: 100%;
+
+            /*border-left: 2px solid contrast(@ms2-color-background);*/
+            height: @square-btn-size;
+            & > * {
+                float: left;
+            }
+            .Select:first-child {
+                width: ~"calc(50% - 20px)";
+                margin-right: 20px;
+            }
+            .Select {
+                width: ~"calc(50% - @{square-btn-medium-size} - 5px)";
+                margin-right: 5px;
+                margin-top: (@square-btn-size - 34px) / 2;
+                .Select-control {
+                    border-radius: 0;
+                    .Select-placeholder {
+                        border: none;
+                    }
+                    .Select-arrow-zone {
+                        padding-left: 5px;
+                        border-left: 1px solid @ms2-color-shade-lighter;
+                    }
+                }
+            }
+            button {
+                float: right;
+                margin-top: (@square-btn-size - @square-btn-medium-size) / 2;
+            }
+            .ms-permission-title {
+                width: ~"calc(50% - 20px)";
+                height: @square-btn-size;
+                line-height: @square-btn-size;
+                margin-right: 20px;
+                font-style: italic;
+            }
+        }
+
+        .ms-row-head {
+            border-left: none;
+            margin-bottom: @square-btn-size / 4;
+            margin-top: 10px;
+            /*border-bottom: 1px solid @ms2-color-shade-lighter;*/
+        }
+    }
+
+
+    .mapstore-block-width {
+        margin: 0;
+
+        .m-label {
+            margin-top:( @square-btn-size - @square-btn-medium-size) / 2;
+            height: @square-btn-medium-size;
+            line-height: @square-btn-medium-size;
+        }
+
+        .btn-group {
+            margin-top:( @square-btn-size - @square-btn-medium-size) / 2;
+        }
+
+        .ms-details-sheet {
+            height: @square-btn-size;
+            padding: 10px 0;
+            overflow: hidden;
+            .btn-group {
+                margin-top: 0;
+            }
+            strong {
+                height: @square-btn-medium-size;
+                line-height: @square-btn-medium-size;
+                font-weight: normal;
+            }
+            img {
+                width: 100%;
+                height: auto;
+            }
+            /*.shadow;*/
+
+            /*&:hover {
+                @move-up: @square-btn-size * 3 / 4;
+                cursor: pointer;
+                transform: ~"translateY(-@{move-up})";
+            }*/
+        }
+    }
+}
+
+@media (min-width: 505px) and (max-width: 768px) {
+    .modal-dialog {
+        width: 500px;
+    }
+}
+@media (max-width: 505px) {
+    .modal-dialog {
+        width: calc(100% - 5px);
+    }
+}
+
+.ms-vertical-toolbar {
+    width: @square-btn-size + 10px;
+    height: 100%;
+    padding: @square-btn-size/2 5px;
+    .ms-v-selector {
+        border-bottom: 1px solid @ms2-color-shade-lighter;
+        .panel {
+            box-shadow: none;
+            border: none;
+            .panel-body {
+                padding: 0;
+                .square-button {
+                    img {
+                        width: 100%;
+                        height: auto;
+                    }
+                }
+            }
+        }
+
+    }
+}
+
+.ms-theme-icon {
+    width: @icon-size;
+    height: @icon-size;
+    overflow: hidden;
+    & > div {
+        position: absolute;
+        width: @icon-size;
+        height: @icon-size;
+        & > div {
+            top: 10%;
+            left: 10%;
+            position: absolute;
+            width: 80%;
+            height: 80%;
+            & > div {
+                top: 20%;
+                left: 20%;
+                position: absolute;
+                width: 60%;
+                height: 60%;
+                & > div {
+                    top: 30%;
+                    left: 30%;
+                    position: absolute;
+                    width: 40%;
+                    height: 40%;
+                }
+            }
+        }
+    }
+}
+.ms-circle-loader-md {
+    .mapstore-circle-loader(@icon-size / 8, @icon-size, @ms2-color-primary);
+}

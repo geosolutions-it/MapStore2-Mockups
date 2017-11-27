@@ -40,7 +40,6 @@ class ItalyMap extends React.Component {
                     {this.props.region && <PolygonGroup
                         key= {"italy"}
                         data={data}
-                        label={'ok'}
                         polygonClass= {"m-polygon-italy"}/>}
                 </g>
             </Map>

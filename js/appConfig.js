@@ -12,8 +12,12 @@ module.exports = {
         path: "/",
         component: require('./pages/Index')
     }, {
-        name: "maps-list",
-        path: "/maps-list",
+        name: "home",
+        path: "/home",
+        component: require('./pages/Home')
+    }, {
+        name: "maps-properties",
+        path: "/maps-properties",
         component: require('./pages/MapsList')
     }, {
         name: "query-builder",

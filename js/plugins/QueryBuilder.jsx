@@ -71,6 +71,9 @@ class QueryBuilder extends React.Component {
                         }, {
                             glyph: 'search',
                             tooltip: 'Search'
+                        }, {
+                            glyph: 'book',
+                            tooltip: 'How to use'
                         }]}/>
                 </div>
             </div>
@@ -89,8 +92,7 @@ class QueryBuilder extends React.Component {
         return (
             <div className="mapstore-query-builder">
                 <BorderLayout
-                    header={this.renderHeader()}
-                    footer={this.renderFooter()}>
+                    header={this.renderHeader()}>
                     <SwitchPanel
                         onSwitch={() => {
                             this.setState({
@@ -107,9 +109,6 @@ class QueryBuilder extends React.Component {
                             },
                             visible: this.state.conditions && this.state.conditions.length > 0,
                             glyph: 'clear-filter'
-                        }, {
-                            tooltip: 'How to use',
-                            glyph: 'question-sign'
                         }]}>
                         <ConditionsGroup
                             components={this.state.conditions}
@@ -144,9 +143,6 @@ class QueryBuilder extends React.Component {
                             },
                             visible: (this.state.geometryFilter || this.state.layerFilter || this.state.viewportFilter),
                             glyph: 'clear-filter'
-                        }, {
-                            tooltip: 'How to use',
-                            glyph: 'question-sign'
                         }]}
                         title={'Region of Interest'}>
                         <div className="mapstore-block-width">
@@ -158,11 +154,11 @@ class QueryBuilder extends React.Component {
                                     <Combobox
                                         value={this.state.geometryType || ""}
                                         filter="contains"
-                                        data={['Viewport', 'Rectangle', 'Circle', 'Polygon', 'Regions']}
+                                        data={['Viewport', 'Rectangle', 'Circle', 'Polygon', 'Region']}
                                         placeholder="Select Type"
                                         onChange={(value) => {
 
-                                            if (value === 'Regions') {
+                                            if (value === 'Region') {
                                                 this.setState({
                                                     layerFilter: true,
                                                     geometryFilter: false,
@@ -203,7 +199,7 @@ class QueryBuilder extends React.Component {
                         {this.state.layerFilter && <div className="mapstore-block-width">
                             <Row>
                                 <Col xs={6}>
-                                    <div className="m-label">Regions:</div>
+                                    <div className="m-label">Region:</div>
                                 </Col>
                                 <Col xs={6}>
                                     <Combobox value={this.state.regions || ''} data={[
@@ -287,15 +283,12 @@ class QueryBuilder extends React.Component {
                             },
                             visible: this.state.selectLayer,
                             glyph: 'clear-filter'
-                        }, {
-                            tooltip: 'How to use',
-                            glyph: 'question-sign'
                         }]}
                         title={'Layer Filter'}>
                         <div className="mapstore-block-width">
                             <Row>
                                 <Col xs={6}>
-                                    <div className="m-label">Layer:</div>
+                                    <div className="m-label">Target Layer:</div>
                                 </Col>
                                 <Col xs={6}>
                                     <Combobox value={this.state.layerSelected || ''} data={[

@@ -12,21 +12,29 @@ const PropTypes = require('prop-types');
 class FooterPlugin extends React.Component {
 
     static propTypes = {
-        buttons: PropTypes.array
+        buttons: PropTypes.array,
+        loading: PropTypes.bool
     };
 
     static defaultProps = {
         buttons: [
             {visible: true, glyph: 'user'}
-        ]
+        ],
+        loading: false
     };
 
     render() {
 
         return (
             <div className="mapstore-footer">
-                <div className="m-left"></div>
-                <div className="m-right"></div>
+                <div className="m-left">
+                    <div className="ms-circle-loader-md"></div>
+                </div>
+                <div className="m-right">
+                    <div className="ms-logo-geosolutions">
+                        <img src={require('../../assets/img/logo.png')}/>
+                    </div>
+                </div>
             </div>
         );
     }

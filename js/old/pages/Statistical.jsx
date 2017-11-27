@@ -18,6 +18,7 @@ const FakeNavbar = require('../components/FakeNavbar');
 const FakeBackgroundSel = require('../components/FakeBackgroundSel');
 const FakeIcons = require('../components/FakeIcons');
 const SwitchPanel = require('../components/styleeditor/SwitchPanel');
+const {BackgroundPlugin} = require('../../plugins/Background');
 
 const {head} = require('lodash');
 const {
@@ -738,6 +739,7 @@ class Statistical extends React.Component {
         return (
             <span>
                 <FakeToolbar/>
+                <BackgroundPlugin />
                 <FakeFooter/>
                 <FakeNavbar/>
                 <FakeBackgroundSel/>
