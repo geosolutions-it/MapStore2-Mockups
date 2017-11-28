@@ -26,7 +26,6 @@
     }
 }
 
-
 .ms-logo-title {
     font-size: @font-size-large * 1.5;
     line-height: @square-btn-size;
@@ -43,7 +42,39 @@
         margin-top: @square-btn-medium-size / 2;
     }
 }
+.mapstore-permission-group {
+    width: 100%;
+    .row {
+        margin-top: 10px !important;
+        display: flex;
+        padding: 0 15px;
+        .ms-col-grab {
+            width: @icon-size / 2;
+            padding: 0;
+            overflow: hidden;
+            display: flex;
+            span {
+                width: @icon-size / 4;
+                height: @icon-size / 2;
+                margin: auto;
+            }
+        }
 
+        .ms-col {
+            padding: 0 5px;
+            margin: auto;
+            width: auto;
+            &:first-child {
+                padding: 0;
+                margin-left: 0;
+            }
+            &:last-child {
+                padding: 0;
+                margin-right: 0;
+            }
+        }
+    }
+}
 .mapstore-body {
     position: fixed;
     width: 100%;
@@ -300,14 +331,32 @@
                 flex-direction: column;
                 .ms-permissions-container {
                     flex: 1;
-                    overflow-y: auto;
+                    display: flex;
+                    flex-direction: column;
+                    .mapstore-permission-group {
+                        flex: 1;
+                        display: flex;
+                        flex-direction: column;
+
+                        & > span {
+                            display: block;
+                            flex: 1;
+                            overflow-y: auto;
+                        }
+                    }
                 }
             }
         }
     }
 
     .ms-permissions-container {
-        border-top: 1px solid @ms2-color-shade-lighter;
+        & > .row {
+            & > .col-xs-12 {
+
+            }
+        }
+
+
         /*border-bottom: 1px solid @ms2-color-shade-lighter;*/
 
         z-index: 50;

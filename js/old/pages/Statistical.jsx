@@ -115,7 +115,6 @@ class Statistical extends React.Component {
                     <NavItem eventKey={2} disabled>Display</NavItem>
                     <NavItem eventKey={4}>Analysis</NavItem>
                     <NavItem href="#/styleeditor">Style</NavItem>
-                    <NavItem eventKey={5} disabled>Elevation</NavItem>
                 </Nav>
                 <div className="mapstore-result-container">
                     <ConfirmModal confirmText={'Delete'} cancelText={'Cancel'} titleText={'Delete Analysis Chain'} body={'Delete Last Analysis'} show={this.state.resultsCardsDelete} onClose={() => {

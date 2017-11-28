@@ -18,6 +18,10 @@ const {connect} = require('react-redux');
 const Toolbar = require('../../MapStore2/web/client/components/misc/toolbar/Toolbar');
 const ConditionsGroup = require('../components/ConditionsGroup');
 
+const ListItem = ({ item }) => (
+  <span className={item.className || ''}>{item.label}</span>
+);
+
 class QueryBuilder extends React.Component {
     static propTypes = {
         onChange: PropTypes.func
@@ -153,34 +157,34 @@ class QueryBuilder extends React.Component {
                                 <Col xs={6}>
                                     <Combobox
                                         value={this.state.geometryType || ""}
-                                        filter="contains"
-                                        data={['Viewport', 'Rectangle', 'Circle', 'Polygon', 'Region']}
+                                        data={[{label: 'Viewport'}, {label: 'Rectangle'}, {label: 'Circle'}, {label: 'Polygon'}, {label: 'Region', className: 'ms-custom-filter'}]}
+                                        itemComponent={ListItem}
                                         placeholder="Select Type"
                                         onChange={(value) => {
 
-                                            if (value === 'Region') {
+                                            if (value.label === 'Region') {
                                                 this.setState({
                                                     layerFilter: true,
                                                     geometryFilter: false,
                                                     viewportFilter: false,
-                                                    geometryType: value
+                                                    geometryType: value.label
                                                 });
-                                            } else if (value === 'Viewport') {
+                                            } else if (value.label === 'Viewport') {
                                                 this.setState({
                                                     layerFilter: false,
                                                     geometryFilter: false,
                                                     viewportFilter: true,
-                                                    geometryType: value
+                                                    geometryType: value.label
                                                 });
                                                 this.props.onChange('region', '');
-                                            } else if (value === 'Rectangle'
+                                            } else if (value.label === 'Rectangle'
                                             || value === 'Circle'
                                             || value === 'Polygon') {
                                                 this.setState({
                                                     layerFilter: false,
                                                     geometryFilter: true,
                                                     viewportFilter: false,
-                                                    geometryType: value
+                                                    geometryType: value.label
                                                 });
                                                 this.props.onChange('region', '');
                                             } else {
@@ -188,7 +192,7 @@ class QueryBuilder extends React.Component {
                                                     layerFilter: false,
                                                     geometryFilter: false,
                                                     viewportFilter: false,
-                                                    geometryType: value
+                                                    geometryType: value.label
                                                 });
                                                 this.props.onChange('region', '');
                                             }

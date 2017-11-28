@@ -15,9 +15,10 @@ const Thumbnail = require('../../MapStore2/web/client/components/maps/forms/Thum
 const Metadata = require('../../MapStore2/web/client/components/maps/forms/Metadata');
 const Toolbar = require('../../MapStore2/web/client/components/misc/toolbar/Toolbar');
 const Portal = require('../../MapStore2/web/client/components/misc/Portal');
-const PermissionEditor = require('../components/PermissionEditor');
+// const PermissionEditor = require('../components/PermissionEditor');
 const ReactQuill = require('react-quill');
 const ResizableModal = require('../components/ResizableModal');
+const PermissionGroup = require('../components/PermissionGroup');
 
 require('react-quill/dist/quill.snow.css');
 
@@ -65,7 +66,8 @@ class MapArchivePlugin extends React.Component {
     };
 
     state = {
-        openProperties: true
+        openProperties: true,
+        components: []
     };
 
     renderLeftColumn() {
@@ -385,11 +387,17 @@ class MapArchivePlugin extends React.Component {
                         </div>
                         {!this.state.hideGroupProperties &&
                         <div className="ms-permissions-container">
-                            <Row>
+
+                            <PermissionGroup components={this.state.components} onChange={components => {
+                                this.setState({ components });
+                            }} />
+
+                            {/*<Row>
                                 <Col xs={12}>
+
                                     <PermissionEditor />
                                 </Col>
-                            </Row>
+                            </Row>*/}
                         </div>}
                     </Grid>
                 </ResizableModal>

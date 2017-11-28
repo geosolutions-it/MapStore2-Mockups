@@ -21,7 +21,10 @@ module.exports = {
         FooterPlugin: require('./plugins/Footer'),
         MapArchivePlugin: require('./plugins/MapArchive'),
 
-        HomePlugin: require('./plugins/Home')
+        HomePlugin: require('./plugins/Home'),
+
+        ComponentsArchivePlugin: require('./plugins/ComponentsArchive'),
+        MapD3Plugin: require('./components/MapD3')
 
     },
     requires: {}

@@ -24,6 +24,12 @@
         "Header",
         "Footer",
         "Home"
+      ],
+      "components": [
+        "ComponentsArchive"
+      ],
+      "style-editor": [
+        "MapD3"
       ]
 	}
 }
