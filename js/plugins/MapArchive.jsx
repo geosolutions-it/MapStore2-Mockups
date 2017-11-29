@@ -360,7 +360,7 @@ class MapArchivePlugin extends React.Component {
                                                         }, {
                                                             glyph: 'pencil-add',
                                                             tooltip: 'Add details sheet',
-                                                            visible: this.state.text ? true : false,
+                                                            visible: this.state.text ? false : true,
                                                             onClick: () => {
                                                                 this.setState({
                                                                     showDetailEditor: true,
@@ -370,7 +370,7 @@ class MapArchivePlugin extends React.Component {
                                                         }, {
                                                             glyph: 'pencil',
                                                             tooltip: 'Edit details sheet',
-                                                            visible: this.state.text ? false : true,
+                                                            visible: this.state.text ? true : false,
                                                             onClick: () => {
                                                                 this.setState({
                                                                     showDetailEditor: true,
