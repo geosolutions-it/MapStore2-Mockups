@@ -204,7 +204,7 @@ class MapArchivePlugin extends React.Component {
                 <ResizableModal
                     show={!!this.state.showDetailEditor}
                     title="Details Sheet"
-                    bodyClassName="modal-details-sheet-container"
+                    bodyClassName="ms-modal-quill-container"
                     size="lg"
                     fullscreen
                     fullscreenType="full"
