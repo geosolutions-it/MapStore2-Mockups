@@ -8,15 +8,21 @@
 
 const React = require('react');
 const PropTypes = require('prop-types');
+const {DropdownButton, Glyphicon} = require('react-bootstrap');
+const {setOption} = require('../actions/mockups');
+const {createSelector} = require('reselect');
+const {connect} = require('react-redux');
 
 class FakeNavbar extends React.Component {
 
     static propTypes = {
-        onSelect: PropTypes.func
+        onSelect: PropTypes.func,
+        right: PropTypes.number
     };
 
     static defaultProps = {
-        onSelect: () => {}
+        onSelect: () => {},
+        right: 0
     };
 
     state = {
@@ -28,7 +34,7 @@ class FakeNavbar extends React.Component {
 
         return (
             <span id="viewer" className="viewer">
-            <span id="mapstore-navbar" style={{position: 'absolute', right: 0, top: 0, width: '657px', zIndex: 1}} >
+            <span id="mapstore-navbar" style={{position: 'absolute', right: this.props.right, top: 0, width: '657px', zIndex: 2}} >
                 <div id="mapstore-navbar-container" className="navbar-dx shadow">
                     <span>
                         <div id="search-help">
@@ -49,100 +55,103 @@ class FakeNavbar extends React.Component {
                             </span>
                         </div>
                     </span>
-                    <span style={{'float': 'right'}} id="mapstore-burger-menu">
-                        <div className="dropdown btn-group btn-group-primary">
-                            <button id="mapstore-burger-menu-container" role="button" aria-haspopup="true" aria-expanded="false" type="button" className="square-button dropdown-toggle btn btn-primary">
-                                <span className="glyphicon glyphicon-menu-hamburger"></span>
-                            </button>
-                            <ul role="menu" className="dropdown-menu dropdown-menu-right" aria-labelledby="mapstore-burger-menu-container">
-                                <span>
-                                    <li role="heading" className="dropdown-header">
-                                        <span>Options</span>
-                                    </li>
-                                </span>
-                                <li role="presentation" className="">
-                                    <a role="menuitem" tabIndex="-1" href="#">
-                                        <span className="glyphicon glyphicon-print"></span>
-                                        <span></span>
-                                        <span>Print</span>
-                                    </a>
-                                </li>
-                                <li role="presentation" className="">
-                                    <a role="menuitem" tabIndex="-1" href="#">
-                                        <span className="glyphicon glyphicon-upload"></span>
-                                        <span></span>
+                    <div id={'mapstore-burger-menu'} className="pull-right">
+                    <DropdownButton bsStyle={'primary'} className="square-button" pullRight noCaret title={<Glyphicon glyph="menu-hamburger"/>} key={"burger"} >
+                        <span>
+                            <li role="heading" className="dropdown-header">
+                                <span>Options</span>
+                            </li>
+                        </span>
+                        <li role="presentation" className="">
+                            <a role="menuitem" tabIndex="-1">
+                                <span className="glyphicon glyphicon-print"></span>
+                                <span></span>
+                                <span>Print</span>
+                            </a>
+                        </li>
+                        <li role="presentation" className="">
+                            <a role="menuitem" tabIndex="-1">
+                                <span className="glyphicon glyphicon-upload"></span>
+                                <span></span>
 
-                                        <span>Add Local Shapefile</span>
-                                    </a>
-                                </li>
-                                <li role="presentation" className="">
-                                    <a wrap="true" role="menuitem" tabIndex="-1" href="#">
-                                        <span className="glyphicon glyphicon-folder-open"></span>
-                                        <span></span>
+                                <span>Add Local Shapefile</span>
+                            </a>
+                        </li>
+                        <li role="presentation" className="">
+                            <a wrap="true" role="menuitem" tabIndex="-1">
+                                <span className="glyphicon glyphicon-folder-open"></span>
+                                <span></span>
 
-                                        <span>Catalog</span>
-                                    </a>
-                                </li>
-                                <li role="presentation" className="">
-                                    <a role="menuitem" tabIndex="-1" href="#">
-                                        <span className="glyphicon glyphicon-1-ruler"></span>
-                                        <span className="hidden mapstore-helpbadge badge">?</span>
+                                <span>Catalog</span>
+                            </a>
+                        </li>
+                        <li role="presentation" className="">
+                            <a role="menuitem" tabIndex="-1">
+                                <span className="glyphicon glyphicon-1-ruler"></span>
+                                <span className="hidden mapstore-helpbadge badge">?</span>
 
-                                        <span>Measure</span>
-                                    </a>
-                                </li>
-                                <li role="presentation" className="">
-                                    <a wrap="true" role="menuitem" tabIndex="-1" href="#">
-                                        <span className="glyphicon glyphicon-cog"></span>
-                                        <span></span>
+                                <span>Measure</span>
+                            </a>
+                        </li>
+                        <li role="presentation" className="">
+                            <a wrap="true" role="menuitem" tabIndex="-1">
+                                <span className="glyphicon glyphicon-cog"></span>
+                                <span></span>
 
-                                        <span>Settings</span>
-                                    </a>
-                                </li>
+                                <span>Settings</span>
+                            </a>
+                        </li>
 
-                                <li role="presentation" className="">
-                                    <a href="docs" target="blank" role="menuitem" tabIndex="-1">
-                                        <span className="glyphicon glyphicon-question-sign"></span>
-                                        <span></span>
+                        <li role="presentation" className="">
+                            <a target="blank" role="menuitem" tabIndex="-1">
+                                <span className="glyphicon glyphicon-question-sign"></span>
+                                <span></span>
 
-                                        <span>Help</span>
-                                    </a>
-                                </li>
-                                <li role="presentation" className="">
-                                    <a role="menuitem" tabIndex="-1" href="#">
-                                        <span className="glyphicon glyphicon-share-alt"></span>
-                                        <span></span>
+                                <span>Help</span>
+                            </a>
+                        </li>
+                        <li role="presentation" className="">
+                            <a role="menuitem" tabIndex="-1">
+                                <span className="glyphicon glyphicon-share-alt"></span>
+                                <span></span>
 
-                                        <span>Share</span>
-                                    </a>
-                                </li>
-                                <li role="presentation" className="">
-                                    <a role="menuitem" tabIndex="-1" href="#">
-                                        <span className="glyphicon glyphicon-book"></span>
-                                        <span></span>
+                                <span>Share</span>
+                            </a>
+                        </li>
+                        <li role="presentation" className="">
+                            <a role="menuitem" tabIndex="-1">
+                                <span className="glyphicon glyphicon-book"></span>
+                                <span></span>
 
-                                        <span>Tutorial</span>
-                                    </a>
-                                </li>
-                                <li role="presentation" className="">
-                                    <a role="menuitem" tabIndex="-1" href="#">
-                                        <span className="glyphicon glyphicon-comment"></span>
-                                        <span></span>
+                                <span>Tutorial</span>
+                            </a>
+                        </li>
+                        <li role="presentation" className="">
+                            <a role="menuitem" tabIndex="-1">
+                                <span className="glyphicon glyphicon-comment"></span>
+                                <span></span>
 
-                                        <span>Annotations</span>
-                                    </a>
-                                </li>
-                                <li role="presentation" className="">
-                                    <a role="menuitem" href="#">
-                                        <span className="glyphicon glyphicon-info-sign"></span>
-                                        <span></span>
+                                <span>Annotations</span>
+                            </a>
+                        </li>
+                        <li role="presentation" className="" style={{ cursor: 'pointer' }} onClick={() => { this.props.onSelect('detailsPanel', true); }}>
+                            <a role="menuitem">
+                                <span className="glyphicon glyphicon-sheet"></span>
+                                <span></span>
 
-                                        <span>About this app...</span>
-                                    </a>
-                                </li>
-                            </ul>
-                        </div>
-                    </span>
+                                <span>Map details</span>
+                            </a>
+                        </li>
+                        <li role="presentation" className="">
+                            <a role="menuitem">
+                                <span className="glyphicon glyphicon-info-sign"></span>
+                                <span></span>
+
+                                <span>About this app...</span>
+                            </a>
+                        </li>
+                    </DropdownButton>
+                    </div>
                     <div style={{'float': 'right'}} className="dropdown btn-group btn-group-primary">
                         <button id="dropdown-basic-primary" role="button" aria-haspopup="true" aria-expanded="false" type="button" className="square-button dropdown-toggle btn btn-primary">
                             <span className="glyphicon glyphicon-user"></span>
@@ -168,6 +177,18 @@ class FakeNavbar extends React.Component {
     }
 }
 
+const selector = createSelector([
+
+], () => ({
+
+}));
+
+const FakeNavbarPlugin = connect(
+    selector, {
+        onSelect: setOption
+    }
+)(FakeNavbar);
+
 module.exports = {
-    FakeNavbarPlugin: FakeNavbar
+    FakeNavbarPlugin
 };

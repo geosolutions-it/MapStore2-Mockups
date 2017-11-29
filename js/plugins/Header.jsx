@@ -28,11 +28,6 @@ class HeaderPlugin extends React.Component {
                 visible: true,
                 glyph: 'user',
                 bsStyle: 'success'
-            },
-            {
-                visible: true,
-                glyph: '1-menu-manage',
-                bsStyle: 'primary'
             }
         ]
     };

@@ -1,0 +1,26 @@
+.shadow-soft-inset {
+    -webkit-box-shadow: inset 0 3px 6px rgba(0, 0, 0, 0.06), inset 0 4px 8px rgba(0, 0, 0, 0.12);
+	-moz-box-shadow: inset 0 3px 6px rgba(0, 0, 0, 0.06), inset 0 4px 8px rgba(0, 0, 0, 0.12);
+	box-shadow: inset 0 3px 6px rgba(0, 0, 0, 0.06), inset 0 4px 8px rgba(0, 0, 0, 0.12);
+}
+
+.ms-dashboard-card {
+    overflow: hidden;
+    background-color: @ms2-color-background;
+    .shadow-soft;
+
+    &.ms-selected {
+        background-color: @ms2-color-primary;
+        .shadow-far;
+    }
+}
+
+.ms-vertical-side {
+    .shadow-soft-inset;
+    width: 300px;
+    transition: 0.3s;
+    overflow: hidden;
+    &.ms-close {
+        width: 0;
+    }
+}

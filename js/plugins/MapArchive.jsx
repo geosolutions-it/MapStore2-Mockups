@@ -22,6 +22,13 @@ const PermissionGroup = require('../components/PermissionGroup');
 
 require('react-quill/dist/quill.snow.css');
 
+
+const mockupLink = () => {
+    const a = document.createElement('a');
+    a.setAttribute('href', '#/details-on-map');
+    a.click();
+};
+
 class ThemeIcon extends React.Component {
     static propTypes = {
         background: PropTypes.string,
@@ -183,11 +190,14 @@ class MapArchivePlugin extends React.Component {
             <div className="mapstore-body">
                 <BorderLayout
                     columns={[this.renderLeftColumn()]}>
-                    <MapGrid editMap={() => {
-                        this.setState({
-                            openProperties: true
-                        });
-                    }} maps={this.props.maps} colProps={{className: 'm-grid-cols', xs: 12, sm: 6, md: 3}}/>
+                    <MapGrid
+                        viewerUrl={() => { mockupLink(); }}
+                        editMap={() => {
+                            this.setState({
+                                openProperties: true
+                            });
+                        }} maps={this.props.maps} colProps={{className: 'm-grid-cols', xs: 12, sm: 6, md: 3}}
+                        deleteMap={() => {}}/>
 
                 </BorderLayout>
                 <Portal>
@@ -221,22 +231,24 @@ class MapArchivePlugin extends React.Component {
                             });
                         }
                     }]}>
-                    <ReactQuill
-                        bounds={".ms-details-editor-body"}
-                        value={this.state.text || ''}
-                        onChange={(text) => {
-                            if (text && text !== '<p><br></p>') {
-                                this.setState({
-                                    text
-                                });
-                            }
+                    <div id="ms-details-editor">
+                        <ReactQuill
+                            bounds={"#ms-details-editor"}
+                            value={this.state.text || ''}
+                            onChange={(text) => {
+                                if (text && text !== '<p><br></p>') {
+                                    this.setState({
+                                        text
+                                    });
+                                }
 
-                        }}
-                        modules={{ toolbar: [
-                            [{ 'size': ['small', false, 'large', 'huge'] }, 'bold', 'italic', 'underline', 'blockquote'],
-                            [{ 'list': 'bullet' }, { 'align': [] }],
-                            [{ 'color': [] }, { 'background': [] }, 'clean'], ['image', 'video']
-                        ]}}/>
+                            }}
+                            modules={{ toolbar: [
+                                [{ 'size': ['small', false, 'large', 'huge'] }, 'bold', 'italic', 'underline', 'blockquote'],
+                                [{ 'list': 'bullet' }, { 'align': [] }],
+                                [{ 'color': [] }, { 'background': [] }, 'clean'], ['image', 'video']
+                            ]}}/>
+                    </div>
                 </ResizableModal>
                 </Portal>
                 <Portal>

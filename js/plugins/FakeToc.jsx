@@ -36,7 +36,7 @@ class FakeTOC extends React.Component {
                     this.setState({ open: true});
                 }}><span className="glyphicon glyphicon-1-layer"></span></button>
             <div id="mapstore-drawermenu" style={{display: this.state.open ? 'block' : 'none', overflow: 'hidden'}}>
-            <div className="nav-menu" style={{zIndex: 1022, position: 'absolute', top: 0, bottom: 0, transition: '-webkit-transform 0.3s ease-out', willChange: 'transform', overflowY: 'auto', width: 300, left: 0, transform: 'translateX(0%)', boxShadow: 'rgba(0, 0, 0, 0.15) 2px 2px 4px'}}>
+            <div className="nav-menu" style={{zIndex: 1022, position: 'absolute', top: 0, bottom: 0, height: 'calc(100% - 30px)', transition: '-webkit-transform 0.3s ease-out', willChange: 'transform', overflowY: 'auto', width: 300, left: 0, transform: 'translateX(0%)', boxShadow: 'rgba(0, 0, 0, 0.15) 2px 2px 4px'}}>
                 <div className="nav-content">
                     <div className="navHeader" style={{width: '100%', minHeight: 35}} >
                         <span className="no-border btn-default glyphicon glyphicon-1-close" style={{cursor: 'pointer'}} onClick={() => {

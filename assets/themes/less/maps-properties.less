@@ -7,6 +7,16 @@
 	box-shadow: inset 0 -3px 6px rgba(0, 0, 0, 0.06), inset 0 -4px 8px rgba(0, 0, 0, 0.12);
 }
 
+.ms-dock-panel-head {
+    .shadow-soft;
+    .ms-title {
+        font-size: @font-size-large;
+        margin-left: @font-size-large / 2;
+    }
+}
+.ms-detail-body {
+    padding: 15px;
+}
 .m-right {
     float: right;
 }
@@ -203,6 +213,13 @@
             width: 100%;
             height: auto;
             border: none;
+            .ql-editor {
+                min-height: 100px
+            }
+        }
+
+        .ql-tooltip {
+            z-index: 1000;
         }
     }
 

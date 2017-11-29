@@ -32,6 +32,10 @@ module.exports = {
         path: "/maps-properties",
         component: require('./pages/MapsList')
     }, {
+        name: "details-on-map",
+        path: "/details-on-map",
+        component: require('./pages/DetailsOnMap')
+    }, {
         name: "query-builder",
         path: "/query-builder",
         component: require('./pages/QueryBuilder')

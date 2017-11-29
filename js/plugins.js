@@ -24,7 +24,10 @@ module.exports = {
         HomePlugin: require('./plugins/Home'),
 
         ComponentsArchivePlugin: require('./plugins/ComponentsArchive'),
-        MapD3Plugin: require('./components/MapD3')
+        DetailsDockPlugin: require('./plugins/DetailsDock'),
+        MapD3Plugin: require('./components/MapD3'),
+
+        DashboardEditorPlugin: require('./plugins/DashboardEditor')
 
     },
     requires: {}

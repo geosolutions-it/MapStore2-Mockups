@@ -8,15 +8,19 @@
 
 const React = require('react');
 const PropTypes = require('prop-types');
+const {createSelector} = require('reselect');
+const {connect} = require('react-redux');
 
 class FakeToolbar extends React.Component {
 
     static propTypes = {
-        onSelect: PropTypes.func
+        onSelect: PropTypes.func,
+        right: PropTypes.number
     };
 
     static defaultProps = {
-        onSelect: () => {}
+        onSelect: () => {},
+        right: 0
     };
 
     state = {
@@ -27,7 +31,7 @@ class FakeToolbar extends React.Component {
     render() {
 
         return (
-            <span id="navigationBar" style={{position: 'absolute', right: 0, bottom: 50, zIndex: 1}}>
+            <span id="navigationBar" style={{position: 'absolute', right: this.props.right, bottom: 50, zIndex: 1}}>
                 <span id="navigationBar-container" className="mapToolbar btn-group-vertical">
 
                     <button id="locate-btn" disabled="" type="button" className="square-button btn btn-primary">
@@ -61,6 +65,14 @@ class FakeToolbar extends React.Component {
     }
 }
 
+const selector = createSelector([
+    state => state.mockups && state.mockups.detailsPanel
+], (detailsPanel) => ({
+    right: detailsPanel ? 658 : 0
+}));
+
+const FakeToolbarPlugin = connect(selector)(FakeToolbar);
+
 module.exports = {
-    FakeToolbarPlugin: FakeToolbar
+    FakeToolbarPlugin
 };
