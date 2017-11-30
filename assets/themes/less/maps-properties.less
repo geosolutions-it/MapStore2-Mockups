@@ -16,6 +16,14 @@
 }
 .ms-detail-body {
     padding: 15px;
+
+    p {
+        word-wrap: break-word;
+    }
+
+    img {
+        /*width: 100%;*/
+    }
 }
 .m-right {
     float: right;
@@ -305,36 +313,43 @@
         height: @square-btn-size;
         border-bottom: 1px solid transparent;
         box-shadow: none;
-        max-height: @square-btn-size;
-
-        .ms-details-preview {
-            width: ~"calc(100% - 30px)";
-            margin: 5px 15px;
-            padding: 10px;
-            height: @square-btn-size * 10;
-            .shadow;
-            display: table;
-            table-layout: fixed;
-            img {
-                width: 100%;
+        display: flex;
+        flex-direction: column;
+        .ms-details-preview-container {
+            overflow-y: auto;
+            flex: 1;
+            overflow-y: auto;
+            .ms-details-preview {
+                width: ~"calc(100% - 30px)";
+                margin: 5px 15px;
+                padding: 10px;
                 height: auto;
-            }
-            p {
-                word-wrap: break-word;
-                width: 100%;
+                min-height: 500px;
+                .shadow;
+                display: table;
+                table-layout: fixed;
+                img {
+                    width: 100%;
+                    height: auto;
+                }
+                p {
+                    word-wrap: break-word;
+                    width: 100%;
+                }
             }
         }
+
         &.ms-transition {
             transition: 1.5s;
-            &:hover {
+
                 flex: 1;
                 height: auto;
                 border-bottom: 1px solid @ms2-color-shade-lighter;
                 /* workaround for height transition */
-                max-height: 1080px;
+
                 /* end - workaround for height transition */
                 .shadow-soft-inset-up;
-            }
+
         }
     }
     .ms-map-properties {

@@ -19,10 +19,13 @@ const Portal = require('../../MapStore2/web/client/components/misc/Portal');
 // const PermissionEditor = require('../components/PermissionEditor');
 const ReactQuill = require('react-quill');
 const ResizableModal = require('../components/ResizableModal');
-const PermissionGroup = require('../components/PermissionGroup');
 
-import {Responsive, WidthProvider} from 'react-grid-layout';
-const ResponsiveReactGridLayout = WidthProvider(Responsive);
+const SideCard = require('../../MapStore2/web/client/components/misc/cardgrids/SideCard');
+const ItalyMap = require('../components/ItalyMap');
+const ResponsiveReactGridLayout = require('react-grid-layout').Responsive;
+// const ResponsiveReactGridLayout = WidthProvider(Responsive);
+const ContainerDimensions = require('react-container-dimensions').default;
+
 
 require('react-quill/dist/quill.snow.css');
 let count = 0;
@@ -65,8 +68,12 @@ class DashboardEditorPlugin extends React.Component {
             visible: this.state.selectedCards.length === 1 && this.state.selectedCards[0].type !== 'none',
             onClick: () => {
                 this.setState({
+
+                    openType: true,
+
                     cards: [],
                     selectedCards: []
+
                 });
             }
         }, {
@@ -90,11 +97,49 @@ class DashboardEditorPlugin extends React.Component {
 
     renderLeftPanel() {
         const close = !this.state.closeSideLeft ? ' ms-close' : '';
+        const sideCards = [{
+            title: 'Map',
+            type: 'map',
+            preview: <Glyphicon glyph="1-map" />
+        }, {
+            title: 'Chart',
+            type: 'chart',
+            preview: <Glyphicon glyph="stats" />
+        }, {
+            title: 'Table',
+            type: 'table',
+            preview: <Glyphicon glyph="features-grid" />
+        }, {
+            title: 'Text',
+            type: 'text',
+            preview: <Glyphicon glyph="sheet" />
+        }];
         return (
             <div key="ms-v-left" className={"ms-vertical-side" + close} style={{order: -1}}>
-                Hello
+                {sideCards.map((s, i) => <SideCard key={i} onClick={() => {
+                    this.setState({
+                        cards: [...this.state.cards, {id: 'db' + count, type: s.type }]
+                    });
+                    count++;
+                }} {...s}/>)}
             </div>
+        );
+    }
 
+    renderTypePanel() {
+        const close = !this.state.openType ? ' ms-close' : '';
+        return (
+            <div key="ms-v-left-type" className={"ms-vertical-side-type" + close} style={{order: -1}}>
+
+            </div>
+        );
+    }
+
+    renderMapCard() {
+        return (
+            <ContainerDimensions>
+                { ({width, height}) => <ItalyMap region={'none'} width={width} height={height}/> }
+            </ContainerDimensions>
         );
     }
 
@@ -103,12 +148,19 @@ class DashboardEditorPlugin extends React.Component {
         // {lg: 7, md: 6, sm: 5, xs: 4, xxs: 4}}
         return (
             <div className="mapstore-body">
-                <BorderLayout columns={[this.renderLeftColumn(), this.renderLeftPanel()]}>
+                <BorderLayout columns={[this.renderLeftColumn(), this.renderLeftPanel(), this.renderTypePanel()]}>
+                    {this.state.openType && <div className="ms-dashboard-layout-overlay"></div>}
+                    <div style={{width: '100%'}}>
+                    <ContainerDimensions>
+                        { ({width}) =>
+
                     <ResponsiveReactGridLayout
+                        width={width}
                         className="ms-dashboard-layout"
-                        rowHeight={208}
-                        compactType={'horizontal'}
-                        cols={{lg: 7}}>
+                        rowHeight={104}
+                        isDraggable={false}
+                        breakpoints={{lg: 1200, md: 996, sm: 768, xs: 480, xxs: 0}}
+                        cols={{lg: 7, md: 7, sm: 7, xs: 1, xxs: 1}}>
                         {this.state.cards.map(c => {
                             const selected = head(this.state.selectedCards.filter(s => s.id === c.id)) && ' ms-selected' || '';
                             return (
@@ -117,19 +169,25 @@ class DashboardEditorPlugin extends React.Component {
                                     className={'ms-dashboard-card' + selected}
                                     onClick={e => {
                                         if (e.ctrlKey) {
-                                            this.setState({ selectedCards: [...this.state.selectedCards, c] });
+                                            this.setState({ selectedCards: [...this.state.selectedCards, c], closeSideLeft: false });
                                         } else {
                                             if (selected) {
-                                                this.setState({ selectedCards: [] });
+                                                this.setState({ selectedCards: [], closeSideLeft: false});
                                             } else {
-                                                this.setState({ selectedCards: [c] });
+                                                this.setState({ selectedCards: [c], closeSideLeft: false });
                                             }
                                         }
                                     }}>
-
+                                    {c.type === 'map' ?
+                                        this.renderMapCard()
+                                        : c.type
+                                    }
                                 </div>);
                         })}
                     </ResponsiveReactGridLayout>
+                    }
+                    </ContainerDimensions>
+                    </div>
                 </BorderLayout>
             </div>
         );

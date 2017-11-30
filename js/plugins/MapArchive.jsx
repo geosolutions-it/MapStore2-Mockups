@@ -9,14 +9,16 @@
 const React = require('react');
 const PropTypes = require('prop-types');
 const BorderLayout = require('../../MapStore2/web/client/components/layout/BorderLayout');
-const MapGrid = require('../../MapStore2/web/client/components/maps/MapGrid');
+const MapGrid = require('../components/maps-from-MapStore2/MapGrid');
 const {Row, Col, Grid, Button, Panel, Glyphicon, Tooltip, OverlayTrigger} = require('react-bootstrap');
 const Thumbnail = require('../../MapStore2/web/client/components/maps/forms/Thumbnail');
 const Metadata = require('../../MapStore2/web/client/components/maps/forms/Metadata');
 const Toolbar = require('../../MapStore2/web/client/components/misc/toolbar/Toolbar');
 const Portal = require('../../MapStore2/web/client/components/misc/Portal');
 // const PermissionEditor = require('../components/PermissionEditor');
+
 const ReactQuill = require('react-quill');
+
 const ResizableModal = require('../components/ResizableModal');
 const PermissionGroup = require('../components/PermissionGroup');
 
@@ -74,7 +76,14 @@ class MapArchivePlugin extends React.Component {
 
     state = {
         openProperties: true,
-        components: []
+        components: [],
+        maps: [
+            {id: 0, canEdit: true, title: 'Hello Map', description: 'My first map'},
+            {id: 1, canEdit: true, title: 'A new Map', description: 'My second map'}
+        ],
+        mapId: 0,
+        detalis: '',
+        map: {}
     };
 
     renderLeftColumn() {
@@ -186,18 +195,25 @@ class MapArchivePlugin extends React.Component {
     }
 
     render() {
+
         return (
             <div className="mapstore-body">
                 <BorderLayout
                     columns={[this.renderLeftColumn()]}>
                     <MapGrid
                         viewerUrl={() => { mockupLink(); }}
-                        editMap={() => {
+                        editMap={(map) => {
                             this.setState({
-                                openProperties: true
+                                openProperties: true,
+                                mapId: map.id
                             });
-                        }} maps={this.props.maps} colProps={{className: 'm-grid-cols', xs: 12, sm: 6, md: 3}}
-                        deleteMap={() => {}}/>
+                        }} maps={this.state.maps} colProps={{className: 'm-grid-cols', xs: 12, sm: 6, md: 3}}
+                        deleteMap={() => {}}
+                        openDetails={(map) => {
+                            this.setState({
+                                map
+                            });
+                        }}/>
 
                 </BorderLayout>
                 <Portal>
@@ -243,10 +259,12 @@ class MapArchivePlugin extends React.Component {
                                 }
 
                             }}
-                            modules={{ toolbar: [
+                            modules={{
+
+                                toolbar: [
                                 [{ 'size': ['small', false, 'large', 'huge'] }, 'bold', 'italic', 'underline', 'blockquote'],
                                 [{ 'list': 'bullet' }, { 'align': [] }],
-                                [{ 'color': [] }, { 'background': [] }, 'clean'], ['image', 'video']
+                                [{ 'color': [] }, { 'background': [] }, 'clean'], ['image', 'video', 'link']
                             ]}}/>
                     </div>
                 </ResizableModal>
@@ -268,6 +286,7 @@ class MapArchivePlugin extends React.Component {
                         text: 'Yes',
                         onClick: () => {
                             this.setState({
+                                text: '',
                                 changesModal: false,
                                 openProperties: false
                             });
@@ -301,7 +320,9 @@ class MapArchivePlugin extends React.Component {
                         text: 'Save',
                         onClick: () => {
                             this.setState({
-                                openProperties: false
+                                openProperties: false,
+                                text: '',
+                                maps: this.props.maps.map((m) => { return m.id === this.state.mapId ? {...m, details: this.state.text} : {...m}; })
                             });
                         }
                     }]}
@@ -323,22 +344,11 @@ class MapArchivePlugin extends React.Component {
                             </Row>
                             <div
                                 className={"ms-section" + (this.state.hideGroupProperties ? ' ms-transition' : '')}>
-                                <div className="mapstore-block-width" onMouseOver={() => {
-                                    if (this.state.text) {
-                                        this.setState({
-                                            hideGroupProperties: true
-                                        });
-                                    }
-                                }}
-                                onMouseOut={() => {
-                                    this.setState({
-                                        hideGroupProperties: false
-                                    });
-                                }}>
+                                <div className="mapstore-block-width">
                                     <Row>
                                         <Col xs={6}>
                                             <div className="m-label">
-                                                {!this.state.text ? 'Add New Details Sheet' : 'Details Sheet'}
+                                                {!this.state.text ? 'Add New Deails Sheet' : 'Details Sheet'}
                                             </div>
                                         </Col>
                                         <Col xs={6}>
@@ -348,6 +358,17 @@ class MapArchivePlugin extends React.Component {
                                                     <Toolbar
                                                         btnDefaultProps={{ className: 'square-button-md no-border'}}
                                                         buttons={[{
+                                                            glyph: !this.state.hideGroupProperties ? 'eye-close' : 'eye-open',
+                                                            tooltip: !this.state.hideGroupProperties ? 'Show preview' : 'Hide preview',
+                                                            visible: !!this.state.text,
+                                                            onClick: () => {
+                                                                if (this.state.text) {
+                                                                    this.setState({
+                                                                        hideGroupProperties: !this.state.hideGroupProperties
+                                                                    });
+                                                                }
+                                                            }
+                                                        }, {
                                                             glyph: 'undo',
                                                             tooltip: 'Undo remove',
                                                             visible: !!this.state.removedText,
@@ -394,7 +415,7 @@ class MapArchivePlugin extends React.Component {
                                         </Col>
                                     </Row>
                                 </div>
-                                {this.state.text && <div className="ms-details-preview" dangerouslySetInnerHTML={{ __html: this.state.text }} />}
+                                {this.state.text && <div className="ms-details-preview-container"><div className="ms-details-preview" dangerouslySetInnerHTML={{ __html: this.state.text }} /></div>}
                             </div>
                         </div>
                         {!this.state.hideGroupProperties &&
@@ -412,6 +433,18 @@ class MapArchivePlugin extends React.Component {
                             </Row>*/}
                         </div>}
                     </Grid>
+                </ResizableModal>
+
+                </Portal>
+                <Portal>
+                <ResizableModal size="lg" fullscreen onClose={() => {
+                    this.setState({
+                        map: {}
+                    });
+                }} title={this.state.map.title + ' - Detail Sheet'} show={this.state.map && this.state.map.details}>
+                    <div className="ms-detail-body">
+                        <div dangerouslySetInnerHTML={{__html: this.state.map.details || ''}} />
+                    </div>
                 </ResizableModal>
                 </Portal>
             </div>

@@ -25,7 +25,7 @@ module.exports = {
 
         ComponentsArchivePlugin: require('./plugins/ComponentsArchive'),
         DetailsDockPlugin: require('./plugins/DetailsDock'),
-        MapD3Plugin: require('./components/MapD3'),
+        // MapD3Plugin: require('./components/MapD3'),
 
         DashboardEditorPlugin: require('./plugins/DashboardEditor')
 

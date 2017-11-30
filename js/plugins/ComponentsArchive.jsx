@@ -1,6 +1,6 @@
 const React = require('react');
 const PropTypes = require('prop-types');
-const ComponentViewer = require('../components/ComponentViewer');
+// const ComponentViewer = require('../components/ComponentViewer');
 const ResizableModal = require('../components/ResizableModal');
 const {Button} = require('react-bootstrap');
 const BorderLayout = require('../../MapStore2/web/client/components/layout/BorderLayout');
@@ -62,7 +62,7 @@ class ComponentsArchive extends React.Component {
         return (
             <div className="ms-components-archive">
                 <BorderLayout header={this.renderHeader()}>
-                    {componentsList.map(c => <ComponentViewer title={c.title} code={c.component}/>)}
+                    {/*componentsList.map(c => <ComponentViewer title={c.title} code={c.component}/>)*/}
                 </BorderLayout>
             </div>
         );
