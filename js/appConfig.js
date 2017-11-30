@@ -12,9 +12,29 @@ module.exports = {
         path: "/",
         component: require('./pages/Index')
     }, {
-        name: "maps-list",
-        path: "/maps-list",
+        name: "home",
+        path: "/home",
+        component: require('./pages/Home')
+    }, {
+        name: "components",
+        path: "/components",
+        component: require('./pages/Components')
+    }, {
+        name: "style-editor",
+        path: "/style-editor",
+        component: require('./pages/StyleEditor')
+    }, {
+        name: "dashboard",
+        path: "/dashboard",
+        component: require('./pages/Dashboard')
+    }, {
+        name: "maps-properties",
+        path: "/maps-properties",
         component: require('./pages/MapsList')
+    }, {
+        name: "details-on-map",
+        path: "/details-on-map",
+        component: require('./pages/DetailsOnMap')
     }, {
         name: "query-builder",
         path: "/query-builder",

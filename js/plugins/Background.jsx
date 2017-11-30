@@ -14,18 +14,20 @@ const ItalyMap = require('../components/ItalyMap');
 
 class Background extends React.Component {
     static propTypes = {
-        region: PropTypes.string
+        region: PropTypes.string,
+        showItaly: PropTypes.bool
     };
 
     static defaultProps = {
-        region: ''
+        region: '',
+        showItaly: false
     };
 
     render() {
         return (
             <div className="mockups-bg" style={{position: 'absolute', width: '100%', height: '100%'}}>
                 <ContainerDimensions>
-                    { ({width, height}) => <ItalyMap region={this.props.region} width={width} height={height}/> }
+                    { ({width, height}) => <ItalyMap region={this.props.showItaly ? 'all' : this.props.region} width={width} height={height}/> }
                 </ContainerDimensions>
             </div>
         );

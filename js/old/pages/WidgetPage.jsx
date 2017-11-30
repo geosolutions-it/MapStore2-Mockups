@@ -2,7 +2,7 @@ const React = require('react');
 const PropTypes = require('prop-types');
 const ConfirmModal = require('../../../MapStore2/web/client/components/maps/modals/ConfirmModal');
 
-
+const {BackgroundPlugin} = require('../../plugins/Background');
 const Combobox = require('react-widgets').Combobox;
 const Styler = require('../components/Styler');
 const InfoPopover = require('../components/InfoPopover');
@@ -388,7 +388,7 @@ class Side extends React.Component {
       })}
     </ResponsiveReactGridLayout>
 
-
+                <BackgroundPlugin />
                 <FakeIcons/>
                 <FakeToolbar/>
                 <FakeFooter/>

@@ -594,7 +594,6 @@ class StyleEditor extends React.Component {
                     <NavItem eventKey="2" disabled>Display</NavItem>
                     <NavItem eventKey="4" href="#/statistical">Analysis</NavItem>
                     <NavItem eventKey="3">Style</NavItem>
-                    <NavItem eventKey="5" disabled>Elevation</NavItem>
                 </Nav>
                 {!this.state.enableEdit ?
 

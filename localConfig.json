@@ -19,6 +19,35 @@
         "Header",
         "Footer",
         "MapArchive"
+      ],
+			"home": [
+        "Header",
+        "Footer",
+        "Home"
+      ],
+      "components": [
+        "ComponentsArchive"
+      ],
+      "style-editor": [
+        "MapD3"
+      ],
+      "dashboard": [
+        "Header",
+        "Footer",
+        "DashboardEditor"
+      ],
+      "details-on-map": [
+        "FakeTOC",
+        {
+          "name": "Background",
+          "cfg": {
+              "showItaly": true
+          }
+        },
+        "FakeFooter",
+        "FakeNavbar",
+        "FakeToolbar",
+        "DetailsDock"
       ]
 	}
 }

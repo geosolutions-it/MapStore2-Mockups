@@ -6,6 +6,7 @@ const FakeFooter = require('../FakeFooter');
 const FakeNavbar = require('../FakeNavbar');
 const StyleEditor = require('./StyleEditor');
 const FakeBackgroundSel = require('../FakeBackgroundSel');
+const {BackgroundPlugin} = require('../../../plugins/Background');
 
 class Side extends React.Component {
 
@@ -19,6 +20,7 @@ class Side extends React.Component {
 
     render() {
         return (<span><FakeToolbar/>
+        <BackgroundPlugin />
         <FakeFooter/>
         <FakeBackgroundSel/>
         <FakeNavbar/>

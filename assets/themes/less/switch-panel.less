@@ -50,40 +50,42 @@
             }
         }
         padding: 0;
-        .switch-panel-transition-enter {
-            /*background-color: darken(@ms2-color-text-primary, 5%);*/
-            &.mapstore-block-width,
-            &.mapstore-conditions-group .mapstore-block-width {
-                height: 0;
-            }
-        }
 
-        .switch-panel-transition-enter.switch-panel-transition-enter-active {
-            /*background-color: @ms2-color-text-primary;*/
-            &.mapstore-block-width,
-            &.mapstore-conditions-group .mapstore-block-width {
-                overflow: hidden;
-                height: @square-btn-size;
-                transition: 300ms ease-in;
-            }
-        }
+    }
+}
 
-        .switch-panel-transition-leave {
-            /*background-color: @ms2-color-text-primary;*/
-            &.mapstore-block-width,
-            &.mapstore-conditions-group .mapstore-block-width {
-                overflow: hidden;
-                height: @square-btn-size;
-                transition: 300ms ease-in;
-            }
-        }
+.switch-panel-transition-enter {
+    /*background-color: darken(@ms2-color-text-primary, 5%);*/
+    &.mapstore-block-width,
+    &.mapstore-conditions-group .mapstore-block-width {
+        height: 0;
+    }
+}
 
-        .switch-panel-transition-leave.switch-panel-transition-leave-active {
-            /*background-color: darken(@ms2-color-text-primary, 5%);*/
-            &.mapstore-block-width,
-            &.mapstore-conditions-group .mapstore-block-width {
-                height: 0;
-            }
-        }
+.switch-panel-transition-enter.switch-panel-transition-enter-active {
+    /*background-color: @ms2-color-text-primary;*/
+    &.mapstore-block-width,
+    &.mapstore-conditions-group .mapstore-block-width {
+        overflow: hidden;
+        height: @square-btn-size;
+        transition: 300ms ease-in;
+    }
+}
+
+.switch-panel-transition-leave {
+    /*background-color: @ms2-color-text-primary;*/
+    &.mapstore-block-width,
+    &.mapstore-conditions-group .mapstore-block-width {
+        overflow: hidden;
+        height: @square-btn-size;
+        transition: 300ms ease-in;
+    }
+}
+
+.switch-panel-transition-leave.switch-panel-transition-leave-active {
+    /*background-color: darken(@ms2-color-text-primary, 5%);*/
+    &.mapstore-block-width,
+    &.mapstore-conditions-group .mapstore-block-width {
+        height: 0;
     }
 }

@@ -1,0 +1,49 @@
+.shadow-soft-inset {
+    -webkit-box-shadow: inset 0 3px 6px rgba(0, 0, 0, 0.06), inset 0 4px 8px rgba(0, 0, 0, 0.12);
+	-moz-box-shadow: inset 0 3px 6px rgba(0, 0, 0, 0.06), inset 0 4px 8px rgba(0, 0, 0, 0.12);
+	box-shadow: inset 0 3px 6px rgba(0, 0, 0, 0.06), inset 0 4px 8px rgba(0, 0, 0, 0.12);
+}
+
+.ms-dashboard-card {
+    overflow: hidden;
+    background-color: @ms2-color-background;
+    .shadow-soft;
+    &.ms-selected {
+        background-color: @ms2-color-primary;
+        box-sizing: border-box;
+        border: 2px solid @ms2-color-primary;
+        .shadow-far;
+    }
+}
+
+.ms-vertical-side {
+    .shadow-soft-inset;
+    width: 300px;
+    transition: 0.3s;
+    overflow: hidden;
+    padding: 0 10px 10px 10px;
+    &.ms-close {
+        width: 0;
+        padding: 0;
+    }
+}
+
+.ms-vertical-side-type {
+    .shadow-soft-inset;
+    width: 500px;
+    transition: 0.3s;
+    overflow: hidden;
+    padding: 0 10px 10px 10px;
+    &.ms-close {
+        width: 0;
+        padding: 0;
+    }
+}
+
+.ms-dashboard-layout-overlay {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    z-index: 2000;
+    background-color: rgba(0, 0, 0, 0.2);
+}

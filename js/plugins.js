@@ -19,7 +19,15 @@ module.exports = {
 
         HeaderPlugin: require('./plugins/Header'),
         FooterPlugin: require('./plugins/Footer'),
-        MapArchivePlugin: require('./plugins/MapArchive')
+        MapArchivePlugin: require('./plugins/MapArchive'),
+
+        HomePlugin: require('./plugins/Home'),
+
+        ComponentsArchivePlugin: require('./plugins/ComponentsArchive'),
+        DetailsDockPlugin: require('./plugins/DetailsDock'),
+        // MapD3Plugin: require('./components/MapD3'),
+
+        DashboardEditorPlugin: require('./plugins/DashboardEditor')
 
     },
     requires: {}

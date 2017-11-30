@@ -27,7 +27,7 @@ class FakeFooter extends React.Component {
     render() {
 
         return (
-            <span id="mapstore-map-footer" >
+            <span id="mapstore-map-footer">
                 <div id="mapstore-map-footer-container" className="mapstore-map-footer " style={{zIndex: 1}}>
                     <div id="mapstore-mouseposition">
                         <button type="button" className="btn btn-sm btn-primary" style={{width: '100%'}}>
