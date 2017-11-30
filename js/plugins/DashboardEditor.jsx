@@ -19,11 +19,13 @@ const Portal = require('../../MapStore2/web/client/components/misc/Portal');
 // const PermissionEditor = require('../components/PermissionEditor');
 const ReactQuill = require('react-quill');
 const ResizableModal = require('../components/ResizableModal');
+
 const SideCard = require('../../MapStore2/web/client/components/misc/cardgrids/SideCard');
 const ItalyMap = require('../components/ItalyMap');
 const ResponsiveReactGridLayout = require('react-grid-layout').Responsive;
 // const ResponsiveReactGridLayout = WidthProvider(Responsive);
 const ContainerDimensions = require('react-container-dimensions').default;
+
 
 require('react-quill/dist/quill.snow.css');
 let count = 0;
@@ -66,7 +68,12 @@ class DashboardEditorPlugin extends React.Component {
             visible: this.state.selectedCards.length === 1 && this.state.selectedCards[0].type !== 'none',
             onClick: () => {
                 this.setState({
-                    openType: true
+
+                    openType: true,
+
+                    cards: [],
+                    selectedCards: []
+
                 });
             }
         }, {

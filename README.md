@@ -1,4 +1,4 @@
-mockups
+MapStore2 Mockups
 ==========
 
 Quick Start
@@ -6,7 +6,7 @@ Quick Start
 
 Clone the repository with the --recursive option to automatically clone submodules:
 
-`git clone --recursive repo`
+`git clone --recursive https://github.com/geosolutions-it/MapStore2-Mockups.git`
 
 Install NodeJS, if needed, from [here](https://nodejs.org/en/blog/release/v0.12.7/).
 
@@ -17,5 +17,3 @@ Start the development application locally:
 `npm start`
 
 The application runs at `http://localhost:8081` afterwards.
-
-Read more on the [wiki](repo/wiki).
