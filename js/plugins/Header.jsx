@@ -14,7 +14,9 @@ const Filter = require('../../MapStore2/web/client/components/misc/Filter');
 class HeaderPlugin extends React.Component {
 
     static propTypes = {
-        buttons: PropTypes.array
+        buttons: PropTypes.array,
+        title: PropTypes.string,
+        showFilter: PropTypes.bool
     };
 
     static defaultProps = {
@@ -29,7 +31,9 @@ class HeaderPlugin extends React.Component {
                 glyph: 'user',
                 bsStyle: 'success'
             }
-        ]
+        ],
+        title: 'MapStore',
+        showFilter: true
     };
 
     render() {
@@ -39,13 +43,13 @@ class HeaderPlugin extends React.Component {
                 <div className="m-left">
                     <div className="ms-logo-title">
                         <a href="#">
-                            <div>MapStore</div>
+                            <div>{this.props.title}</div>
                         </a>
                     </div>
                 </div>
                 <div className="m-right">
                     <Toolbar btnDefaultProps={{bsStyle: 'primary', className: 'square-button'}} buttons={this.props.buttons}/>
-                    <Filter filterPlaceholder="Filter maps..." />
+                    {this.props.showFilter && <Filter filterPlaceholder="Filter maps..." />}
                 </div>
             </div>
         );

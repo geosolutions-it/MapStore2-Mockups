@@ -32,7 +32,13 @@
         "MapD3"
       ],
       "dashboard": [
-        "Header",
+        {
+          "name": "Header",
+          "cfg" : {
+              "showFilter": false,
+              "title": "MapStore Dashboard Editor"
+          }
+        },
         "Footer",
         "DashboardEditor"
       ],
