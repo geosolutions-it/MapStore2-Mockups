@@ -32,9 +32,32 @@
         "MapD3"
       ],
       "dashboard": [
-        "Header",
+        {
+          "name": "Header",
+          "cfg" : {
+              "showFilter": false,
+              "title": "MapStore Dashboard Editor"
+          }
+        },
         "Footer",
         "DashboardEditor"
+      ],
+      "dashboard-read": [
+        {
+          "name": "Header",
+          "cfg" : {
+              "showFilter": false,
+              "title": "MapStore Dashboard",
+              "logged": false
+          }
+        },
+        "Footer",
+        {
+          "name": "DashboardEditor",
+          "cfg" : {
+              "readOnly": true
+          }
+        }
       ],
       "details-on-map": [
         "FakeTOC",

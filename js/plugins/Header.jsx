@@ -14,11 +14,19 @@ const Filter = require('../../MapStore2/web/client/components/misc/Filter');
 class HeaderPlugin extends React.Component {
 
     static propTypes = {
-        buttons: PropTypes.array
+        title: PropTypes.string,
+        showFilter: PropTypes.bool,
+        logged: PropTypes.bool
     };
 
     static defaultProps = {
-        buttons: [
+        title: 'MapStore',
+        showFilter: true,
+        logged: true
+    };
+
+    render() {
+        const buttons = [
             {
                 visible: true,
                 text: <img src={require('../../MapStore2/web/client/components/I18N/images/flags/en-US.png')} />,
@@ -27,25 +35,21 @@ class HeaderPlugin extends React.Component {
             {
                 visible: true,
                 glyph: 'user',
-                bsStyle: 'success'
+                bsStyle: this.props.logged ? 'success' : 'primary'
             }
-        ]
-    };
-
-    render() {
-
+        ];
         return (
             <div className="mapstore-header">
                 <div className="m-left">
                     <div className="ms-logo-title">
                         <a href="#">
-                            <div>MapStore</div>
+                            <div>{this.props.title}</div>
                         </a>
                     </div>
                 </div>
                 <div className="m-right">
-                    <Toolbar btnDefaultProps={{bsStyle: 'primary', className: 'square-button'}} buttons={this.props.buttons}/>
-                    <Filter filterPlaceholder="Filter maps..." />
+                    <Toolbar btnDefaultProps={{bsStyle: 'primary', className: 'square-button'}} buttons={buttons}/>
+                    {this.props.showFilter && <Filter filterPlaceholder="Filter maps..." />}
                 </div>
             </div>
         );

@@ -28,6 +28,10 @@ module.exports = {
         path: "/dashboard",
         component: require('./pages/Dashboard')
     }, {
+        name: "dashboard-read",
+        path: "/dashboard-read",
+        component: require('./pages/DashboardRead')
+    }, {
         name: "maps-properties",
         path: "/maps-properties",
         component: require('./pages/MapsList')
