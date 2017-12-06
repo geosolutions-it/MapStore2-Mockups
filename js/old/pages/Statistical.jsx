@@ -156,9 +156,9 @@ class Statistical extends React.Component {
 
                         return (
                             <div className={"mapstore-result-square" + classN}>
-                                <div className={"m-box"}>
+                                <div className={"m-box"} >
                                     {line ? <div className="line-join"/> : null}
-                                    <Glyphicon glyph={r.glyph}/>
+                                    <Glyphicon glyph={r.glyph} style={{ position: idx === 0 ? 'absolute' : 'static' }}/>
                                     {idx !== 0 && idx === this.state.resultsCards.length - 1 ? <Glyphicon glyph={'trash'}
 
                                         onClick={() => {
@@ -216,8 +216,6 @@ class Statistical extends React.Component {
                         </OverlayTrigger>
                     </ButtonGroup>
 }</Col>
-
-
 
 </Row>
 </div>
@@ -467,8 +465,6 @@ class Statistical extends React.Component {
             <div className="mapstore-flex-container">
                 <div className="m-header">
                     {this.renderHeader()}
-
-
 
                 </div>
                 <div className="m-body-scroll-y">

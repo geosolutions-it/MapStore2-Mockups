@@ -7,10 +7,9 @@ const FakeBackgroundSel = require('./FakeBackgroundSel');
 const FakeIcons = require('./FakeIcons');
 const {
     OverlayTrigger,
-    Tooltip,
-    ListGroup,
-    ListGroupItem
+    Tooltip
 } = require('react-bootstrap');
+const {BackgroundPlugin} = require('../../plugins/Background');
 class MarkerList extends React.Component {
 
     static propTypes = {
@@ -30,6 +29,7 @@ class MarkerList extends React.Component {
         const selected = this.state.selected ? ' selected' : '';
         return (
             <span>
+                <BackgroundPlugin />
                 <FakeIcons/>
                 <FakeToolbar/>
                 <FakeFooter/>

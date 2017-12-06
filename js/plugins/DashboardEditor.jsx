@@ -50,7 +50,7 @@ const mockLayer = {
     visibility: true
 };
 
-const LayoutComponent = ({ readOnly, isEditing, isDraggable, isResizable, connectingMaps, selectedCards, currentEdit = {}, cards = [], onLayoutChange = () => {}, onResizeStop = () => {}, onClick = () => {}, renderCard = () => {}, onMouseEnter = () => {}, onMouseUp = () => {} }) =>
+const LayoutComponent = ({ readOnly, isEditing, isDraggable, isResizable, connectingMaps, selectedCards, currentEdit = {}, cards = [], onLayoutChange = () => {}, onResizeStop = () => {}, onClick = () => {}, renderCard = () => {}, onMouseEnter = () => {}, onMouseUp = () => {}, onMouseDown = () => {}, onMouseLeave = () => {}}) =>
     <div className={"ms-dashboard-body-container" + (isEditing ? ' ms-edit' : '')}>
         <ContainerDimensions>
             { ({width}) =>
@@ -80,7 +80,7 @@ const LayoutComponent = ({ readOnly, isEditing, isDraggable, isResizable, connec
                     <div className={"ms-dashboard-card-container" + (readOnly && ' ms-read-only' || '') + (readOnly && c.type === 'map' && ' ms-with-map' || '')}>
                         {renderCard(c)}
                     </div>
-                    {isDraggable && <div className="ms-grab grabbable" onMouseEnter={onMouseEnter} onMouseUp={onMouseUp}>
+                    {!readOnly && <div className="ms-grab grabbable" onMouseEnter={onMouseEnter} onMouseUp={onMouseUp} onMouseDown={onMouseDown} onMouseLeave={onMouseLeave}>
                         <Glyphicon glyph="menu-hamburger"/>
                     </div>}
                 </div>);
@@ -543,6 +543,21 @@ class DashboardEditorPlugin extends React.Component {
                 <BorderLayout columns={!this.props.readOnly && [this.renderLeftColumn(), this.renderColumnsPanel()]}>
                     <Layout
 
+                        onMouseEnter={() => {
+                            this.setState({ isDraggable: true});
+                        }}
+                        onMouseDown={() => {
+                            this.setState({ isDraggable: true, startGrab: true});
+                        }}
+                        onMouseUp={() => {
+                            this.setState({ isDraggable: false, startGrab: false });
+                        }}
+                        onMouseLeave={() => {
+                            if (!this.state.startGrab) {
+                                this.setState({ isDraggable: false });
+                            }
+                        }}
+
                         cards={this.state.cards}
                         isEditing={this.state.edit}
                         readOnly={this.props.readOnly}
@@ -593,10 +608,7 @@ class DashboardEditorPlugin extends React.Component {
                             }
 
                         }}
-                        renderCard={ (c) => { return this.renderCard(c); }}
-                        onMouseEnter={() => { this.setState({ isDraggable: true }); }}
-                        onMouseUp={() => { this.setState({ isDraggable: false }); }}
-                        />
+                        renderCard={ (c) => { return this.renderCard(c); }}/>
                 </BorderLayout>
                 <Portal>
                     <ResizableModal

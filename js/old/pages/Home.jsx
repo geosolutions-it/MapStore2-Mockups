@@ -45,7 +45,7 @@ class Home extends React.Component {
             "desktop": plugins[this.props.name] || [], // TODO mesh page plugins with other plugins
             "mobile": plugins[this.props.name] || []
         };
-        console.log(this.props.match.params);
+
         return (<Page
             id="home"
             pagePluginsConfig={pagePlugins}
