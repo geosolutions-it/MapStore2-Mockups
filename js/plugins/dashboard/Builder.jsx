@@ -22,6 +22,7 @@ class Builder extends React.Component {
         onClick: PropTypes.func,
         onChange: PropTypes.func,
         onUpdate: PropTypes.func,
+        onClearConnection: PropTypes.func,
         type: PropTypes.string,
         text: PropTypes.string,
         connectingMaps: PropTypes.bool,
@@ -36,6 +37,7 @@ class Builder extends React.Component {
         onClick: () => {},
         onChange: () => {},
         onUpdate: () => {},
+        onClearConnection: () => {},
         type: 'text',
         text: '',
         connectingMaps: false,
@@ -55,11 +57,12 @@ class Builder extends React.Component {
     }
 
     render() {
-        const connectedButton = this.props.type === 'legend' || (this.props.type === 'chart' && this.props.maps.length > 1 && this.state.step > 0) ? {
-            text: this.props.isConnected ? 'Change Connected Map' : 'Connect a Map',
-            onClick: this.props.onClick
+        const connectedButton = (this.props.type === 'table' && this.props.maps.length > 0) || this.props.type === 'legend' || (this.props.type === 'chart' && this.props.maps.length > 0 && this.state.step > 0) ? {
+            text: this.props.isConnected ? 'Clear Connected Map' : 'Connect a Map',
+            onClick: this.props.isConnected ? this.props.onClearConnection : this.props.onClick,
+            className: 'ms-btn-sm'
         } : null;
-        const previous = this.props.type === 'chart' && this.state.step === 2 ? {
+        const previous = this.props.type === 'chart' && this.state.step >= 2 ? {
             glyph: 'arrow-left',
             className: 'square-button-md',
             onClick: () => {
@@ -90,7 +93,7 @@ class Builder extends React.Component {
                                         <div className="m-title-side"></div>
                                     </Col>
                                     <Col xs={12} className="text-center">
-                                    { (this.props.type === 'legend' || this.props.type === 'chart') &&
+                                    { (this.props.type === 'legend' || this.props.type === 'chart' || this.props.type === 'table') &&
                                         <Toolbar
                                             btnDefaultProps={{ bsStyle: 'primary'}}
                                             buttons={buttons}/>
@@ -129,9 +132,9 @@ class Builder extends React.Component {
                             {!this.props.connectingMaps && <WidgetsBuilder
                                 step={this.state.step > 2 && 2 || this.state.step}
                                 editorData={{ type: this.props.statusEdit === 'create' ? this.state.type : this.props.chartType, legend: false}}
-                                isConnected={this.props.isConnected}
+                                isConnected={/*this.props.isConnected*/ false}
                                 onClick={this.props.onClick}
-                                maps={this.props.maps}
+                                maps={/*this.props.maps*/ []}
                                 onEditorChange={(key, value) => {
                                     this.setState({ [key]: value, step: this.state.step + 1 });
                                     this.props.onUpdate(key, value);
@@ -142,10 +145,14 @@ class Builder extends React.Component {
                         </div>
                     }
                     {
-                        this.props.type === 'table' && <div className="ms-query-filter">
-                        <div>
-                            <AttributeFilter />
-                            </div>
+                        this.props.type === 'table' && <div id="ms-details-editor">
+
+                            {!this.props.connectingMaps && <div className="ms-query-filter">
+                                <AttributeFilter />
+                            </div>}
+                            {this.props.connectingMaps && <div className="ms-dashboard-overlay">
+                                <span>Select a Map to connect with the table</span>
+                            </div>}
                         </div>
                     }
                     {

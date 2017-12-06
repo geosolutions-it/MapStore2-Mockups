@@ -57,7 +57,7 @@
 }
 #mapstore-maps-grid {
     .m-grid-cols {
-        margin-top: @square-btn-medium-size / 2;
+        margin-top: 1px;
     }
 }
 .mapstore-permission-group {
@@ -111,27 +111,34 @@
         border-left: 1px solid @ms2-color-shade-lighter;
     }
     .m-grid-cols {
-        /*padding: 5px;*/
-
+        padding: 1px;
+        margin-top: 1px;
+        text-align: center;
+        transition: 0.3s;
+        &:hover {
+            transform: scale(1.05);
+        }
         .map-thumb {
             height: @square-btn-size * 5;
             .shadow-soft;
 
             .gridcard-tools {
-                width: ~"calc(100% - 30px)";
+                width: auto;
                 position: absolute;
                 bottom: 0;
-                right: auto;
+                right: 0;
+                left: auto;
                 height: @square-btn-medium-size + 10px !important;
-                background-color: @ms2-color-background;
+                /*background-color: @ms2-color-background;*/
 
                 .btn {
                     margin-top: 5px;
                     float: right;
                     &:first-child {
-                        margin-right: 10px;
+                        margin-right: 5px;
                     }
                     &:last-child {
+                        margin-left: 5px;
                         span {
                             &:before {
                                 content: "\e020"
@@ -142,32 +149,35 @@
                 }
             }
             .map-thumb-description {
-                width: ~"calc(100% - 30px)";
+                width: 100%;
                 position: absolute;
                 height: @square-btn-medium-size !important;
-                bottom: @square-btn-medium-size + 10px;
-                background-color: @ms2-color-background;
+                top: @square-btn-medium-size + 10px;
+                background: transparent;
                 line-height: @square-btn-medium-size;
                 padding: 0 10px;
                 text-overflow: ellipsis;
                 overflow: hidden;
+                text-align: center;
+                color: #ffffff;
             }
             .gridcard-title {
-                width: ~"calc(100% - 30px)";
+                width: 100%;
                 position: absolute;
-                background-color: @ms2-color-background;
-                bottom: @square-btn-medium-size * 2 + 10px;
+                background-color: transparent;
+                top: 10px;
                 height: @square-btn-medium-size !important;
 
-                color: @ms2-color-text;
+                color: #ffffff;
                 line-height: @square-btn-medium-size;
                 padding: 0 10px;
 
                 min-height: auto;
-                font-size: @font-size-large;
+                font-size: @font-size-large * 1.2;
                 font-weight: bold;
                 text-overflow: ellipsis;
                 overflow: hidden;
+                text-align: center;
             }
             transition: 0.3s;
             &:hover {
@@ -243,6 +253,11 @@
         }
     }
 }
+
+#mapstore-maps-grid {
+    width: 100%;
+}
+
 
 .modal-properties-container {
     flex: 1;

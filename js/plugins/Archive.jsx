@@ -51,6 +51,18 @@ class ArchivePlugin extends React.Component {
                 src: 's.png'
             },
             {
+                title: 'Dashboard Editor',
+                desc: 'Dashboard Editor Workflow',
+                link: 'dashboard',
+                src: 'dashboard-editor-tn.png'
+            },
+            {
+                title: 'Dashboard View',
+                desc: 'Dashboard Read Only View',
+                link: 'dashboard-read',
+                src: 'dashboard-read-tn.png'
+            },
+            {
                 title: 'Widget',
                 desc: 'Chart and Widget Mockup',
                 link: 'widget',

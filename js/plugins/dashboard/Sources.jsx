@@ -12,7 +12,6 @@ const Toolbar = require('../../../MapStore2/web/client/components/misc/toolbar/T
 const SideCard = require('../../../MapStore2/web/client/components/misc/cardgrids/SideCard');
 const BorderLayout = require('../../../MapStore2/web/client/components/layout/BorderLayout');
 const {Grid, Row, Col, Glyphicon} = require('react-bootstrap');
-const {head} = require('lodash');
 
 class Sources extends React.Component {
     static propTypes = {
@@ -60,7 +59,7 @@ class Sources extends React.Component {
                                     <Col xs={12}>
                                         <div className="m-title-side">Maps</div>
                                     </Col>
-                                    <Col xs={12}>
+                                    <Col xs={12} className="text-center">
                                         <Toolbar
                                             btnDefaultProps={{ className: 'square-button-md', bsStyle: 'primary'}}
                                             buttons={[

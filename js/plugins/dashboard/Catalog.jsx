@@ -94,7 +94,7 @@ class Sources extends React.Component {
                                                 },
                                                 {
                                                     glyph: 'plus',
-                                                    tooltip: 'Use selected layer',
+                                                    tooltip: this.props.multiSelect ? 'Add selected layers' : 'Use selected layer',
                                                     visible: this.state.selectedCards.length > 0,
                                                     onClick: () => {
                                                         this.props.onClick(this.state.selectedCards);

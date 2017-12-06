@@ -13,11 +13,15 @@ const SideCard = require('../../../MapStore2/web/client/components/misc/cardgrid
 const BorderLayout = require('../../../MapStore2/web/client/components/layout/BorderLayout');
 const {Glyphicon, Grid, Row, Col} = require('react-bootstrap');
 
+const SquareCard = () => {
+
+};
+
 class Types extends React.Component {
     static propTypes = {
         onClick: PropTypes.func,
         onBack: PropTypes.func,
-        types: PropTypes.array,
+        templates: PropTypes.array,
         maps: PropTypes.array
     };
 
@@ -25,7 +29,7 @@ class Types extends React.Component {
         maps: [],
         onClick: () => {},
         onBack: () => {},
-        types: [{
+        templates: [{
             title: 'Map',
             type: 'map',
             description: 'Add a map',
@@ -56,7 +60,7 @@ class Types extends React.Component {
     render() {
 
         return (
-            <div key="ms-dashboard-types" className="ms-vertical-side">
+            <div key="ms-dashboard-template" className="ms-vertical-side-type">
                 <BorderLayout
                     header={
                         <div className="ms-header-side">
@@ -74,13 +78,47 @@ class Types extends React.Component {
                                 onClick: () => {
                                     this.props.onBack();
                                 }
+                            }, {
+                                glyph: 'plus',
+                                tooltip: 'Use selected template',
+                                onClick: () => {
+                                    this.props.onClick();
+                                }
                             }]}/></Col></Row></Grid></div>}>
-                    {this.props.types.map((s, i) => {
-                        if (s.type === 'legend' && this.props.maps.length === 0) {
-                            return null;
-                        }
-                        return <SideCard className="ms-sm" key={i} onClick={() => { this.props.onClick(s, i); }} {...s}/>;
-                    })}
+                            {this.props.templates.map(p => {
+                                const selected = this.state.selected === 'point:' + p.name ? ' selected' : '';
+                                const bg = p.background === 'transparent' ? ' bg-osm' : '';
+                                return (<div className={"mapstore-square-card m-point" + selected}
+                                onMouseOver={() => {
+                                    this.setState({
+                                        description: p.desc
+                                    });
+                                }}
+                                onMouseOut={() => {
+                                    this.setState({
+                                        description: ''
+                                    });
+                                }}
+                                onClick={() => {
+                                    this.setState({
+                                        selected: 'point:' + p.name
+                                    });
+                                    this.props.onClick(p);
+                                }}>
+                                    <div className={"m-thumbnail" + bg} style={{
+                                            textShadow: '2px 0 0 ' + p.stroke + ', -2px 0 0 ' + p.stroke + ', 0 2px 0 ' + p.stroke + ', 0 -2px 0 ' + p.stroke + ', 1px 1px ' + p.stroke + ', -1px -1px 0 ' + p.stroke + ', 1px -1px 0 ' + p.stroke + ', -1px 1px 0 ' + p.stroke,
+                                            color: p.fill, backgroundColor: '#333'}}>
+                                            <canvas id={p.id} style={{width: 120, height: 120}}/>
+                                    </div>
+
+                                    <div className="m-title">{p.name}</div>
+                                    <div className="m-btn">
+                                        {/*<Glyphicon glyph="pencil" onClick={() => {
+                                            this.props.onEdit(p);
+                                        }}/>*/}
+                                    </div>
+                                </div>);
+                            })}
                 </BorderLayout>
             </div>
         );

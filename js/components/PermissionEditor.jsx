@@ -12,7 +12,7 @@ const PropTypes = require('prop-types');
 const _ = require('lodash');
 const Select = require('react-select');
 const Spinner = require('react-spinkit');
-const {Table, Button, Glyphicon} = require('react-bootstrap');
+const {Button, Glyphicon} = require('react-bootstrap');
 const Message = require('../../MapStore2/web/client/components/I18N/Message');
 const LocaleUtils = require('../../MapStore2/web/client/utils/LocaleUtils');
 

@@ -32,8 +32,8 @@ class DetailsDock extends React.Component {
     renderHeader() {
         return (
             <div className="ms-dock-panel-head">
-                <Button className="square-button pull-left no-border"><Glyphicon glyph="sheet"/><span className="ms-title">Details Sheet</span></Button>
-                <Button className="square-button pull-right no-border" onClick={() => { this.props.onClose('detailsPanel', false); }}><Glyphicon glyph="1-close"/></Button>
+                <Button className="square-button pull-left no-border" bsStyle="primary"><Glyphicon glyph="sheet"/><span className="ms-title">Details Sheet</span></Button>
+                <Button className="square-button pull-right no-border" bsStyle="primary" onClick={() => { this.props.onClose('detailsPanel', false); }}><Glyphicon glyph="1-close"/></Button>
             </div>
         );
     }

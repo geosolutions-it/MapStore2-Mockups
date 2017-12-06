@@ -15,29 +15,6 @@ const DefaultGroup = require('../../../MapStore2/web/client/components/TOC/Defau
 const DefaultLayer = require('../../../MapStore2/web/client/components/TOC/DefaultLayer');
 const DefaultLayerOrGroup = require('../../../MapStore2/web/client/components/TOC/DefaultLayerOrGroup');
 const {Grid, Row, Col} = require('react-bootstrap');
-const testData = [
-    {
-        name: "Default",
-        title: "Default",
-        showComponent: true,
-        loadingError: false,
-        nodes: [
-            {
-                id: 'l:0',
-                group: 'Default',
-                name: 'Regions',
-                visibility: true,
-                expanded: true
-            }, {
-                id: 'l:1',
-                group: 'Default',
-                name: 'Base',
-                visibility: false,
-                expanded: false
-            }
-        ]
-    }
-];
 
 const emptyData = (nodes) => [
     {

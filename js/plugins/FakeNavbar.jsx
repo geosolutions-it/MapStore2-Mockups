@@ -139,7 +139,7 @@ class FakeNavbar extends React.Component {
                                 <span className="glyphicon glyphicon-sheet"></span>
                                 <span></span>
 
-                                <span>Map details</span>
+                                <span>About this Map</span>
                             </a>
                         </li>
                         <li role="presentation" className="">
@@ -147,7 +147,7 @@ class FakeNavbar extends React.Component {
                                 <span className="glyphicon glyphicon-info-sign"></span>
                                 <span></span>
 
-                                <span>About this app...</span>
+                                <span>About MapStore</span>
                             </a>
                         </li>
                     </DropdownButton>
