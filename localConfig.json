@@ -71,6 +71,55 @@
         "FakeNavbar",
         "FakeToolbar",
         "DetailsDock"
+      ],
+      "geofence-rules-manager": [
+        {
+          "name": "Header",
+          "cfg" : {
+              "showFilter": false,
+              "title": "MapStore Rules Manager"
+          }
+        },
+        "RulesManager",
+        "Footer"
+      ],
+      "geofence-rules-manager-right": [
+        {
+          "name": "Header",
+          "cfg" : {
+              "showFilter": false,
+              "title": "MapStore Rules Manager"
+          }
+        },
+        {
+          "name": "RulesManager",
+          "cfg" : {
+              "position": "right"
+          }
+        },
+        "Footer"
+      ],
+      "geofence-rules-manager-center": [
+        {
+          "name": "Header",
+          "cfg" : {
+              "showFilter": false,
+              "title": "MapStore Rules Manager"
+          }
+        },
+        {
+          "name": "RulesManager",
+          "cfg" : {
+              "position": "center"
+          }
+        },
+        "Footer"
+      ],
+      "get-feature-info": [
+        "Background",
+        "FakeFooter",
+        "FakeToolbar",
+        "DockGetfeatureInfo"
       ]
 	}
 }

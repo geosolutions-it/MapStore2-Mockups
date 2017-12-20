@@ -1,0 +1,215 @@
+.ms-vertical-toolbar {
+    &.ms-sm {
+        width: @square-btn-medium-size + (@square-btn-size - @square-btn-medium-size);
+        height: 100%;
+        padding: (@square-btn-size - @square-btn-medium-size)/2;
+        border-left: 1px solid @ms2-color-shade-lighter;
+    }
+}
+
+.mapstore-body {
+    .ms-header {
+        height: @square-btn-size;
+        border-bottom: 1px solid @ms2-color-shade-lighter;
+        display: flex;
+        .btn-group {
+            margin: auto;
+        }
+    }
+    .react-grid-Main {
+        outline: none;
+        .react-grid-Grid {
+            border: none;
+        }
+    }
+
+}
+.ms-rules-side {
+    width: 500px;
+    .shadow-soft-inset;
+    .ms-wizard {
+        position: absolute;
+        width: 500px;
+
+        height: 100%;
+    }
+}
+.react-grid-Cell {
+
+    &:focus {
+        outline: none;
+    }
+}
+.ms-grid-card {
+    color: @ms2-color-text;
+    background-color: @ms2-color-background;
+    .shadow-soft;
+    flex: 1;
+    width: 100%;
+    padding: 0 8px;
+    box-sizing: border-box;
+    overflow: hidden;
+    margin-top: 8px;
+    transition: 0.3s;
+    & > * {
+        white-space: nowrap;
+        text-overflow: ellipsis;
+        overflow: hidden;
+        padding: 0px 0 2px 0;
+    }
+    &:hover {
+        cursor: pointer;
+        z-index: 10;
+        transform: scale(1.1);
+        .shadow-far;
+    }
+}
+.ms-row-select {
+
+    box-sizing: border-box;
+    .react-grid-Cell {
+        font-weight: bold;
+
+        background-color: darken(@ms2-color-background, 10%);
+        color: @ms2-color-primary;
+        &:focus {
+            outline: none;
+        }
+    }
+}
+.ms-card-success {
+    border-bottom: 4px solid @ms2-color-success;
+
+}
+.ms-card-danger {
+    border-bottom: 4px solid @ms2-color-danger;
+}
+.ms-allow-cell {
+    color: @ms2-color-text-primary;
+    background-color: @ms2-color-success;
+    text-align: center;
+    padding: 4px;
+}
+
+.ms-deny-cell {
+    color: @ms2-color-text-primary;
+    background-color: @ms2-color-danger;
+    text-align: center;
+    padding: 4px;
+}
+.ms-check-cell {
+    text-align: center;
+}
+
+.ms-grab-cell {
+    span {
+        display: block;
+        width: 8px;
+        overflow: hidden;
+        margin: 0 auto;
+    }
+}
+.ms-allow-row {
+    .react-grid-Cell {
+        border-bottom: 2px solid @ms2-color-success;
+    }
+}
+
+.ms-deny-row {
+    .react-grid-Cell {
+        border-bottom: 2px solid @ms2-color-danger;
+    }
+}
+
+.floating-btn {
+    position: absolute;
+    bottom: @square-btn-size + @square-btn-size / 2;
+    right: @square-btn-size / 2;
+    .shadow-far;
+}
+
+.ms-overlay {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.7);
+    z-index: 2;
+
+    & > div {
+        left: 20px;
+        top: 20px;
+    }
+}
+
+.ms2-border-layout-content {
+    .ms-rule-editor {
+        .mapstore-switch-panel {
+            padding-left: 10px;
+            padding-right: 10px;
+            .shadow-soft;
+            &:first-child {
+                margin-top: 20px;
+            }
+            .ReactCodeMirror {
+                margin-bottom: 10px;
+                height: @square-btn-size * 3;
+            }
+            .row {
+                &:last-child {
+                    margin-bottom: 10px;
+                }
+            }
+        }
+        .row {
+            margin-top: 15px;
+            display: flex;
+            .col-sm-4 {
+
+                display: flex;
+                align-items: center;
+                * {
+                    flex: 1;
+                }
+                pre {
+                    margin: 0;
+                    padding: 6px;
+                }
+
+            }
+            .col-xs-12 {
+                &:first-child {
+                    display: flex;
+                    align-items: center;
+                    * {
+                        flex: 1;
+                    }
+                }
+
+                .rw-state-disabled {
+                    opacity: 0.3;
+                }
+            }
+        }
+        .form-group {
+            margin-bottom: 0;
+        }
+    }
+}
+
+.ms-panel-header-container {
+    .nav-tabs {
+        .disabled {
+            a {
+                color: fade(@ms2-color-text, 20%);
+            }
+        }
+    }
+    .ms-toolbar-container {
+        height: @square-btn-size;
+        width: 100%;
+        display: flex;
+        .btn-group {
+            margin: auto;
+        }
+    }
+}

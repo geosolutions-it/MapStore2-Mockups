@@ -71,6 +71,11 @@ class Builder extends React.Component {
                 });
             }
         } : null;
+        const filter = this.props.type === 'chart' && this.state.step > 0 ? {
+            glyph: 'filter',
+            className: 'square-button-md',
+            tooltip: 'Configure a filter for the chart data'
+        } : null;
         const next = this.props.type === 'chart' && this.state.step === 1 ? {
             glyph: 'arrow-right',
             className: 'square-button-md',
@@ -81,7 +86,7 @@ class Builder extends React.Component {
             }
         } : null;
 
-        const buttons = [previous, connectedButton, next].filter(v => v);
+        const buttons = [previous, connectedButton, filter, next].filter(v => v);
         return (
             <div key="ms-dashboard-sources" className={this.props.type === 'legend' ? "ms-vertical-side with-toc" : "ms-vertical-side-type"}>
                 <BorderLayout
