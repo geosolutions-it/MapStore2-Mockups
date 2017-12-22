@@ -9,7 +9,7 @@
 const React = require('react');
 const PropTypes = require('prop-types');
 const BorderLayout = require('../../MapStore2/web/client/components/layout/BorderLayout');
-const {head, isEqual, isNil, isNumber} = require('lodash');
+const {head, isEqual, isNil, isNumber, isEmpty, range} = require('lodash');
 const Toolbar = require('../../MapStore2/web/client/components/misc/toolbar/Toolbar');
 // const emptyState = require('../../MapStore2/web/client/components/misc/enhancers/emptyState');
 const Portal = require('../../MapStore2/web/client/components/misc/Portal');
@@ -17,7 +17,7 @@ const ResizableModal = require('../components/ResizableModal');
 
 const ReactDataGrid = require('react-data-grid');
 const { Row: RowGrid } = ReactDataGrid;
-const {/*Button,*/ Glyphicon, Row, Col, Grid, FormGroup, FormControl, NavItem, Nav} = require('react-bootstrap');
+const {Button, ButtonGroup, Glyphicon, Row, Col, Grid, FormGroup, FormControl, NavItem, Nav} = require('react-bootstrap');
 const Filter = require('../../MapStore2/web/client/components/misc/Filter');
 const SideCard = require('../../MapStore2/web/client/components/misc/cardgrids/SideCard');
 const ContainerDimensions = require('react-container-dimensions').default;
@@ -114,6 +114,16 @@ class Check extends React.Component {
     }
 }
 
+const {
+   Draggable,
+   Data
+} = require('react-data-grid-addons');
+
+const { Container: DraggableContainer, RowActionsCell, DropTargetRowContainer } = Draggable;
+const { Selectors } = Data;
+
+
+
 const CheckFormatter = connect((state) => ({
     selected: state.mockups && state.mockups.selectedRowRules || []
 }), {
@@ -164,11 +174,13 @@ class RowComponent extends React.Component {
     }
 }
 
-const RowRenderer = connect((state) => ({
+const RowComponentRenderer = connect((state) => ({
     selected: state.mockups && state.mockups.selectedRowRules || []
 }), {
     setOption
 })(RowComponent);
+
+const RowRenderer = DropTargetRowContainer(RowComponentRenderer);
 
 class WizardPage extends React.Component {
     static propTypes = {
@@ -259,6 +271,91 @@ class WizardPage extends React.Component {
     }
 }
 
+class DraggableGrid extends React.Component {
+    static propTypes = {
+        rowKey: PropTypes.string.isRequired,
+        width: PropTypes.number,
+        height: PropTypes.number,
+        rows: PropTypes.array,
+        columns: PropTypes.array,
+        onSort: PropTypes.func,
+        onSelect: PropTypes.func,
+        selectedIds: PropTypes.array
+    };
+
+    static defaultProps = {
+        rowKey: 'check',
+        rows: [],
+        columns: [],
+        onSort: () => {},
+        onSelect: () => {},
+        selectedIds: []
+    };
+
+    state = {
+        selectedIds: []
+    }
+
+    onRowsSelected = (rows) => {
+        const selectedIds = this.state.selectedIds.concat(rows.map(r => r.row[this.props.rowKey]));
+        this.setState({selectedIds });
+        this.props.onSelect(selectedIds);
+    };
+
+    onRowsDeselected = (rows) => {
+        let rowIds = rows.map(r => r.row[this.props.rowKey]);
+        const selectedIds = this.state.selectedIds.filter(i => rowIds.indexOf(i) === -1 );
+        this.setState({selectedIds });
+        this.props.onSelect(selectedIds);
+    };
+
+    render() {
+        return (
+        <DraggableContainer>
+            <ReactDataGrid
+                enableCellSelection
+                rowActionsCell={RowActionsCell}
+                columns={this.props.columns}
+                rowGetter={this.rowGetter}
+                rowsCount={this.props.rows.length}
+                minHeight={this.props.height}
+                minWidth={this.props.width}
+                rowRenderer={<RowRenderer onRowDrop={this.reorderRows}/>}
+                rowSelection={{
+                    showCheckbox: true,
+                    enableShiftSelect: true,
+                    onRowsSelected: this.onRowsSelected,
+                    onRowsDeselected: this.onRowsDeselected,
+                    selectBy: {
+                    keys: {rowKey: this.props.rowKey, values: this.state.selectedIds}
+                }}}/>
+        </DraggableContainer>);
+    }
+
+    rowGetter = (i) => {
+        return this.props.rows[i];
+    };
+
+    isDraggedRowSelected = (selectedRows, rowDragSource) => {
+        if (selectedRows && selectedRows.length > 0) {
+            let key = this.props.rowKey;
+            return selectedRows.filter(r => r[key] === rowDragSource.data[key]).length > 0;
+        }
+        return false;
+    };
+
+    reorderRows = (e) => {
+        let selectedRows = Selectors.getSelectedRowsByKey({rowKey: this.props.rowKey, selectedKeys: this.state.selectedIds, rows: this.props.rows});
+        let draggedRows = this.isDraggedRowSelected(selectedRows, e.rowSource) ? selectedRows : [e.rowSource.data];
+        let undraggedRows = this.props.rows.filter((r) => {
+            return draggedRows.indexOf(r) === -1;
+        });
+        let args = [e.rowTarget.idx, 0].concat(draggedRows);
+        Array.prototype.splice.apply(undraggedRows, args);
+        this.props.onSort(undraggedRows);
+    };
+}
+
 let count = 2;
 
 class RulesManager extends React.Component {
@@ -296,10 +393,9 @@ class RulesManager extends React.Component {
         },
         activeKey: "1",
         _columns: [
-            { key: 'grab', name: '', formatter: GrabCell, width: 35},
-            { key: 'check', name: '', formatter: CheckFormatter, width: 35, filterable: true,
+            /*{ key: 'check', name: '', formatter: CheckFormatter, width: 35, filterable: true,
         filterRenderer: CheckFormatter},
-            { key: 'priority', name: 'Priority', filterable: true },
+            { key: 'priority', name: 'Priority', filterable: true },*/
             { key: 'role', name: 'Role', filterable: true },
             { key: 'user', name: 'User', filterable: true },
             { key: 'ip', name: 'IP', filterable: true},
@@ -321,7 +417,9 @@ class RulesManager extends React.Component {
             workspace: 'topp',
             layer: 'states',
             access: 'ALLOW',
-            ip: '*'
+            ip: '*',
+            availableStyles: [],
+            defaultStyle: {}
         }, {
             grab: 0,
             check: 1,
@@ -333,7 +431,9 @@ class RulesManager extends React.Component {
             workspace: 'topp',
             layer: 'states',
             access: 'DENY',
-            ip: '*'
+            ip: '*',
+            availableStyles: [],
+            defaultStyle: {}
         }]
     };
 
@@ -366,7 +466,9 @@ class RulesManager extends React.Component {
                 workspace: '',
                 layer: '',
                 access: '',
-                ip: '*'
+                ip: '*',
+                availableStyles: [],
+                defaultStyle: {}
             },
             initialRule: {
                 role: '',
@@ -376,7 +478,9 @@ class RulesManager extends React.Component {
                 workspace: '',
                 layer: '',
                 access: '',
-                ip: '*'
+                ip: '*',
+                availableStyles: [],
+                defaultStyle: {}
             },
             editState: 'create'
         });
@@ -530,33 +634,54 @@ class RulesManager extends React.Component {
     }
 
     renderStyles() {
-        const styles = [{
-            title: 'Custom style for polygon',
-            description: 'custom',
-            id: '001-0'
-        }, {
-            title: 'New style',
-            description: 'new',
-            id: '002-0'
-        }, {
-            title: 'Polygon style',
-            description: 'only polygon',
-            id: '003-0'
-        }];
+        const defaultStyle = isEmpty(this.state.currentRule.defaultStyle) ? { title: 'Default' } : {...this.state.currentRule.defaultStyle};
+
+        const styles = [...this.state.currentRule.availableStyles];
         return (
             <Grid className="ms-rule-editor" fluid style={{width: '100%'}}>
-                {styles.map((r, i) => {
+                <Row className="ms-add-style">
+                    <Col>Default Style</Col>
+                    <Col>
+                        <Button className="square-button-md no-border" onClick={() => {
+                            this.setState({
+                                showStyleSelection: 'default'
+                            });
+                        }}>
+                            <Glyphicon glyph="pencil" />
+                        </Button>
+
+                    </Col>
+                </Row>
+                <SideCard
+                    preview={<Glyphicon glyph={defaultStyle.preview || 'geoserver'} />}
+                    className={'ms-sm ms-no-select'}
+                    title={defaultStyle.title}
+                    description={defaultStyle.description}
+                    caption={defaultStyle.caption || ''}
+                    onClick={() => {}}/>
+
+                <Row className="ms-add-style">
+                    <Col>Available Styles</Col>
+                    <Col>
+                        <Button className="square-button-md no-border" onClick={() => {
+                            this.setState({
+                                showStyleSelection: 'available'
+                            });
+                        }}>
+                            <Glyphicon glyph="pencil" />
+                        </Button>
+                    </Col>
+                </Row>
+                {styles.map(r => {
                     return (
                         <div>
-                            {i === 0 && <h5>Default Style</h5>}
                             <SideCard
                                 preview={<Glyphicon glyph={r.preview || 'geoserver'} />}
-                                className={'ms-sm'}
+                                className={'ms-sm ms-no-select'}
                                 title={r.title}
                                 description={r.description}
                                 caption={r.caption || ''}
                                 onClick={() => {}}/>
-                            {i === 0 && <h5>Available Styles</h5>}
                         </div>
                     );
                 })}
@@ -616,12 +741,16 @@ class RulesManager extends React.Component {
                         </Col>
                         <Col sm={6}>
                             <Combobox
-                                value={'Viewport'}
+                                value={this.state.typeROI || 'Viewport'}
                                 data={['Viewport', 'Rectangle', 'Circle', 'Polygon', 'CQL Filter']}
+                                onChange={typeROI => {
+                                    this.setState({ typeROI });
+                                }}
                                 placeholder="Select Type"/>
                         </Col>
                     </Row>
-                    <Row>
+                    {this.state.typeROI === 'CQL Filter' && <br/>}
+                    {this.state.typeROI !== 'CQL Filter' && <Row>
                         <Col sm={6}>
                             Operation:
                         </Col>
@@ -632,7 +761,20 @@ class RulesManager extends React.Component {
                                 data={['Intersect', 'BoundingBox', 'Is Contained', 'Contains']}
                                 placeholder="Select Operation"/>
                         </Col>
-                    </Row>
+                    </Row>}
+                    {this.state.typeROI === 'CQL Filter' && <div style={{width: '100%'}}>
+                    <ContainerDimensions>
+                    {({width}) => <div style={{width}}>
+                        <Codemirror
+                            options={{
+                            mode: {name: "sql"},
+                            lineNumbers: true,
+                            lineWrapping: true
+                        }}/>
+                    </div>}
+
+                    </ContainerDimensions>
+                    </div>}
                 </SwitchPanel>
             </Grid>
         );
@@ -737,7 +879,7 @@ class RulesManager extends React.Component {
                             activeKey: "1",
                             createRule: false,
                             regionOI: false,
-                            _rows: [...this.state._rows, {...this.state.currentRule, check: count, priority: count, grab: 0}],
+                            _rows: [{...this.state.currentRule, check: count, priority: count, grab: 0}, ...this.state._rows],
                             step: 0
                         });
                         count++;
@@ -755,13 +897,6 @@ class RulesManager extends React.Component {
                         showIncompleteModal: true
                     });
                 }
-            }
-        }, {
-            glyph: 'plus',
-            tooltip: 'Add a style',
-            visible: this.state.createRule && this.state.activeKey === "2",
-            onClick: () => {
-
             }
         }];
         return (
@@ -793,7 +928,7 @@ class RulesManager extends React.Component {
             </BorderLayout>
         );
     }
-
+/*
     renderWizard() {
         return (
             <Wizard
@@ -983,11 +1118,11 @@ class RulesManager extends React.Component {
                 {this.renderBody()}
             </Wizard>);
     }
-
+*/
     renderPanel() {
         return !this.props.position.match('center') ? (
             <div style={{order: this.props.position.match('left') ? -1 : 1, display: this.state.createRule ? 'block' : 'none'}} className="ms-rules-side">
-                {this.state.editState === 'create' ? this.renderWizard() : this.renderBody()}
+                {/*this.state.editState === 'create' ? this.renderWizard() : */ this.renderBody()}
             </div>
         ) : null;
     }
@@ -1045,9 +1180,35 @@ class RulesManager extends React.Component {
 
         :this.state.showGrid ?
    this.renderCards(width, height)
+
+   <DraggableContainer>
+       <ReactDataGrid
+           onRowDrop={this.reorderRows}
+           rowActionsCell={RowActionsCell}
+           onAddFilter={this.handleFilterChange}
+           minWidth={width}
+           columns={this.state._columns}
+           rowsCount={this.state._rows.length}
+           minHeight={height}
+           toolbar={<GridToolbar />}
+           rowRenderer={RowRenderer}
+           rowGetter={(i) => {
+               return this.state._rows[i];
+           }}/>
+            </DraggableContainer>
     */
 
     render() {
+        const styles = [{
+            title: 'New style',
+            description: 'new',
+            id: '002-0'
+        }, {
+            title: 'Polygon style',
+            description: 'only polygon',
+            id: '003-0'
+        }, ...range(0, 20)].map((st, id) => id > 1 ? {...st, id, title: 'Style n:' + id, description: 'This is style n:' + id} : {...st, id}).filter(st => st.title.toLowerCase().match(this.state.filterStyles && this.state.filterStyles.toLowerCase() || ''));
+
         return (
             <div className="mapstore-body">
                 <BorderLayout header={this.props.position.match('center') ? <div className="">
@@ -1055,23 +1216,19 @@ class RulesManager extends React.Component {
                 </div> : null} columns={this.props.position.match('left') ? [this.renderLeftColumn(), this.renderPanel()] : [this.renderPanel(), this.renderLeftColumn()]}>
                     <ContainerDimensions>
                         {({width, height}) =>
-
-                            <ReactDataGrid
-                                onAddFilter={this.handleFilterChange}
-                                minWidth={width}
-                                columns={this.state._columns}
-                                rowsCount={this.state._rows.length}
-                                minHeight={height}
-                                toolbar={<GridToolbar />}
-                                rowRenderer={RowRenderer}
-                                rowGetter={(i) => {
-                                    return this.state._rows[i];
-                                }}/>
-
+                            <DraggableGrid onSort={rows => {
+                                this.setState({
+                                    _rows: [...rows]
+                                });
+                            }}
+                            selectedIds={this.state.selectedRow}
+                            onSelect={(selected) => {
+                                this.props.setOption('selectedRowRules', [...selected]);
+                            }} columns={this.state._columns} rows={this.state._rows} width={width} height={height}/>
                         }
                     </ContainerDimensions>
                     {this.state.createRule && !this.props.position.match('center') && <div className="ms-overlay">
-                        {this.state.createRule && this.state.activeKey === "3" && this.state.regionOI && this.renderMap()}
+                        {this.state.createRule && this.state.activeKey === "3" && this.state.regionOI && this.state.typeROI !== 'CQL Filter' && this.renderMap()}
                     </div>}
                 </BorderLayout>
                 {this.props.position.match('center') &&
@@ -1183,9 +1340,95 @@ class RulesManager extends React.Component {
                     </ResizableModal>
                 </Portal>
 
+                <Portal>
+                    <ResizableModal
+                        title={this.state.showStyleSelection === 'default' ? 'Select Default Style' : 'Select Available Styles'}
+                        show={this.state.showStyleSelection}
+                        onClose={() => {
+                            this.setState({
+                                showStyleSelection: null,
+                                filterStyles: ''
+                            });
+                        }}>
+                        <span className="ms-style-modal">
+                            <BorderLayout
+                                header={<span>
+                                    <Filter filterPlaceholder="Filter styles..." filterText={this.state.filterStyles || ''} onFilter={(value) => {
+                                        this.setState({
+                                            filterStyles: value
+                                        });
+                                    }}/>
+                                    {this.state.showStyleSelection === 'available' &&
+                                        <Col className="text-center">
+                                            <ButtonGroup>
+                                                <Button bsStyle="primary" bsSize="sm" onClick={() => {
+                                                    this.setState({
+                                                        currentRule: {...this.state.currentRule, availableStyles: []}
+                                                    });
+                                                }}>
+                                                    Clear All
+                                                </Button>
+                                                <Button bsStyle="primary" bsSize="sm" onClick={() => {
+                                                    this.setState({
+                                                        currentRule: {...this.state.currentRule, availableStyles: [...styles]}
+                                                    });
+                                                }}>
+                                                    Select All
+                                                </Button>
+                                            </ButtonGroup>
+                                        </Col>
+                                        }
+                                </span>}>
+                                {styles.map(r => {
+                                    let selected = '';
+                                    if (this.state.showStyleSelection === 'default') {
+                                        selected = this.state.currentRule && this.state.currentRule.defaultStyle && this.state.currentRule.defaultStyle.id === r.id ? ' ms-selected' : '';
+                                    } else {
+                                        selected = this.state.currentRule && this.state.currentRule.availableStyles && head(this.state.currentRule.availableStyles.filter(st => st.id === r.id)) ? ' ms-selected' : '';
+                                    }
+
+                                    return (
+                                        <div>
+                                            <SideCard
+                                                preview={<Glyphicon glyph={r.preview || 'geoserver'} />}
+                                                className={'ms-sm' + selected}
+                                                title={r.title}
+                                                description={r.description}
+                                                caption={r.caption || ''}
+                                                onClick={() => {
+                                                    if (this.state.showStyleSelection === 'default') {
+                                                        this.setState({
+                                                            currentRule: {...this.state.currentRule, defaultStyle: {...r}}
+                                                        });
+                                                    } else {
+                                                        const availableStyles = this.state.currentRule && this.state.currentRule.availableStyles && [...this.state.currentRule.availableStyles] || [];
+                                                        if (selected) {
+                                                            this.setState({
+                                                                currentRule: {...this.state.currentRule, availableStyles: [...availableStyles.filter(st => st.id !== r.id)]}
+                                                            });
+                                                        } else {
+                                                            this.setState({
+                                                                currentRule: {...this.state.currentRule, availableStyles: [...availableStyles, {...r}]}
+                                                            });
+                                                        }
+
+                                                        // this.state.currentRule.availableStyles = {...card};
+                                                    }
+                                                }}/>
+                                        </div>
+                                    );
+                                })}
+                            </BorderLayout>
+                            </span>
+
+                    </ResizableModal>
+                </Portal>
+
                 {/*<Button className="square-button floating-btn" bsStyle="primary"><Glyphicon glyph="plus"/></Button>*/}
             </div>
         );
+
+
     }
 
     handleFilterChange = (filter) => {
@@ -1200,7 +1443,7 @@ class RulesManager extends React.Component {
 
     checkValidity(currentRule) {
 
-        return !head(Object.keys(currentRule).filter(r => isNil(currentRule[r])));
+        return !head(Object.keys(currentRule).filter(r => isNil(currentRule[r]) || currentRule[r] === ''));
     }
 
     updateBotton(props, state) {
@@ -1221,6 +1464,27 @@ class RulesManager extends React.Component {
                     this.onEditRule();
                 }
             }, {
+                glyph: 'add-row-before',
+                tooltip: 'Add new rule before selected',
+                visible: props.selectedRow.length > 0 && !state.createRule,
+                onClick: () => {
+                    // this.onEditRule();
+                }
+            }, {
+                glyph: 'move',
+                tooltip: 'Move selected rules',
+                visible: props.selectedRow.length > 0 && props.selectedRow.length < state._rows.length && !state.createRule,
+                onClick: () => {
+                    // this.onEditRule();
+                }
+            }, {
+                glyph: 'add-row-after',
+                tooltip: 'Add new rule after selected',
+                visible: props.selectedRow.length > 0 && !state.createRule,
+                onClick: () => {
+                    // this.onEditRule();
+                }
+            }, {
                 glyph: 'trash',
                 tooltip: 'Remove selected rules',
                 visible: props.selectedRow.length > 0 && !state.createRule,
@@ -1230,6 +1494,13 @@ class RulesManager extends React.Component {
                     });
 
                     this.props.setOption('selectedRowRules', []);
+                }
+            }, {
+                glyph: 'clear-brush',
+                tooltip: 'Clear cache',
+                visible: !state.createRule && props.selectedRow.length === 0,
+                onClick: () => {
+                    // this.onEditRule();
                 }
             } /* , {
                 glyph: state.showGrid ? 'th' : 'features-grid',

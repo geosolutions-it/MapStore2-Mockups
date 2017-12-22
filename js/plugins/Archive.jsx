@@ -79,6 +79,18 @@ class ArchivePlugin extends React.Component {
                 desc: 'Added Details Sheet',
                 link: 'maps-properties',
                 src: 'm-prop.png'
+            },
+            {
+                title: 'Rules Manager',
+                desc: 'Rules Manager User Interface',
+                link: 'geofence-rules-manager',
+                src: 'toscana.png'
+            },
+            {
+                title: 'Get Feature Info',
+                desc: 'Get Feature Info Markdown Format and Charts',
+                link: 'get-feature-info',
+                src: 'm-prop.png'
             }
         ]
     };

@@ -133,7 +133,7 @@
     width: 100%;
     height: 100%;
     background-color: rgba(0, 0, 0, 0.7);
-    z-index: 2;
+    z-index: 100;
 
     & > div {
         left: 20px;
@@ -143,9 +143,15 @@
 
 .ms2-border-layout-content {
     .ms-rule-editor {
+        &.container-fluid {
+            padding: 0 30px;
+        }
         .mapstore-switch-panel {
             padding-left: 10px;
             padding-right: 10px;
+            width: 420px;
+            margin-left: auto;
+            margin-right: auto;
             .shadow-soft;
             &:first-child {
                 margin-top: 20px;
@@ -213,3 +219,46 @@
         }
     }
 }
+
+ .mapstore-side-card {
+     &.ms-no-select {
+         &:hover {
+             cursor: default;
+             transform: none;
+             .shadow;
+         }
+     }
+ }
+
+ .ms-style-modal {
+     & > div {
+         & > span {
+             .btn-group {
+                 margin-top: 15px;
+             }
+             &:first-child {
+                 padding: 15px;
+             }
+         }
+     }
+     .ms2-border-layout-content {
+         padding: 0 15px;
+         & > div:last-child {
+             margin-bottom: 15px;
+         }
+     }
+ }
+
+ .ms-add-style {
+     padding: 0 15px;
+     display: flex;
+     & > div:first-child {
+         flex: 1;
+     }
+     .glyphicon {
+
+         &:hover {
+
+         }
+     }
+ }

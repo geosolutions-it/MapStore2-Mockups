@@ -116,10 +116,16 @@
         "Footer"
       ],
       "get-feature-info": [
-        "Background",
+        {
+          "name": "Background",
+          "cfg": {
+              "showItaly": true
+          }
+        },
         "FakeFooter",
         "FakeToolbar",
-        "DockGetfeatureInfo"
+        "DockGetfeatureInfo",
+        "FakeNavbar"
       ]
 	}
 }

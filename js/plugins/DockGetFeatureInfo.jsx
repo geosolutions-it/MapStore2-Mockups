@@ -25,7 +25,7 @@ const {head} = require('lodash');
 const NavItemT = tooltip(NavItem);
 const ReactQuill = require('react-quill');
 // const {setOption} = require('../actions/mockups');
-const { Combobox } = require('react-widgets');
+// const { Combobox } = require('react-widgets');
 
 const textMock = "Example of response\n" +
     "\n--------------------------------------------" +
@@ -61,11 +61,13 @@ const jsonMock = JSON.parse(require('raw-loader!./getfeatureinfo/mockjson.txt'))
 class PanelHeader extends React.Component {
     static propTypes = {
         title: PropTypes.node,
-        buttons: PropTypes.array
+        buttons: PropTypes.array,
+        subtitle: PropTypes.node
     };
 
     static defaultProps = {
-        title: 'Layer Title'
+        title: 'Layer Title',
+        subtitle: 'Feature Info'
     };
 
     render() {
@@ -83,9 +85,9 @@ class PanelHeader extends React.Component {
                     </Col>
                 </Row>
                 <Row>
-                    <Col xs={12}>
-                        <h4><strong>Feature Info</strong></h4>
-                    </Col>
+                    {this.props.subtitle && <Col xs={12}>
+                        <h4><strong>{this.props.subtitle}</strong></h4>
+                    </Col>}
                     { this.props.buttons &&
                         <Col xs={12}>
                             <Toolbar btnDefaultProps={{ bsStyle: 'primary', className: 'square-button-md' }} buttons={this.props.buttons}/>
@@ -137,13 +139,15 @@ class DockGetfeatureInfo extends React.Component {
     static propTypes = {
         open: PropTypes.bool,
         width: PropTypes.number,
-        onClose: PropTypes.func
+        onClose: PropTypes.func,
+        openInfo: PropTypes.bool
     };
 
     static defaultProps = {
         open: true,
         width: 500,
-        onClose: () => {}
+        onClose: () => {},
+        openInfo: false
     };
 
     state = {
@@ -188,7 +192,7 @@ class DockGetfeatureInfo extends React.Component {
                                 {
                                     glyph: 'arrow-left',
                                     tooltip: 'Back to previous step',
-                                    visible: !!this.state.addChart && this.state.step > 0,
+                                    visible: this.state.page === 'chart' && !!this.state.addChart && this.state.step > 0,
                                     onClick: () => {
                                         this.setState({
                                             step: this.state.step - 1
@@ -198,7 +202,7 @@ class DockGetfeatureInfo extends React.Component {
                                 {
                                     glyph: 'arrow-right',
                                     tooltip: 'Go to next step',
-                                    visible: !!this.state.addChart && this.state.step > 0 && this.state.step < 2,
+                                    visible: this.state.page === 'chart' && !!this.state.addChart && this.state.step > 0 && this.state.step < 2,
                                     onClick: () => {
                                         this.setState({
                                             step: this.state.step + 1
@@ -208,7 +212,7 @@ class DockGetfeatureInfo extends React.Component {
                                 {
                                     glyph: 'trash',
                                     tooltip: 'Delete selected chart',
-                                    visible: !this.state.addChart && this.state.selected.length > 0,
+                                    visible: this.state.page === 'chart' && !this.state.addChart && this.state.selected.length > 0,
                                     onClick: () => {
                                         this.setState({
                                             charts: this.state.charts.filter(ch => ch.id !== this.state.selected[0])
@@ -218,7 +222,7 @@ class DockGetfeatureInfo extends React.Component {
                                 {
                                     glyph: 'pencil',
                                     tooltip: 'Edit selected chart',
-                                    visible: !this.state.addChart && this.state.selected.length === 1,
+                                    visible: this.state.page === 'chart' && !this.state.addChart && this.state.selected.length === 1,
                                     onClick: () => {
 
                                     }
@@ -226,7 +230,7 @@ class DockGetfeatureInfo extends React.Component {
                                 {
                                     glyph: '1-close',
                                     tooltip: 'Exit from chart editing',
-                                    visible: !!this.state.addChart && this.state.step === 0,
+                                    visible: this.state.page === 'chart' && !!this.state.addChart && this.state.step === 0,
                                     onClick: () => {
                                         this.setState({
                                             addChart: false
@@ -236,7 +240,7 @@ class DockGetfeatureInfo extends React.Component {
                                 {
                                     glyph: 'floppy-disk',
                                     tooltip: 'Save chart',
-                                    visible: !!this.state.addChart && this.state.step === 2,
+                                    visible: this.state.page === 'chart' && !!this.state.addChart && this.state.step === 2,
                                     onClick: () => {
                                         count++;
                                         this.setState({
@@ -311,150 +315,162 @@ class DockGetfeatureInfo extends React.Component {
         const afterCards = formats.filter((v, i) => i > parseFloat(selectedCardId.id.split(':')[1]));
 
         return (
-            <Dock dockStyle={{height: 'calc(100% - 30px)'}} {...dockProps} isVisible={this.props.open} size={500} >
-                <BorderLayout
-                    header={this.renderHeader()}>
-                    {this.state.page === 'format' && <Grid fluid className="ms-panel-body">
-                        {/*<Row>
-                            <Col xs={6}>
-                                Format:
-                            </Col>
-                            <Col xs={6}>
-                                <Combobox
-                                    value={this.state.format}
-                                    data={[
-                                        'TEXT',
-                                        'JSON',
-                                        'HTML',
-                                        'MARKDOWN'
-                                    ]}
-                                    onChange={format => {
-                                        this.setState({
-                                            format
-                                        });
-                                    }}/>
-                            </Col>
-                        </Row>*/}
-
-                        <Row style={{margin: 0, padding: 15}}>
-                            { beforeCards.map(format => {
-                                const selected = this.state.format === format.title ? ' ms-selected' : '';
-                                return (<Col xs={12}>
-                                    <SideCard
-                                        preview={<Glyphicon glyph={format.preview || 'geoserver'} />}
-                                        className={'ms-sm' + selected}
-                                        title={format.title}
-                                        description={format.description}
-                                        caption={format.caption || ''}
-                                        onClick={frmt => {
+            <span>
+                <Dock dockStyle={{height: 'calc(100% - 30px)'}} {...dockProps} isVisible={this.props.open} size={500} >
+                    <BorderLayout
+                        header={this.renderHeader()}>
+                        {this.state.page === 'format' && <Grid fluid className="ms-panel-body">
+                            {/*<Row>
+                                <Col xs={6}>
+                                    Format:
+                                </Col>
+                                <Col xs={6}>
+                                    <Combobox
+                                        value={this.state.format}
+                                        data={[
+                                            'TEXT',
+                                            'JSON',
+                                            'HTML',
+                                            'MARKDOWN'
+                                        ]}
+                                        onChange={format => {
                                             this.setState({
-                                                format: frmt.title
+                                                format
                                             });
                                         }}/>
-                                </Col>);
-                            })}
-                        </Row>
-                        { this.state.format === 'MARKDOWN' &&
-                            <Row className="ms-editor-container">
+                                </Col>
+                            </Row>*/}
 
-                                    <div id="ms-markdown-editor">
-                                        <ReactQuill
-                                            bounds={"#ms-markdown-editor"}
-                                            modules={{
-                                                toolbar: [
-                                                [{ 'size': ['small', false, 'large', 'huge'] }, 'bold', 'italic', 'underline', 'blockquote'],
-                                                [{ 'list': 'bullet' }, { 'align': [] }],
-                                                ['clean']
-                                            ]}}/>
-                                    </div>
-
+                            <Row style={{margin: 0, padding: 15}}>
+                                { beforeCards.map(format => {
+                                    const selected = this.state.format === format.title ? ' ms-selected' : '';
+                                    return (<Col xs={12}>
+                                        <SideCard
+                                            preview={<Glyphicon glyph={format.preview || 'geoserver'} />}
+                                            className={'ms-sm' + selected}
+                                            title={format.title}
+                                            description={format.description}
+                                            caption={format.caption || ''}
+                                            onClick={frmt => {
+                                                this.setState({
+                                                    format: frmt.title
+                                                });
+                                            }}/>
+                                    </Col>);
+                                })}
                             </Row>
-                        }
-                        { this.state.format === 'TEXT' &&
-                            <Row className="ms-editor-container">
+                            { this.state.format === 'MARKDOWN' &&
+                                <Row className="ms-editor-container">
 
-                                    <div id="ms-markdown-editor">
-                                        <TextViewer response={textMock} />
-                                    </div>
+                                        <div id="ms-markdown-editor">
+                                            <ReactQuill
+                                                bounds={"#ms-markdown-editor"}
+                                                modules={{
+                                                    toolbar: [
+                                                    [{ 'size': ['small', false, 'large', 'huge'] }, 'bold', 'italic', 'underline', 'blockquote'],
+                                                    [{ 'list': 'bullet' }, { 'align': [] }],
+                                                    ['clean']
+                                                ]}}/>
+                                        </div>
 
+                                </Row>
+                            }
+                            { this.state.format === 'TEXT' &&
+                                <Row className="ms-editor-container">
+
+                                        <div id="ms-markdown-editor">
+                                            <TextViewer response={textMock} />
+                                        </div>
+
+                                </Row>
+
+                            }
+                            { this.state.format === 'HTML' &&
+                                <Row className="ms-editor-container">
+
+                                        <div id="ms-markdown-editor" className="ms-editor-html">
+                                            <HTMLViewer response={htmlMock} />
+                                        </div>
+
+                                </Row>
+                            }
+                            { this.state.format === 'JSON' &&
+                                <Row className="ms-editor-container">
+
+                                        <div id="ms-markdown-editor">
+                                            <JSONViewer response={jsonMock} />
+                                        </div>
+
+                                </Row>
+                            }
+                            <Row style={{margin: 0, padding: 15}}>
+                                { afterCards.map(format => {
+                                    return (<Col xs={12}>
+                                        <SideCard
+                                            preview={<Glyphicon glyph={format.preview || 'geoserver'} />}
+                                            className={'ms-sm'}
+                                            title={format.title}
+                                            description={format.description}
+                                            caption={format.caption || ''}
+                                            onClick={frmt => {
+                                                this.setState({
+                                                    format: frmt.title
+                                                });
+                                            }}/>
+                                    </Col>);
+                                })}
                             </Row>
-
-                        }
-                        { this.state.format === 'HTML' &&
-                            <Row className="ms-editor-container">
-
-                                    <div id="ms-markdown-editor" className="ms-editor-html">
-                                        <HTMLViewer response={htmlMock} />
-                                    </div>
-
-                            </Row>
-                        }
-                        { this.state.format === 'JSON' &&
-                            <Row className="ms-editor-container">
-
-                                    <div id="ms-markdown-editor">
-                                        <JSONViewer response={jsonMock} />
-                                    </div>
-
-                            </Row>
-                        }
-                        <Row style={{margin: 0, padding: 15}}>
-                            { afterCards.map(format => {
-                                return (<Col xs={12}>
-                                    <SideCard
-                                        preview={<Glyphicon glyph={format.preview || 'geoserver'} />}
-                                        className={'ms-sm'}
-                                        title={format.title}
-                                        description={format.description}
-                                        caption={format.caption || ''}
-                                        onClick={frmt => {
-                                            this.setState({
-                                                format: frmt.title
-                                            });
+                        </Grid>}
+                        {
+                            this.state.page === 'chart' &&
+                            <Grid fluid style={{ width: '100%', padding: 0 }}>
+                                { this.state.addChart &&
+                                    <WidgetsBuilder
+                                        editorData={{ type: this.state.type, legend: false}}
+                                        step={this.state.step}
+                                        onEditorChange={(key, value) => {
+                                            if (key === 'type') {
+                                                this.setState({ [key]: value, step: this.state.step + 1 });
+                                            }
+                                        }} />
+                                }
+                                { !this.state.addChart &&
+                                    <ListCharts
+                                        selected={this.state.selected}
+                                        charts={this.state.charts}
+                                        onClick={chart => {
+                                            if (!!head(this.state.selected.filter(sel => sel === chart.id ))) {
+                                                this.setState({
+                                                    selected: this.state.selected.filter(sel => sel !== chart.id )
+                                                });
+                                            } else {
+                                                this.setState({
+                                                    selected: [chart.id]
+                                                });
+                                            }
                                         }}/>
-                                </Col>);
-                            })}
-                        </Row>
-                    </Grid>}
-                    {
-                        this.state.page === 'chart' &&
-                        <Grid fluid style={{ width: '100%', padding: 0 }}>
-                            { this.state.addChart &&
-                                <WidgetsBuilder
-                                    editorData={{ type: this.state.type, legend: false}}
-                                    step={this.state.step}
-                                    onEditorChange={(key, value) => {
-                                        if (key === 'type') {
-                                            this.setState({ [key]: value, step: this.state.step + 1 });
-                                        }
-                                    }} />
-                            }
-                            { !this.state.addChart &&
-                                <ListCharts
-                                    selected={this.state.selected}
-                                    charts={this.state.charts}
-                                    onClick={chart => {
-                                        if (!!head(this.state.selected.filter(sel => sel === chart.id ))) {
-                                            this.setState({
-                                                selected: this.state.selected.filter(sel => sel !== chart.id )
-                                            });
-                                        } else {
-                                            this.setState({
-                                                selected: [chart.id]
-                                            });
-                                        }
-                                    }}/>
-                            }
-                        </Grid>
-                    }
-                </BorderLayout>
-            </Dock>
+                                }
+                            </Grid>
+                        }
+                    </BorderLayout>
+                </Dock>
+                <Dock dockStyle={{height: 'calc(100% - 30px)'}} {...{...dockProps, position: 'right'}} isVisible={this.props.openInfo} size={500} >
+                    <BorderLayout
+                        header={
+                            <PanelHeader title="Feature Info" subtitle={null}>
+                            </PanelHeader>
+                        }>
+                    </BorderLayout>
+                </Dock>
+            </span>
         );
     }
 
 }
 
-const DockGetfeatureInfoPlugin = connect(() => ({}), {})(DockGetfeatureInfo);
+const DockGetfeatureInfoPlugin = connect(state => ({
+    openInfo: state.mockups && state.mockups.clickMap
+}), {})(DockGetfeatureInfo);
 
 module.exports = {
     DockGetfeatureInfoPlugin,
