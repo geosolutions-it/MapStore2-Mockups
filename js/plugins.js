@@ -27,7 +27,11 @@ module.exports = {
         DetailsDockPlugin: require('./plugins/DetailsDock'),
         // MapD3Plugin: require('./components/MapD3'),
 
-        DashboardEditorPlugin: require('./plugins/DashboardEditor')
+        DashboardEditorPlugin: require('./plugins/DashboardEditor'),
+
+        RulesManagerPlugin: require('./plugins/RulesManager'),
+
+        DockGetfeatureInfoPlugin: require('./plugins/DockGetfeatureInfo')
 
     },
     requires: {}

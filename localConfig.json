@@ -69,8 +69,93 @@
         },
         "FakeFooter",
         "FakeNavbar",
-        "FakeToolbar",
+        {
+          "name": "FakeToolbar",
+          "cfg": {
+            "fixed": false
+          }
+        },
         "DetailsDock"
+      ],
+      "geofence-rules-manager": [
+        {
+          "name": "Header",
+          "cfg" : {
+              "showFilter": false,
+              "title": "MapStore Rules Manager",
+              "homeButton": true
+          }
+        },
+        "RulesManager",
+        {
+          "name": "Footer",
+          "cfg": {
+            "pagination": true
+          }
+        }
+      ],
+      "geofence-rules-manager-right": [
+        {
+          "name": "Header",
+          "cfg" : {
+              "showFilter": false,
+              "title": "MapStore Rules Manager"
+          }
+        },
+        {
+          "name": "RulesManager",
+          "cfg" : {
+              "position": "right"
+          }
+        },
+        "Footer"
+      ],
+      "geofence-rules-manager-center": [
+        {
+          "name": "Header",
+          "cfg" : {
+              "showFilter": false,
+              "title": "MapStore Rules Manager"
+          }
+        },
+        {
+          "name": "RulesManager",
+          "cfg" : {
+              "position": "center"
+          }
+        },
+        "Footer"
+      ],
+      "get-feature-info": [
+        {
+          "name": "Background",
+          "cfg": {
+              "showItaly": true
+          }
+        },
+        "FakeFooter",
+        {
+          "name": "FakeToolbar",
+          "cfg": {
+            "fixed": false
+          }
+        },
+        "DockGetfeatureInfo",
+        {
+          "name": "FakeNavbar",
+          "cfg": {
+            "alwaysShow": false
+          }
+        }
+      ],
+      "maps-archive": [
+        {
+          "name": "Header",
+          "cfg": {
+            "managerButton": true
+          }
+        },
+        "Footer"
       ]
 	}
 }

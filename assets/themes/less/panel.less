@@ -1,0 +1,168 @@
+.ms-panel-header {
+    .shadow-soft;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    padding: 0;
+    .nav > li > a:hover,
+    .nav > li > a:focus {
+        color: @ms2-color-text-primary;
+        background-color: @ms2-color-primary;
+        border-color: transparent;
+    }
+    .nav > li.active > a:hover,
+    .nav > li.active > a:focus {
+        background-color: @ms2-color-text-primary;
+        color: @ms2-color-text;
+    }
+
+    .row {
+        margin: 0;
+        flex: 1;
+        min-height: @square-btn-size;
+        display: flex;
+        .col-xs-12 {
+            align-self: center;
+            text-align: center;
+        }
+        .col-xs-4 {
+            align-self: center;
+            text-align: center;
+            .glyphicon {
+                color: @ms2-color-primary;
+                font-size: @icon-size;
+            }
+            .glyphicon-1-close {
+                cursor: pointer;
+                transition: 0.3s;
+                display: block;
+                &:hover {
+                    color: darken(@ms2-color-primary, 10%);
+                    transform: scale(1.05);
+                }
+            }
+            &:first-child {
+                text-align: left;
+            }
+            &:last-child {
+                text-align: right;
+            }
+        }
+    }
+
+}
+
+.ms-panel-body {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    padding: 0;
+    .row {
+        margin: 0;
+        display: flex;
+        flex-direction: column;
+        min-height: @square-btn-size;
+        align-items: center;
+    }
+    .ms-editor-container {
+        flex: 1;
+        width: 100%;
+        height: 100%;
+        display: flex;
+    }
+}
+
+.ms-editor-html {
+    & > div {
+        width: 440px;
+        white-space: pre-wrap;
+        margin: 0 15px;
+        overflow: auto;
+    }
+}
+
+#ms-markdown-editor {
+    padding: 0 15px;
+    flex: 1;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    pre {
+        width: 440px;
+        white-space: pre-wrap;
+        margin: 0 15px;
+    }
+    .mapstore-json-viewer {
+        width: 440px;
+        white-space: pre-wrap;
+        margin: 0 15px;
+        overflow-y: auto;
+    }
+    .quill {
+        padding: 0 15px;
+        width: 100%;
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        flex: 1;
+        .ql-toolbar {
+            border: none;
+        }
+        .ql-container {
+            border: none;
+            flex: 1;
+            overflow-y: auto;
+            .shadow-soft-inset;
+        }
+    }
+}
+
+.ms-body-double-scroll {
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    height: 100%;
+    overflow: hidden;
+    width: 500px;
+    .ms-double-scroll {
+        padding: 15px 0;
+        flex: 1;
+        overflow-y: auto;
+        box-sizing: border-box;
+        border-bottom: 2px solid @ms2-color-shade-lighter;
+        overflow-x: hidden;
+        &:last-child {
+            border-bottom: none;
+        }
+        .row {
+            margin: 0;
+            width: 500px;
+        }
+    }
+}
+.ms-chart-info-list {
+    width: 100%;
+    height: 100%;
+    padding: 0;
+    .empty-state-container {
+        height: 100%;
+        .empty-state-main-view {
+            height: 100%;
+            display: flex;
+            .empty-state-image {
+                margin: auto;
+                .glyphicon {
+                    color: @ms2-color-shade-lighter;
+                }
+            }
+        }
+    }
+}
+.ms-get-feature-results-panel {
+    .ms-panel-header {
+        z-index: 10;
+    }
+}

@@ -8,36 +8,28 @@
 
 const React = require('react');
 const PropTypes = require('prop-types');
-const Toolbar = require('../../MapStore2/web/client/components/misc/toolbar/Toolbar');
 const Filter = require('../../MapStore2/web/client/components/misc/Filter');
+const {ButtonGroup, Button, Glyphicon, DropdownButton, MenuItem} = require('react-bootstrap');
 
 class HeaderPlugin extends React.Component {
 
     static propTypes = {
         title: PropTypes.string,
         showFilter: PropTypes.bool,
-        logged: PropTypes.bool
+        logged: PropTypes.bool,
+        homeButton: PropTypes.bool,
+        managerButton: PropTypes.bool
     };
 
     static defaultProps = {
         title: 'MapStore',
         showFilter: true,
-        logged: true
+        logged: true,
+        homeButton: false,
+        managerButton: false
     };
 
     render() {
-        const buttons = [
-            {
-                visible: true,
-                text: <img src={require('../../MapStore2/web/client/components/I18N/images/flags/en-US.png')} />,
-                bsStyle: 'default no-border'
-            },
-            {
-                visible: true,
-                glyph: 'user',
-                bsStyle: this.props.logged ? 'success' : 'primary'
-            }
-        ];
         return (
             <div className="mapstore-header">
                 <div className="m-left">
@@ -48,7 +40,21 @@ class HeaderPlugin extends React.Component {
                     </div>
                 </div>
                 <div className="m-right">
-                    <Toolbar btnDefaultProps={{bsStyle: 'primary', className: 'square-button'}} buttons={buttons}/>
+                    <ButtonGroup>
+                        <Button className="square-button no-border">
+                            <img src={require('../../MapStore2/web/client/components/I18N/images/flags/en-US.png')} />
+                        </Button>
+                        {this.props.homeButton && <a href="#/maps-archive"><Button bsStyle="primary" className="square-button" bsStyle="primary">
+                            <Glyphicon glyph="home"/>
+                        </Button></a>}
+                        <Button bsStyle="primary" className="square-button" bsStyle={this.props.logged ? 'success' : 'primary'}>
+                            <Glyphicon glyph="user"/>
+                        </Button>
+                        {this.props.managerButton && <DropdownButton className="square-button" bsStyle="primary" title={<Glyphicon glyph="1-menu-manage"/>} noCaret pullRight>
+                            <MenuItem eventKey="1">Manage Account</MenuItem>
+                            <MenuItem eventKey="2" href="#/geofence-rules-manager">Manage GeoFence Rules</MenuItem>
+                        </DropdownButton>}
+                    </ButtonGroup>
                     {this.props.showFilter && <Filter filterPlaceholder="Filter maps..." />}
                 </div>
             </div>

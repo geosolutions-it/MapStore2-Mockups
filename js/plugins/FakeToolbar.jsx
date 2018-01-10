@@ -15,12 +15,14 @@ class FakeToolbar extends React.Component {
 
     static propTypes = {
         onSelect: PropTypes.func,
-        right: PropTypes.number
+        right: PropTypes.number,
+        fixed: PropTypes.bool
     };
 
     static defaultProps = {
         onSelect: () => {},
-        right: 0
+        right: 0,
+        fixed: true
     };
 
     state = {
@@ -31,7 +33,7 @@ class FakeToolbar extends React.Component {
     render() {
 
         return (
-            <span id="navigationBar" style={{position: 'absolute', right: this.props.right, bottom: 50, zIndex: 1}}>
+            <span id="navigationBar" style={{position: 'absolute', right: this.props.fixed ? 0 : this.props.right, bottom: 50, zIndex: 1}}>
                 <span id="navigationBar-container" className="mapToolbar btn-group-vertical">
 
                     <button id="locate-btn" disabled="" type="button" className="square-button btn btn-primary">
@@ -65,10 +67,12 @@ class FakeToolbar extends React.Component {
     }
 }
 
+
 const selector = createSelector([
-    state => state.mockups && state.mockups.detailsPanel
-], (detailsPanel) => ({
-    right: detailsPanel ? 658 : 0
+    state => state.mockups && state.mockups.detailsPanel,
+    state => state.mockups && state.mockups.clickMap
+], (detailsPanel, clickMap) => ({
+    right: detailsPanel && 658 || clickMap && 500 || 0
 }));
 
 const FakeToolbarPlugin = connect(selector)(FakeToolbar);

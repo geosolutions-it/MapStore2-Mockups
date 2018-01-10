@@ -191,6 +191,7 @@
     position: fixed;
     width: 100%;
     height: @square-btn-size;
+    display: flex;
     .shadow-soft-up;
     z-index: 10;
     background-color: @ms2-color-background;
@@ -208,6 +209,20 @@
             width: 100%;
             height: auto;
             margin: auto;
+        }
+    }
+    .m-left {
+
+    }
+    .m-right {
+
+    }
+    .m-center {
+        flex: 1;
+        display: flex;
+        .pagination {
+            margin: auto;
+
         }
     }
 }

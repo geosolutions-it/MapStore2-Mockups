@@ -71,6 +71,26 @@ module.exports = {
         name: "widget",
         path: "/widget",
         component: require('./old/pages/WidgetPage')
+    }, {
+        name: "geofence-rules-manager",
+        path: "/geofence-rules-manager",
+        component: require('./pages/GeoFenceRules')
+    }, {
+        name: "geofence-rules-manager-right",
+        path: "/geofence-rules-manager-right",
+        component: require('./pages/GeoFenceRulesRight')
+    }, {
+        name: "geofence-rules-manager-center",
+        path: "/geofence-rules-manager-center",
+        component: require('./pages/GeoFenceRulesCenter')
+    }, {
+        name: "get-feature-info",
+        path: "/get-feature-info",
+        component: require('./pages/GetFeatureInfo')
+    }, {
+        name: "maps-archive",
+        path: "/maps-archive",
+        component: require('./pages/MapsArchive.jsx')
     }],
     pluginsDef: require('./plugins.js'),
     initialState: {
