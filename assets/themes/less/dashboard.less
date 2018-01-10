@@ -230,10 +230,26 @@
 }
 
 .mapstore-side-card  {
+    .mapstore-side-grab {
+        display: flex;
+        margin: 0 5px;
+        .grabbable;
+        span {
+            width: 8px;
+            overflow: hidden;
+            margin: auto;
+        }
+    }
+
     &.ms-sm {
     width: 100% !important;
     height: @square-btn-size !important;
     display: flex;
+    &.ms-dragging {
+        * {
+            display: none;
+        }
+    }
     .mapstore-side-preview {
         margin: 0 !important;
         width: @square-btn-size !important;

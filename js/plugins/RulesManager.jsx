@@ -409,7 +409,7 @@ class RulesManager extends React.Component {
             step: -1,
             grab: 0,
             check: 0,
-            priority: 0,
+            priority: 1,
             role: 'ADMIN',
             user: 'Admin',
             service: 'WFS',
@@ -423,7 +423,7 @@ class RulesManager extends React.Component {
         }, {
             grab: 0,
             check: 1,
-            priority: 1,
+            priority: 2,
             role: 'ADMIN',
             user: 'Admin',
             service: 'WFS',
@@ -459,6 +459,7 @@ class RulesManager extends React.Component {
         this.setState({
             createRule: true,
             currentRule: {
+                priority: 1,
                 role: '',
                 user: '',
                 service: '',
@@ -471,6 +472,7 @@ class RulesManager extends React.Component {
                 defaultStyle: {}
             },
             initialRule: {
+                priority: 1,
                 role: '',
                 user: '',
                 service: '',
@@ -508,7 +510,15 @@ class RulesManager extends React.Component {
     }
 
     renderEditRule(rule) {
-        const rowData = [{
+        const priority = this.state.editState === 'edit' ? [{
+            label: 'Priority',
+            enabled: true,
+            placeholder: 'Set Priority'
+        }] : [];
+
+        const rowData = [
+            ...priority,
+            {
             label: 'Role',
             enabled: true,
             placeholder: 'Select Role',
@@ -1342,6 +1352,46 @@ class RulesManager extends React.Component {
 
                 <Portal>
                     <ResizableModal
+                        title="Clear cache"
+                        size="xs"
+                        show={this.state.showClearCache}
+                        onClose={() => {
+                            this.setState({
+                                showClearCache: false
+                            });
+                        }}
+                        buttons={[
+                            {
+                                text: 'No',
+                                bsStyle: 'primary',
+                                onClick: () => {
+                                    this.setState({
+                                        showClearCache: false
+
+                                    });
+                                }
+                            },
+                            {
+                                text: 'Yes',
+                                bsStyle: 'primary',
+                                onClick: () => {
+                                    this.setState({
+                                        showClearCache: false
+                                    });
+                                }
+                            }
+                        ]}>
+                        <div className="ms-alert">
+                            <div className="ms-alert-center">
+                                Are you sure to clear the GeoFence cache?
+                            </div>
+                        </div>
+
+                    </ResizableModal>
+                </Portal>
+
+                <Portal>
+                    <ResizableModal
                         title={this.state.showStyleSelection === 'default' ? 'Select Default Style' : 'Select Available Styles'}
                         show={this.state.showStyleSelection}
                         onClose={() => {
@@ -1470,14 +1520,14 @@ class RulesManager extends React.Component {
                 onClick: () => {
                     // this.onEditRule();
                 }
-            }, {
+            }, /*{
                 glyph: 'move',
                 tooltip: 'Move selected rules',
                 visible: props.selectedRow.length > 0 && props.selectedRow.length < state._rows.length && !state.createRule,
                 onClick: () => {
                     // this.onEditRule();
                 }
-            }, {
+            },*/ {
                 glyph: 'add-row-after',
                 tooltip: 'Add new rule after selected',
                 visible: props.selectedRow.length > 0 && !state.createRule,
@@ -1490,6 +1540,7 @@ class RulesManager extends React.Component {
                 visible: props.selectedRow.length > 0 && !state.createRule,
                 onClick: () => {
                     this.setState({
+                        selectedRow: [],
                         _rows: this.state._rows.filter(row => !isNumber(head(this.props.selectedRow.filter(r => r === row.check))))
                     });
 
@@ -1500,6 +1551,9 @@ class RulesManager extends React.Component {
                 tooltip: 'Clear cache',
                 visible: !state.createRule && props.selectedRow.length === 0,
                 onClick: () => {
+                    this.setState({
+                        showClearCache: true
+                    });
                     // this.onEditRule();
                 }
             } /* , {

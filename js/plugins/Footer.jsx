@@ -8,12 +8,14 @@
 
 const React = require('react');
 const PropTypes = require('prop-types');
+const {Pagination} = require('react-bootstrap');
 
 class FooterPlugin extends React.Component {
 
     static propTypes = {
         buttons: PropTypes.array,
-        loading: PropTypes.bool
+        loading: PropTypes.bool,
+        pagination: PropTypes.bool
     };
 
     static defaultProps = {
@@ -29,6 +31,9 @@ class FooterPlugin extends React.Component {
             <div className="mapstore-footer">
                 <div className="m-left">
                     <div className="ms-circle-loader-md"></div>
+                </div>
+                <div className="m-center">
+                {this.props.pagination && <Pagination next prev last first />}
                 </div>
                 <div className="m-right">
                     <div className="ms-logo-geosolutions">

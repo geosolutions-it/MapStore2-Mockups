@@ -87,6 +87,10 @@ module.exports = {
         name: "get-feature-info",
         path: "/get-feature-info",
         component: require('./pages/GetFeatureInfo')
+    }, {
+        name: "maps-archive",
+        path: "/maps-archive",
+        component: require('./pages/MapsArchive.jsx')
     }],
     pluginsDef: require('./plugins.js'),
     initialState: {

@@ -17,12 +17,16 @@ class FakeNavbar extends React.Component {
 
     static propTypes = {
         onSelect: PropTypes.func,
-        right: PropTypes.number
+        show: PropTypes.bool,
+        right: PropTypes.number,
+        alwaysShow: PropTypes.bool
     };
 
     static defaultProps = {
         onSelect: () => {},
-        right: 0
+        right: 0,
+        show: true,
+        alwaysShow: true
     };
 
     state = {
@@ -31,8 +35,8 @@ class FakeNavbar extends React.Component {
     }
 
     render() {
-
-        return (
+        const show = this.props.alwaysShow ? true : this.props.show;
+        return show ? (
             <span id="viewer" className="viewer">
             <span id="mapstore-navbar" style={{position: 'absolute', right: this.props.right, top: 0, width: '657px', zIndex: 2}} >
                 <div id="mapstore-navbar-container" className="navbar-dx shadow">
@@ -173,14 +177,14 @@ class FakeNavbar extends React.Component {
                 </div>
 
             </span></span>
-        );
+    ) : null;
     }
 }
 
 const selector = createSelector([
-
-], () => ({
-
+    state => state.mockups && !state.mockups.clickMap
+], (show) => ({
+    show
 }));
 
 const FakeNavbarPlugin = connect(

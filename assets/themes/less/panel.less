@@ -1,5 +1,4 @@
 .ms-panel-header {
-
     .shadow-soft;
     width: 100%;
     display: flex;
@@ -38,8 +37,7 @@
                 transition: 0.3s;
                 display: block;
                 &:hover {
-                    color: @ms2-color-text-primary;
-                    .text-border(@ms2-color-primary);
+                    color: darken(@ms2-color-primary, 10%);
                     transform: scale(1.05);
                 }
             }
@@ -117,5 +115,54 @@
             overflow-y: auto;
             .shadow-soft-inset;
         }
+    }
+}
+
+.ms-body-double-scroll {
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    height: 100%;
+    overflow: hidden;
+    width: 500px;
+    .ms-double-scroll {
+        padding: 15px 0;
+        flex: 1;
+        overflow-y: auto;
+        box-sizing: border-box;
+        border-bottom: 2px solid @ms2-color-shade-lighter;
+        overflow-x: hidden;
+        &:last-child {
+            border-bottom: none;
+        }
+        .row {
+            margin: 0;
+            width: 500px;
+        }
+    }
+}
+.ms-chart-info-list {
+    width: 100%;
+    height: 100%;
+    padding: 0;
+    .empty-state-container {
+        height: 100%;
+        .empty-state-main-view {
+            height: 100%;
+            display: flex;
+            .empty-state-image {
+                margin: auto;
+                .glyphicon {
+                    color: @ms2-color-shade-lighter;
+                }
+            }
+        }
+    }
+}
+.ms-get-feature-results-panel {
+    .ms-panel-header {
+        z-index: 10;
     }
 }

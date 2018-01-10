@@ -16,6 +16,7 @@ const WidgetsBuilder = require('../../MapStore2/web/client/components/widgets/bu
 const {Grid, Col, Row, Nav, NavItem, Glyphicon} = require('react-bootstrap');
 const tooltip = require('../../MapStore2/web/client/components/misc/enhancers/tooltip');
 const SideCard = require('../../MapStore2/web/client/components/misc/cardgrids/SideCard');
+const Portal = require('../../MapStore2/web/client/components/misc/Portal');
 
 const HTMLViewer = require('../../MapStore2/web/client/components/data/identify/viewers/HTMLViewer');
 const TextViewer = require('../../MapStore2/web/client/components/data/identify/viewers/TextViewer');
@@ -24,8 +25,15 @@ const JSONViewer = require('../../MapStore2/web/client/components/data/identify/
 const {head} = require('lodash');
 const NavItemT = tooltip(NavItem);
 const ReactQuill = require('react-quill');
-// const {setOption} = require('../actions/mockups');
+
+const {setOption} = require('../actions/mockups');
 // const { Combobox } = require('react-widgets');
+const ResizableModal = require('../components/ResizableModal');
+const sampleData = require('../../MapStore2/web/client/components/widgets/enhancers/sampleChartData');
+const SampleChart = sampleData(require('../../MapStore2/web/client/components/charts/SimpleChart'));
+const ContainerDimensions = require('react-container-dimensions').default;
+
+const SideCardListDraggable = require('../components/SideCardListDraggable');
 
 const textMock = "Example of response\n" +
     "\n--------------------------------------------" +
@@ -62,12 +70,13 @@ class PanelHeader extends React.Component {
     static propTypes = {
         title: PropTypes.node,
         buttons: PropTypes.array,
-        subtitle: PropTypes.node
+        subtitle: PropTypes.node,
+        onClose: PropTypes.func
     };
 
     static defaultProps = {
         title: 'Layer Title',
-        subtitle: 'Feature Info'
+        subtitle: 'Feature Info Settings'
     };
 
     render() {
@@ -75,7 +84,7 @@ class PanelHeader extends React.Component {
             <Grid fluid className="ms-panel-header">
                 <Row>
                     <Col xs={4}>
-                        <Glyphicon glyph="1-close"/>
+                        <Glyphicon glyph="1-close" onClick={this.props.onClose}/>
                     </Col>
                     <Col xs={4}>
                         <h4>{this.props.title}</h4>
@@ -84,7 +93,7 @@ class PanelHeader extends React.Component {
                         <Glyphicon glyph="map-marker"/>
                     </Col>
                 </Row>
-                <Row>
+                {(this.props.subtitle || this.props.buttons) && <Row>
                     {this.props.subtitle && <Col xs={12}>
                         <h4><strong>{this.props.subtitle}</strong></h4>
                     </Col>}
@@ -93,54 +102,68 @@ class PanelHeader extends React.Component {
                             <Toolbar btnDefaultProps={{ bsStyle: 'primary', className: 'square-button-md' }} buttons={this.props.buttons}/>
                         </Col>
                     }
-                </Row>
+                </Row>}
                 {this.props.children}
             </Grid>
         );
     }
 }
 
-class ListCharts extends React.Component {
+class ListChartsComponent extends React.Component {
     static propTypes = {
         charts: PropTypes.array,
         onClick: PropTypes.func,
-        selected: PropTypes.array
+        selected: PropTypes.array,
+        onSort: PropTypes.func
     };
 
     static defaultProps = {
         charts: [],
         onClick: () => {},
-        selected: []
+        selected: [],
+        onSort: () => {}
     };
 
     render() {
+        const cards = this.props.charts.map(chart => {
+            const select = !!head(this.props.selected.filter(sel => sel === chart.id)) ? ' ms-selected' : '';
+            return {
+                ...chart,
+                className: 'ms-sm' + select,
+                preview: <SampleChart tooltip={false} autoColorOptions={select ? {
+                        base: 0,
+                        range: 0,
+                        s: -1.0,
+                        v: 1.0
+                    } : {
+                        base: 190,
+                        range: 0,
+                        s: 0.95,
+                        v: 0.63
+                    }} width={45} height={52} type={chart.type} legend={false} />,
+                onClick: () => {
+                    this.props.onClick(chart);
+                }
+            };
+        });
         return (
-            <Row style={{margin: 0, padding: 15}}>
-                { this.props.charts.map(chart => {
-                    const select = !!head(this.props.selected.filter(sel => sel === chart.id)) ? ' ms-selected' : '';
-                    return (<Col xs={12}>
-                        <SideCard
-                            preview={<Glyphicon glyph={chart.preview || 'geoserver'} />}
-                            className={'ms-sm' + select}
-                            title={chart.title}
-                            description={chart.description}
-                            caption={chart.caption || ''}
-                            onClick={() => {
-                                this.props.onClick(chart);
-                            }}/>
-                    </Col>);
-                })}
+            <Row style={{margin: 0, padding: '15px 30px'}}>
+                <SideCardListDraggable onSort={this.props.onSort} cards={cards}/>
             </Row>
         );
     }
 }
+const emptyState = require('../../MapStore2/web/client/components/misc/enhancers/emptyState');
+const ListCharts = emptyState(({charts=[]}) => charts.length === 0, { glyph: 'pie-chart' })(ListChartsComponent);
+
 let count = 0;
 class DockGetfeatureInfo extends React.Component {
     static propTypes = {
         open: PropTypes.bool,
         width: PropTypes.number,
         onClose: PropTypes.func,
-        openInfo: PropTypes.bool
+        openInfo: PropTypes.bool,
+        setOption: PropTypes.func
     };
 
     static defaultProps = {
@@ -155,13 +178,19 @@ class DockGetfeatureInfo extends React.Component {
         page: 'format',
         step: 0,
         selected: [],
-        charts: [{
-            preview: 'pie-chart',
-            title: 'Pie chart for feature info',
-            description: 'My custom info chart',
-            id: 'id:0'
-        }]
+        markdown: '',
+        currentChartData: {},
+        charts: [],
+        infoPage: 'results'
     };
+
+    componentWillUpdate(newProps, newState) {
+        if (newState.charts.length === 0 && this.state.charts.length > 0) {
+            this.setState({
+                infoPage: 'results'
+            });
+        }
+    }
 
     renderHeader() {
         return (
@@ -192,10 +221,23 @@ class DockGetfeatureInfo extends React.Component {
                                 {
                                     glyph: 'arrow-left',
                                     tooltip: 'Back to previous step',
-                                    visible: this.state.page === 'chart' && !!this.state.addChart && this.state.step > 0,
+                                    visible: (!this.state.editing && this.state.page === 'chart' && !!this.state.addChart && this.state.step > 0)
+                                    || (this.state.editing && this.state.page === 'chart' && !!this.state.addChart && this.state.step > 1) || false,
                                     onClick: () => {
                                         this.setState({
                                             step: this.state.step - 1
+                                        });
+                                    }
+                                },
+                                {
+                                    glyph: '1-close',
+                                    tooltip: 'Exit from chart editing',
+                                    visible: (!this.state.editing && this.state.page === 'chart' && !!this.state.addChart && this.state.step === 0)
+                                    || (this.state.editing && this.state.page === 'chart' && !!this.state.addChart && this.state.step === 1) || false,
+                                    onClick: () => {
+                                        this.setState({
+                                            addChart: false,
+                                            step: 0
                                         });
                                     }
                                 },
@@ -215,7 +257,8 @@ class DockGetfeatureInfo extends React.Component {
                                     visible: this.state.page === 'chart' && !this.state.addChart && this.state.selected.length > 0,
                                     onClick: () => {
                                         this.setState({
-                                            charts: this.state.charts.filter(ch => ch.id !== this.state.selected[0])
+                                            charts: this.state.charts.filter(ch => ch.id !== this.state.selected[0]),
+                                            selected: []
                                         });
                                     }
                                 },
@@ -224,16 +267,11 @@ class DockGetfeatureInfo extends React.Component {
                                     tooltip: 'Edit selected chart',
                                     visible: this.state.page === 'chart' && !this.state.addChart && this.state.selected.length === 1,
                                     onClick: () => {
-
-                                    }
-                                },
-                                {
-                                    glyph: '1-close',
-                                    tooltip: 'Exit from chart editing',
-                                    visible: this.state.page === 'chart' && !!this.state.addChart && this.state.step === 0,
-                                    onClick: () => {
                                         this.setState({
-                                            addChart: false
+                                            addChart: true,
+                                            step: 1,
+                                            editing: true,
+                                            currentEdit: head(this.state.charts.filter(chart => this.state.selected[0] === chart.id ))
                                         });
                                     }
                                 },
@@ -242,18 +280,34 @@ class DockGetfeatureInfo extends React.Component {
                                     tooltip: 'Save chart',
                                     visible: this.state.page === 'chart' && !!this.state.addChart && this.state.step === 2,
                                     onClick: () => {
-                                        count++;
-                                        this.setState({
-                                            addChart: false,
-                                            step: 0,
-                                            charts: [...this.state.charts, {
-                                                preview: 'pie-chart',
-                                                type: this.state.type,
-                                                title: 'Chart for feature info n.' + count,
-                                                description: 'My custom info chart n.' + count,
-                                                id: 'id:' + count
-                                            }]
-                                        });
+                                        if (this.state.editing) {
+                                            this.setState({
+                                                addChart: false,
+                                                step: 0,
+                                                charts: [...this.state.charts.filter(chart => chart.id !== this.state.selected[0]), {
+                                                    ...this.state.currentEdit,
+                                                    preview: 'pie-chart',
+                                                    title: this.state.chartTitle || 'Get Feature Info Chart ' + this.state.currentEdit.id,
+                                                    description: this.state.chartDesc,
+                                                    data: {...this.state.currentChartData}
+                                                }]
+                                            });
+                                        } else {
+                                            count++;
+                                            this.setState({
+                                                addChart: false,
+                                                step: 0,
+                                                charts: [...this.state.charts, {
+                                                    preview: 'pie-chart',
+                                                    type: this.state.type,
+                                                    title: this.state.chartTitle || 'Get Feature Info Chart id:' + count,
+                                                    description: this.state.chartDesc,
+                                                    id: 'id:' + count,
+                                                    data: {...this.state.currentChartData}
+                                                }]
+                                            });
+                                        }
+
                                     }
                                 },
                                 {
@@ -272,7 +326,12 @@ class DockGetfeatureInfo extends React.Component {
                                     visible: this.state.page === 'chart' && !this.state.addChart && this.state.selected.length === 0,
                                     onClick: () => {
                                         this.setState({
-                                            addChart: true
+                                            addChart: true,
+                                            chartTitle: '',
+                                            chartDesc: '',
+                                            currentChartData: {},
+                                            currentEdit: {},
+                                            editing: false
                                         });
                                     }
                                 }
@@ -365,6 +424,12 @@ class DockGetfeatureInfo extends React.Component {
                                         <div id="ms-markdown-editor">
                                             <ReactQuill
                                                 bounds={"#ms-markdown-editor"}
+                                                value={this.state.markdown || ''}
+                                                onChange={(markdown) => {
+                                                    this.setState({
+                                                        markdown
+                                                    });
+                                                }}
                                                 modules={{
                                                     toolbar: [
                                                     [{ 'size': ['small', false, 'large', 'huge'] }, 'bold', 'italic', 'underline', 'blockquote'],
@@ -423,21 +488,49 @@ class DockGetfeatureInfo extends React.Component {
                         </Grid>}
                         {
                             this.state.page === 'chart' &&
-                            <Grid fluid style={{ width: '100%', padding: 0 }}>
+                            <Grid fluid className="ms-chart-info-list" >
                                 { this.state.addChart &&
                                     <WidgetsBuilder
-                                        editorData={{ type: this.state.type, legend: false}}
+                                        targetLayer
+                                        editorData={{ ...(this.state.currentEdit && this.state.currentEdit.data || {}), type: this.state.currentEdit && this.state.currentEdit.type || this.state.type, legend: false}}
                                         step={this.state.step}
                                         onEditorChange={(key, value) => {
                                             if (key === 'type') {
                                                 this.setState({ [key]: value, step: this.state.step + 1 });
                                             }
+                                            if (key === 'title') {
+                                                this.setState({ chartTitle: value});
+                                            }
+                                            if (key === 'description') {
+                                                this.setState({ chartDesc: value});
+                                            }
+                                            this.setState({
+                                                currentChartData: {...this.state.currentChartData, [key]: value}
+                                            });
                                         }} />
                                 }
                                 { !this.state.addChart &&
                                     <ListCharts
                                         selected={this.state.selected}
                                         charts={this.state.charts}
+                                        onSort={(newPos, oldCard) => {
+                                            const charts = this.state.charts
+                                                .reduce((a, chart, i) => {
+                                                    if (oldCard.idd === i) {
+                                                        return [...a];
+                                                    }
+                                                    if (i === newPos && i > oldCard.idd) {
+                                                        return [...a, {...chart}, {...oldCard}];
+                                                    }
+                                                    if (i === newPos && i < oldCard.idd) {
+                                                        return [...a, {...oldCard}, {...chart}];
+                                                    }
+                                                    return [...a, {...chart}];
+                                                }, []);
+                                            this.setState({
+                                                charts
+                                            });
+                                        }}
                                         onClick={chart => {
                                             if (!!head(this.state.selected.filter(sel => sel === chart.id ))) {
                                                 this.setState({
@@ -455,13 +548,143 @@ class DockGetfeatureInfo extends React.Component {
                     </BorderLayout>
                 </Dock>
                 <Dock dockStyle={{height: 'calc(100% - 30px)'}} {...{...dockProps, position: 'right'}} isVisible={this.props.openInfo} size={500} >
+                    <span className="ms-get-feature-results-panel">
                     <BorderLayout
                         header={
-                            <PanelHeader title="Feature Info" subtitle={null}>
+                            <PanelHeader
+                                onClose={() => { this.props.setOption('clickMap', false); }}
+                                title="Feature Info"
+                                subtitle={null}
+                                >
+                                <Grid fluid>
+                                    <Row>
+                                        <Col xs={12}>
+                                            <div><strong>Layer Title</strong></div>
+                                            <div>Lat: 43.77323 - Long: 11.25632</div>
+                                        </Col>
+                                    </Row>
+                                </Grid>
+                                {this.state.charts.length > 0 && <Nav bsStyle="tabs" activeKey={this.state.infoPage || 'results'} justified>
+                                   <NavItemT tooltip="Feature info results" eventKey="results" onClick={() => { this.setState({ infoPage: 'results'}); }}><Glyphicon glyph="ext-empty"/></NavItemT>
+                                   <NavItemT tooltip="Feature Info charts" eventKey="charts" onClick={() => { this.setState({ infoPage: 'charts'}); }}><Glyphicon glyph="pie-chart"/></NavItemT>
+                               </Nav>}
+
+
+                                <Row>
+                                    <Col xs={12}>
+                                        <Toolbar
+                                            btnDefaultProps={{ bsStyle: 'primary', className: 'square-button-md' }}
+                                            buttons={[{
+                                                glyph: 'arrow-left',
+                                                tooltip: 'Previous feature',
+                                                disabled: true,
+                                                visible: this.state.infoPage === 'results'
+                                            }, {
+                                                glyph: 'arrow-right',
+                                                tooltip: 'Next feature',
+                                                disabled: true,
+                                                visible: this.state.infoPage === 'results'
+                                            }, {
+                                                glyph: 'info-sign',
+                                                tooltip: 'Address',
+                                                onClick: () => {
+                                                    this.setState({
+                                                        showMoreInfo: true
+                                                    });
+                                                }
+                                            }, {
+                                                glyph: 'wrench',
+                                                tooltip: 'General settings',
+                                                disabled: true
+                                            }]}
+                                            />
+                                        </Col>
+                                        </Row>
+
                             </PanelHeader>
                         }>
+                        <Grid fluid className="ms-body-double-scroll">
+                            {this.state.infoPage === 'results' && <div className="ms-double-scroll">
+
+
+                        { this.state.format === 'MARKDOWN' &&
+                            <Row className="ms-editor-container">
+                                <div className="ql-editor">
+                                    <div dangerouslySetInnerHTML={{__html: this.state.markdown}}/>
+                                </div>
+                            </Row>
+                        }
+                        { this.state.format === 'TEXT' &&
+                            <Row className="ms-editor-container">
+                                <div id="ms-markdown-editor">
+                                    <TextViewer response={textMock} />
+                                </div>
+                            </Row>
+
+                        }
+                        { this.state.format === 'HTML' &&
+                            <Row className="ms-editor-container">
+                                <div id="ms-markdown-editor" className="ms-editor-html">
+                                    <HTMLViewer response={htmlMock} />
+                                </div>
+                            </Row>
+                        }
+                        { this.state.format === 'JSON' &&
+                            <Row className="ms-editor-container">
+                                <div id="ms-markdown-editor">
+                                    <JSONViewer response={jsonMock} />
+                                </div>
+                            </Row>
+                        }
+                        </div>}
+                        {this.state.infoPage === 'charts' && <div className="ms-double-scroll">
+                            <Row>
+                                {this.state.charts.map(chart =>
+                                    <div style={{ margin: '30px 0' }}>
+                                        <div className="text-center" style={{ width: 440, margin: '0 auto' }}><strong>{chart.title}</strong></div>
+                                        <div className="text-center" style={{ width: 440, margin: '0 auto' }}>{chart.description}</div>
+                                        <div style={{ width: 440, height: 200, margin: '10px auto 0 auto' }}>
+                                            <ContainerDimensions>
+                                                { ({width, height}) => <SampleChart width={width} height={height} type={chart.type} legend={false} /> }
+                                            </ContainerDimensions>
+                                        </div>
+                                    </div>
+                                )}
+
+                            </Row>
+                            </div>}
+                        </Grid>
                     </BorderLayout>
+                    </span>
                 </Dock>
+                <Portal>
+                    <ResizableModal
+                        title="Address"
+                        size="xs"
+                        show={this.state.showMoreInfo}
+                        onClose={() => {
+                            this.setState({
+                                showMoreInfo: false
+                            });
+                        }}
+                        buttons={[
+                            {
+                                text: 'Close',
+                                bsStyle: 'primary',
+                                onClick: () => {
+                                    this.setState({
+                                        showMoreInfo: false
+                                    });
+                                }
+                            }
+                        ]}>
+                        <div className="ms-alert">
+                            <div className="ms-alert-center" style={{padding: 10}}>
+                                Cattedrale di Santa Maria del Fiore-DUOMO, Domplatz, Quartiere 1, Firenze, Città metropolitana di Firenze, Tuscany, 50123, Italia
+                            </div>
+                        </div>
+                    </ResizableModal>
+                </Portal>
             </span>
         );
     }
@@ -470,7 +693,10 @@ class DockGetfeatureInfo extends React.Component {
 
 const DockGetfeatureInfoPlugin = connect(state => ({
     openInfo: state.mockups && state.mockups.clickMap
-}), {})(DockGetfeatureInfo);
+}), {
+
+    setOption
+})(DockGetfeatureInfo);
 
 module.exports = {
     DockGetfeatureInfoPlugin,

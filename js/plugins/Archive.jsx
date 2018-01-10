@@ -84,13 +84,13 @@ class ArchivePlugin extends React.Component {
                 title: 'Rules Manager',
                 desc: 'Rules Manager User Interface',
                 link: 'geofence-rules-manager',
-                src: 'toscana.png'
+                src: 'grm.png'
             },
             {
                 title: 'Get Feature Info',
                 desc: 'Get Feature Info Markdown Format and Charts',
                 link: 'get-feature-info',
-                src: 'm-prop.png'
+                src: 'gfi.png'
             }
         ]
     };

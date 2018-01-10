@@ -69,7 +69,12 @@
         },
         "FakeFooter",
         "FakeNavbar",
-        "FakeToolbar",
+        {
+          "name": "FakeToolbar",
+          "cfg": {
+            "fixed": false
+          }
+        },
         "DetailsDock"
       ],
       "geofence-rules-manager": [
@@ -77,11 +82,17 @@
           "name": "Header",
           "cfg" : {
               "showFilter": false,
-              "title": "MapStore Rules Manager"
+              "title": "MapStore Rules Manager",
+              "homeButton": true
           }
         },
         "RulesManager",
-        "Footer"
+        {
+          "name": "Footer",
+          "cfg": {
+            "pagination": true
+          }
+        }
       ],
       "geofence-rules-manager-right": [
         {
@@ -123,9 +134,28 @@
           }
         },
         "FakeFooter",
-        "FakeToolbar",
+        {
+          "name": "FakeToolbar",
+          "cfg": {
+            "fixed": false
+          }
+        },
         "DockGetfeatureInfo",
-        "FakeNavbar"
+        {
+          "name": "FakeNavbar",
+          "cfg": {
+            "alwaysShow": false
+          }
+        }
+      ],
+      "maps-archive": [
+        {
+          "name": "Header",
+          "cfg": {
+            "managerButton": true
+          }
+        },
+        "Footer"
       ]
 	}
 }
