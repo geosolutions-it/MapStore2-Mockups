@@ -91,6 +91,10 @@ module.exports = {
         name: "maps-archive",
         path: "/maps-archive",
         component: require('./pages/MapsArchive.jsx')
+    }, {
+        name: "toc-synch",
+        path: "/toc-synch",
+        component: require('./pages/TOCSynch.jsx')
     }],
     pluginsDef: require('./plugins.js'),
     initialState: {

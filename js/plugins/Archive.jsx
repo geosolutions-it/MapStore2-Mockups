@@ -91,6 +91,12 @@ class ArchivePlugin extends React.Component {
                 desc: 'Get Feature Info Markdown Format and Charts',
                 link: 'get-feature-info',
                 src: 'gfi.png'
+            },
+            {
+                title: 'Layer Synchronized Refresh',
+                desc: 'Tool to update layer after a scheduled time',
+                link: 'toc-synch',
+                src: 'ts.png'
             }
         ]
     };

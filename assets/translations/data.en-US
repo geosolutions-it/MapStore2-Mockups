@@ -124,6 +124,48 @@
                 "purple": "{number, plural, =0 {Purple} =1 {Purple} other {Purples}}",
                 "random": "{number, plural, =0 {Random} =1 {Random} other {Random}}"
             }
+        },
+        "toc": {
+            "toggleLayerVisibility": "Toggle layer visibility",
+            "displayLegendAndTools": "Display legend and tools",
+            "zoomToLayerExtent": "Zoom to layer extent",
+            "addLayer": "Add Layer",
+            "toolZoomToLayerTooltip": "Zoom to selected layer extent",
+            "toolZoomToLayersTooltip": "Zoom to selected layers extent",
+            "toolLayerSettingsTooltip": "Selected layer settings",
+            "toolGroupSettingsTooltip": "Selected group settings",
+            "toolTrashLayerTooltip": "Remove selected layer",
+            "toolTrashLayersTooltip": "Remove selected layers",
+            "toolFeaturesGridTooltip": "Open Attribute Table",
+            "noFilteredResults": "No results",
+            "filterPlaceholder": "Filter layers",
+            "clearFilter": "Clear filter",
+            "toolReloadLayerTooltip": "Force reload of selected layer",
+            "toolReloadLayersTooltip": "Force reload of selected layers",
+            "statusIconOpen": "Close group",
+            "statusIconClose": "Open group",
+            "grabLayerIcon": "Grab and sort layer",
+            "grabGroupIcon": "Grab and sort group",
+            "toggleLayerVisibilityWarning": "Toggle layer visibility, Warning: layer didn't load correctly",
+            "createWidget": "Create a widget for the selected layer",
+            "editLayerProperties": "Edit layer properties",
+            "browseData": "Open Attribute Table",
+            "removeLayer": "Remove layer",
+            "loadingerror": "The layer has not been loaded correctly or not available",
+            "measure": "Measure",
+            "backgroundSwitcher": "Backgrounds",
+            "layers": "Layers",
+            "drawerButton": "Layers",
+            "refreshTitle": "Update layers",
+            "refreshConfirm": "Update",
+            "refreshMessage": "Reload WMS layers configuration from the server(s)",
+            "refreshError": "Error updating layers: ",
+            "refreshOptions": {
+                "bbox": "Update BBOX",
+                "search": "Update search options",
+                "title": "Update title",
+                "dimensions": "Update dimensions"
+            }
         }
 
     }

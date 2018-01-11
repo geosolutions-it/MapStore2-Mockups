@@ -156,6 +156,18 @@
           }
         },
         "Footer"
+      ],
+      "toc-synch": [
+        {
+          "name": "Background",
+          "cfg": {
+              "showItaly": true
+          }
+        },
+        "TOC",
+        "FakeFooter",
+        "FakeNavbar",
+        "FakeToolbar"
       ]
 	}
 }

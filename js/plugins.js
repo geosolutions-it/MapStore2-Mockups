@@ -31,7 +31,9 @@ module.exports = {
 
         RulesManagerPlugin: require('./plugins/RulesManager'),
 
-        DockGetfeatureInfoPlugin: require('./plugins/DockGetfeatureInfo')
+        DockGetfeatureInfoPlugin: require('./plugins/DockGetfeatureInfo'),
+
+        TOCPlugin: require('./plugins/TOC')
 
     },
     requires: {}
