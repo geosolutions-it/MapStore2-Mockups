@@ -28,6 +28,11 @@ class Sources extends React.Component {
         onBack: () => {},
         multiSelect: true,
         results: [{
+            title: 'Regions of Italy',
+            description: 'population:regions_italy',
+            name: 'Regions of Italy',
+            id: '000-0'
+        }/*, {
             title: 'OrtofotoRegione2010',
             description: 'geosolutions:OrtofotoRegione2010',
             name: 'Ortofoto Regione',
@@ -47,7 +52,7 @@ class Sources extends React.Component {
             description: 'nurc:Img_Sample',
             name: 'North America',
             id: '004-0'
-        }]
+        }*/]
     };
 
     state = {
@@ -105,8 +110,8 @@ class Sources extends React.Component {
                                     <Col xs={12}>
                                         <FormGroup controlId="stats-title">
                                             <Combobox
-                                                value={'Demo CSW Service'}
-                                                data={['Demo CSW Service', 'Demo WMS Service', 'Demo WMTS service']}
+                                                value={'Catalog Service (CSW)'}
+                                                data={['Catalog Service (CSW)', 'Map Service (WMS)', 'Map Tile Service (WMTS)']}
                                                 placeholder="Select Operation"
                                                 onChange={() => {}}/>
                                         </FormGroup>

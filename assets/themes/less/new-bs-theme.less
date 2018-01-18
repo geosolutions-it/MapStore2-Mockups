@@ -1,27 +1,100 @@
 .button-disabled-variant(@color; @background; @opacity) {
-
-  &.disabled,
-  &[disabled],
-  fieldset[disabled] & {
-    &,
-    &:hover,
-    &:focus,
-    &.focus,
-    &:active,
-    &.active {
-      background-color: @background;
-      color: @color;
-      opacity: @opacity;
+    &.disabled,
+    &[disabled],
+    fieldset[disabled] & {
+        &,
+        &.active,
+        &.focus,
+        &:active,
+        &:focus,
+        &:hover {
+            background-color: @background;
+            color: @color;
+            opacity: @opacity;
+        }
     }
-  }
-
 }
 
 .btn-default {
-  .button-disabled-variant(@ms2-color-shade-light; @ms2-color-background; 0.5);
+    .button-disabled-variant(@ms2-color-shade-light; @ms2-color-background; 0.5);
 }
 
 .nav-tabs.nav-justified > li {
     display: table-cell;
     width: 1%;
+}
+
+.button-no-events(@color; @background; @border) {
+    color: @color;
+    background-color: @background;
+    border-color: @border;
+    cursor: default;
+    box-shadow: none;
+    &.focus,
+    &:focus {
+        cursor: default;
+        color: @color;
+        background-color: @background;
+        border-color: @border;
+        box-shadow: none;
+    }
+
+    &:hover {
+        cursor: default;
+        color: @color;
+        background-color: @background;
+        border-color: @border;
+        box-shadow: none;
+    }
+
+    &.active,
+    &:active,
+    .open > .dropdown-toggle& {
+        cursor: default;
+        color: @color;
+        background-color: @background;
+        border-color: @border;
+        box-shadow: none;
+
+        &.focus,
+        &:focus,
+        &:hover {
+            cursor: default;
+            color: @color;
+            background-color: @background;
+            border-color: @border;
+            box-shadow: none;
+        }
+    }
+
+    &.active,
+    &:active,
+    .open > .dropdown-toggle& {
+        cursor: default;
+        background-image: none;
+        box-shadow: none;
+    }
+
+    &.disabled,
+    &[disabled],
+    fieldset[disabled] & {
+        &,
+        &.active,
+        &.focus,
+        &:active,
+        &:focus,
+        &:hover {
+            cursor: default;
+            background-color: @background;
+            border-color: @border;
+            box-shadow: none;
+        }
+    }
+}
+
+.btn-primary-inverse {
+    .button-variant(@ms2-color-primary; @ms2-color-text-primary; transparent);
+    &.no-events {
+        .button-no-events(@ms2-color-primary; @ms2-color-text-primary; transparent)
+    }
 }

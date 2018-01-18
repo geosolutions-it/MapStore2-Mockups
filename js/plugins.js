@@ -33,7 +33,9 @@ module.exports = {
 
         DockGetfeatureInfoPlugin: require('./plugins/DockGetfeatureInfo'),
 
-        TOCPlugin: require('./plugins/TOC')
+        TOCPlugin: require('./plugins/TOC'),
+
+        AnnotationsPlugin: require('./plugins/Annotations')
 
     },
     requires: {}

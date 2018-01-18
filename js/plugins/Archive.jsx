@@ -97,6 +97,12 @@ class ArchivePlugin extends React.Component {
                 desc: 'Tool to update layer after a scheduled time',
                 link: 'toc-synch',
                 src: 'ts.png'
+            },
+            {
+                title: 'Annotation',
+                desc: 'Tool to create annotations on map',
+                link: 'annotations',
+                src: 'ann.png'
             }
         ]
     };

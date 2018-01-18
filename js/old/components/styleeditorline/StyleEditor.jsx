@@ -597,7 +597,7 @@ class StyleEditor extends React.Component {
             <div style={{position: 'absolute', left: '50%', top: '50%', transform: 'translate(-50%, -50%)', textShadow: '2px 0 0 ' + p.stroke + ', -2px 0 0 ' + p.stroke + ', 0 2px 0 ' + p.stroke + ', 0 -2px 0 ' + p.stroke + ', 1px 1px ' + p.stroke + ', -1px -1px 0 ' + p.stroke + ', 1px -1px 0 ' + p.stroke + ', -1px 1px 0 ' + p.stroke, color: p.fill, width: 132, height: 12, fontSize: 30}}>{'label'}</div>}
 
 
-                <div className="shadow-soft" style={{position: 'absolute', width: 500, height: '100%', backgroundColor: '#fff', zIndex: 5}}><div className="mapstore-flex-container">
+                <div className="shadow-soft" style={{top: 0, position: 'absolute', width: 500, height: '100%', backgroundColor: '#fff', zIndex: 5}}><div className="mapstore-flex-container">
             <div className="m-header">
                 <div className="mapstore-block-width">
                     <a href="#/toc"><Button className="square-button no-border">

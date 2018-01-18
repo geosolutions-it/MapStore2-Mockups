@@ -37,10 +37,17 @@ module.exports = {
         new DefinePlugin({
             "__DEVTOOLS__": true
         }),
-        new NormalModuleReplacementPlugin(/leaflet$/, path.join(__dirname, "MapStore2", "web", "client", "libs", "leaflet")),
-        new NormalModuleReplacementPlugin(/openlayers$/, path.join(__dirname, "MapStore2", "web", "client", "libs", "openlayers")),
-        new NormalModuleReplacementPlugin(/cesium$/, path.join(__dirname, "MapStore2", "web", "client", "libs", "cesium")),
-        new NormalModuleReplacementPlugin(/proj4$/, path.join(__dirname, "MapStore2", "web", "client", "libs", "proj4")),
+        // new NormalModuleReplacementPlugin(/leaflet$/, path.join(__dirname, "MapStore2", "web", "client", "libs", "leaflet")),
+        // new NormalModuleReplacementPlugin(/openlayers$/, path.join(__dirname, "MapStore2", "web", "client", "libs", "openlayers")),
+        // new NormalModuleReplacementPlugin(/cesium$/, path.join(__dirname, "MapStore2", "web", "client", "libs", "cesium")),
+        // new NormalModuleReplacementPlugin(/proj4$/, path.join(__dirname, "MapStore2", "web", "client", "libs", "proj4")),
+        new NormalModuleReplacementPlugin(/ChartOptions.jsx/, path.join(__dirname, "js", "ms2override", "ChartOptions.jsx")),
+        new NormalModuleReplacementPlugin(/ChartType.jsx/, path.join(__dirname, "js", "ms2override", "ChartType.jsx")),
+        new NormalModuleReplacementPlugin(/ChartWizard.jsx/, path.join(__dirname, "js", "ms2override", "ChartWizard.jsx")),
+        new NormalModuleReplacementPlugin(/SideCard.jsx/, path.join(__dirname, "js", "ms2override", "SideCard.jsx")),
+        new NormalModuleReplacementPlugin(/Toolbar.jsx/, path.join(__dirname, "js", "ms2override", "Toolbar.jsx")),
+        new NormalModuleReplacementPlugin(/WidgetsBuilder.jsx/, path.join(__dirname, "js", "ms2override", "WidgetsBuilder.jsx")),
+        new NormalModuleReplacementPlugin(/Bar.jsx/, path.join(__dirname, "js", "ms2override", "Bar.jsx")),
         new NoEmitOnErrorsPlugin(),
         extractThemesPlugin
     ],

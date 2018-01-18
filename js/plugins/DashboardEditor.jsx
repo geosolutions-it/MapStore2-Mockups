@@ -14,12 +14,33 @@ const Toolbar = require('../../MapStore2/web/client/components/misc/toolbar/Tool
 const emptyState = require('../../MapStore2/web/client/components/misc/enhancers/emptyState');
 const Portal = require('../../MapStore2/web/client/components/misc/Portal');
 const ResizableModal = require('../components/ResizableModal');
-const {Table, Glyphicon, Grid, Row, Col, Pagination} = require('react-bootstrap');
+const {Table, Glyphicon, Grid, Row, Col, Pagination, DropdownButton, MenuItem, ButtonToolbar, Button} = require('react-bootstrap');
 const ItalyMap = require('../components/ItalyMap');
 const ReactGridLayout = require('react-grid-layout');
 const Thumbnail = require('../../MapStore2/web/client/components/maps/forms/Thumbnail');
 const Metadata = require('../../MapStore2/web/client/components/maps/forms/Metadata');
 const ContainerDimensions = require('react-container-dimensions').default;
+const tooltip = require('../../MapStore2/web/client/components/misc/enhancers/tooltip');
+const ButtonT = tooltip(Button);
+const italy = require('../../assets/json/italy.json');
+const ChartLegend = require('../components/ChartLegend');
+
+const dataAreaItaly = italy.features.map(ft => {
+    return {name: ft.properties.name, area: ft.properties.area, pv: 2, amt: 2};
+});
+
+const dataLengthItaly = italy.features.map(ft => {
+    return {name: ft.properties.name, length: ft.properties.length, pv: 2, amt: 2};
+});
+
+/*[
+    {name: 'A', variable: 2, pv: 2, amt: 2},
+    {name: 'B', variable: 0.5, pv: 0.5, amt: 0.5},
+    {name: 'C', variable: 3, pv: 3, amt: 3},
+    {name: 'D', variable: 1, pv: 1, amt: 2}
+];*/
+/*const series = [{dataKey: "variable", color: `#078aa3`}];
+const xAxis = {dataKey: "name", show: false};*/
 
 const sampleData = require('../../MapStore2/web/client/components/widgets/enhancers/sampleChartData');
 const SampleChart = sampleData(require('../../MapStore2/web/client/components/charts/SimpleChart'));
@@ -35,6 +56,7 @@ const Builder = require('./dashboard/Builder');
 const Catalog = require('./dashboard/Catalog');
 const Template = require('./dashboard/Template');
 
+const WidgetContainer = require('../ms2override/WidgetContainer');
 const pages = {
     types: 0,
     sources: 1,
@@ -49,10 +71,37 @@ const mockLayer = {
     group: 'Default',
     visibility: true
 };
-
-const LayoutComponent = ({ readOnly, isEditing, isDraggable, isResizable, connectingMaps, selectedCards, currentEdit = {}, cards = [], onLayoutChange = () => {}, onResizeStop = () => {}, onClick = () => {}, renderCard = () => {}, onMouseEnter = () => {}, onMouseUp = () => {}, onMouseDown = () => {}, onMouseLeave = () => {}}) =>
-    <div className={"ms-dashboard-body-container" + (isEditing ? ' ms-edit' : '')}>
-        <ContainerDimensions>
+/*
+onMouseEnter={() => {
+    if (c.type === 'map') {
+        onChange(cards.map(card => {
+            if (card.selectedMap && card.selectedMap.id === c.id
+            || card.id === c.id) {
+                return {...card, hightlighted: true };
+            }
+            return {...card, hightlighted: false };
+        }));
+    } else {
+        onChange(cards.map(card => {
+            if (c.selectedMap && card.id === c.selectedMap.id
+            || card.id === c.id) {
+                return {...card, hightlighted: true };
+            }
+            return {...card, hightlighted: false };
+        }));
+    }
+}}
+onMouseLeave={() => {
+    onChange(cards.map(card => ({...card, hightlighted: false })));
+}}*/
+/*
+isDraggable={isDraggable}
+isResizable={isResizable}
+onResizeStop={onResizeStop}
+*/
+const LayoutComponent = ({ onChangeColor, step, onDeleteCard, onEditCard, onCardFull, fullPreview, showConnection, readOnly, isEditing, /*isDraggable, isResizable,*/ connectingMaps, selectedCards, currentEdit = {}, cards = [], onLayoutChange = () => {}, /*onResizeStop = () => {},*/ onClick = () => {}, renderCard = () => {}/*, onMouseEnter = () => {}, onMouseUp = () => {}, onMouseDown = () => {}, onMouseLeave = () => {}*/}) =>
+    <div className={"ms-dashboard-body-container" + (isEditing ? ' ms-edit' : '')} style={{overflowY: fullPreview ? 'hidden' : 'auto'}}>
+    <ContainerDimensions>
             { ({width}) =>
 
     <ReactGridLayout
@@ -60,34 +109,94 @@ const LayoutComponent = ({ readOnly, isEditing, isDraggable, isResizable, connec
         className="ms-dashboard-layout"
         rowHeight={104}
         cols={12}
-        isDraggable={isDraggable}
-        isResizable={isResizable}
+        isDraggable={!readOnly}
         onLayoutChange={onLayoutChange}
-        onResizeStop={onResizeStop}>
+        >
         {cards.map((c) => {
             const edit = selectedCards.length === 1 && isEditing && ' ms-edit' || '';
             const selected = head(selectedCards.filter(s => s.id === c.id)) && ' ms-selected' + edit || '';
-            const connectMaps = connectingMaps && c.type !== 'map' && ' ms-hide' || '';
+            const connectMaps = currentEdit.type === 'map' && connectingMaps && currentEdit.id === c.id && ' ms-hide' || connectingMaps && c.type !== 'map' && ' ms-hide' || '';
             const hideEdit = edit && !connectingMaps && !head(selectedCards.filter(s => s.id === c.id)) && ' ms-hide' || '';
             const selectedMap = currentEdit && currentEdit.selectedMap && currentEdit.selectedMap.id === c.id && ' ms-selected' || '';
+            const hightlighted = !edit && c.hightlighted && ' ms-hightlight' || '';
+
+            const outline = selectedCards.length === 0 && c.color && {borderTop: '4px solid ' + c.color} || selectedCards.length === 0 && c.selectedMap && {borderTop: '4px solid ' + c.selectedMap.color} || {};
+
+            const mapConnection = selectedCards.length === 0 && c.type === 'map' && c.selectedMap && {color: c.selectedMap.color} || null;
+
             return (
                 <div
                     data-grid={{...c}}
                     key={c.id}
-                    className={'ms-dashboard-card' + selected + connectMaps + selectedMap + hideEdit}
-                    onClick={e => { onClick(e, c, selected); }}>
+                    style={showConnection || readOnly ? outline : {}}
+                    className={'ms-dashboard-card widget-card-on-map' + selected + connectMaps + selectedMap + hideEdit + hightlighted}
+                    onClick={e => { onClick(e, c, selected); }}
+                    >
 
-                    <div className={"ms-dashboard-card-container" + (readOnly && ' ms-read-only' || '') + (readOnly && c.type === 'map' && ' ms-with-map' || '')}>
+                    {/*<div className={"ms-dashboard-card-container" + (readOnly && ' ms-read-only' || '') + (readOnly && c.type === 'map' && ' ms-with-map' || '')}>
                         {renderCard(c)}
                     </div>
                     {!readOnly && <div className="ms-grab grabbable" onMouseEnter={onMouseEnter} onMouseUp={onMouseUp} onMouseDown={onMouseDown} onMouseLeave={onMouseLeave}>
                         <Glyphicon glyph="menu-hamburger"/>
-                    </div>}
+                    </div>}*/}
+                    <WidgetContainer id={`widget-text-${c.id}`}
+                        title={currentEdit && currentEdit.id === c.id && currentEdit.title || c.title}
+                        confirmDelete={false}
+                        onDelete={() => {}}
+                        toggleDeleteConfirm={() => {}}
+                        topLeftItems={!readOnly ? <ButtonToolbar>
+                            {/* onMouseEnter={onMouseEnter} onMouseUp={onMouseUp} onMouseDown={onMouseDown} onMouseLeave={onMouseLeave} */}
+                            <Button bsStyle="primary-inverse" className="ms-draggable grabbable">
+                                <Glyphicon glyph="menu-hamburger"/>
+                            </Button>
+                            {showConnection && c.type === 'map' && <ButtonT tooltip="Change color connection" bsStyle="primary-inverse" onClick={() => {
+                                onChangeColor(c);
+                            }}>
+                                <Glyphicon glyph="dropper"/>
+                            </ButtonT>}
+                            {mapConnection && (showConnection || readOnly) && c.type === 'map' && <ButtonT tooltip="Synchronized center" bsStyle="primary-inverse" className="no-events">
+                                <Glyphicon glyph="1-mark" style={mapConnection}/>
+                            </ButtonT>}
+                            {mapConnection && (showConnection || readOnly) && c.type === 'map' && <ButtonT tooltip="Synchronized zoom" bsStyle="primary-inverse" className="no-events">
+                                <Glyphicon glyph="zoom-to" style={mapConnection}/>
+                            </ButtonT>}
+                        </ButtonToolbar> : null}
+    topRightItems={step === -1 || !step ? <ButtonToolbar>
+                    <DropdownButton pullRight bsStyle="default" title={<Glyphicon glyph="option-vertical" />} noCaret id="dropdown-no-caret">
+                        {!readOnly && <MenuItem onClick={() => { onEditCard(c); }} eventKey="3"><Glyphicon glyph="pencil"/>&nbsp; Edit</MenuItem>}
+                        {!readOnly && <MenuItem onClick={() => { onDeleteCard(c); }} eventKey="2"><Glyphicon glyph="trash"/>&nbsp; Delete</MenuItem>}
+                        <MenuItem onClick={() => { onCardFull(c); }} eventKey="2"><Glyphicon glyph="resize-full"/>&nbsp; Resize</MenuItem>
+
+                        {/*<MenuItem onClick={() => { onDeleteCard(c); }} eventKey="2"><Glyphicon glyph="trash"/>&nbsp; Show Chart Data</MenuItem>*/}
+                        {c.type === 'chart' && <MenuItem onClick={() => { }} eventKey="2"><Glyphicon glyph="list"/>&nbsp; Show Legend</MenuItem>}
+                        {/*<MenuItem divider />*/}
+
+                        {c.type === 'chart' && <MenuItem onClick={() => { }} eventKey="2"><Glyphicon glyph="download"/>&nbsp; Download Data</MenuItem>}
+                        {c.type === 'chart' && <MenuItem onClick={() => { }} eventKey="2"><Glyphicon glyph="download"/>&nbsp; Export Image</MenuItem>}
+                    </DropdownButton>
+                </ButtonToolbar> : null}>
+                {renderCard(c)}
+    </WidgetContainer>
+
                 </div>);
         })}
     </ReactGridLayout>
     }
-    </ContainerDimensions>
+</ContainerDimensions>
+    {fullPreview && !isEditing && <div className="ms-widget-full-preview widget-card-on-map">
+        <WidgetContainer id={`widget-text-${fullPreview.id}`}
+            title={fullPreview.title}
+            confirmDelete={false}
+            onDelete={() => {}}
+            toggleDeleteConfirm={() => {}}
+topRightItems={<ButtonToolbar>
+                <Button bsStyle="primary-inverse" onClick={() => { onCardFull(); }}>
+                    <Glyphicon glyph="resize-small"/>
+                </Button>
+            </ButtonToolbar>}>
+        {renderCard({...fullPreview, fullscreen: true})}
+        </WidgetContainer>
+    </div>}
 </div>;
 
 const Layout = emptyState(({cards=[]}) => cards.length === 0, { glyph: 'dashboard' })(LayoutComponent);
@@ -133,6 +242,25 @@ class DashboardEditorPlugin extends React.Component {
         }
     }
 
+    onSave() {
+        this.setState({
+            step: -1,
+            edit: false,
+            stop: true,
+            selectedCards: [],
+            selectedNodes: [],
+            currentEdit: {},
+            cards: this.state.cards.map(c => c.id === this.state.currentEdit.id && {...c, ...this.state.currentEdit} || {...c} ),
+            connectingMaps: false
+        });
+    }
+
+    onClear() {
+        this.setState({
+            showNoSavedChanges: true
+        });
+    }
+
     renderLeftColumn() {
 
         const buttons = [{
@@ -162,7 +290,7 @@ class DashboardEditorPlugin extends React.Component {
                 });
             }
         }, */ {
-            glyph: 'dashboard-save',
+            glyph: 'floppy-disk',
             tooltip: 'Save dashboard',
             bsStyle: !this.state.openSideLeft ? 'primary' : 'success',
             tooltipPosition: 'right',
@@ -173,6 +301,17 @@ class DashboardEditorPlugin extends React.Component {
                 });
             }
         }, {
+            glyph: this.state.showConnection ? 'bulb-on' : 'bulb-off',
+            tooltip: this.state.showConnection ? 'Hide connections' : 'Show connections',
+            bsStyle: this.state.showConnection ? 'success' : 'primary',
+            tooltipPosition: 'right',
+            visible: this.state.cards.length > 0 && this.state.step === -1 && this.state.selectedCards.length === 0 && !this.props.readOnly,
+            onClick: () => {
+                this.setState({
+                    showConnection: !this.state.showConnection
+                });
+            }
+        }, /*{
             glyph: '1-close',
             tooltip: 'Close edit',
             bsStyle: 'primary',
@@ -201,7 +340,7 @@ class DashboardEditorPlugin extends React.Component {
                     connectingMaps: false
                 });
             }
-        }, {
+        },*/ {
             glyph: 'pencil',
             tooltip: 'Add a dashboard card',
             tooltipPosition: 'right',
@@ -238,33 +377,52 @@ class DashboardEditorPlugin extends React.Component {
                 });
             }
         }];
-        return (
-            <div key="ms-v-bar" className="ms-vertical-toolbar" style={{order: -1}}>
-                <Toolbar btnGroupProps={{vertical: true}} btnDefaultProps={{ className: 'square-button', bsStyle: 'primary'}} buttons={buttons}/>
+        return this.state.step === -1 ? (
+            <div key="ms-v-bar" className="ms-vertical-toolbar ms-sm" style={{order: -1}}>
+                <Toolbar transitionProps={{
+                    transitionName: "toolbar-btn-transition-vert",
+                    transitionEnterTimeout: 300,
+                    transitionLeaveTimeout: 300
+                }}
+                btnGroupProps={{vertical: true}}
+                btnDefaultProps={{ className: 'square-button-md', bsStyle: 'primary'}}
+                buttons={buttons}/>
             </div>
-        );
+        ) : null;
     }
 
     renderMapCard(c) {
         return (
-            <ContainerDimensions>
-                { ({width, height}) => <ItalyMap region={c.nodes && c.nodes.length > 0 ? 'all' : 'none'} width={width} height={height}/> }
-            </ContainerDimensions>
+            <div className="ms-widget-body" style={{ height: '100%' }} onMouseOver={() => {
+                this.setState({
+                    currentMap: {...c}
+                });
+            }} onMouseOut={() => {
+                this.setState({
+                    currentMap: null
+                });
+            }}>
+                <ContainerDimensions>
+                    { ({width, height}) => <ItalyMap
+                    onUpdate={(key, value) => {
+                        if (this.state.currentMap && this.state.currentMap.id === c.id) {
+                            this.setState({
+                                cards: this.state.cards.map(ca => ca.selectedMap && ca.selectedMap.id === c.id ? {...ca, [key]: value} : {...ca})
+                            });
+                        }
+                    }}
+                    center={c.center && {x: c.center.lng, y: c.center.lat}}
+                    zoom={c.zoom}
+                    id={c.fullscreen ? 'full' : c.id} region={c.nodes && c.nodes.length > 0 ? 'all' : 'none'} width={width - 40} height={height - 20}/> }
+                </ContainerDimensions>
+            </div>
         );
     }
 
     renderTable() {
+        const properties = Object.keys({...italy.features[0].properties});
         return (
             <BorderLayout
-                header={
-                    <Grid fluid>
-                        <Row>
-                            <Col xs={12} className="text-center">
-                                <h4>Layer Name</h4>
-                            </Col>
-                        </Row>
-                    </Grid>
-                }
                 footer={
                     <Grid fluid className="text-center">
                         <Pagination
@@ -283,39 +441,18 @@ class DashboardEditorPlugin extends React.Component {
                 <Table>
                     <thead>
                       <tr>
-                        <th>STATE_NAME</th>
-                        <th>STATE_FIPS</th>
-                        <th>SUB_REGION</th>
-                        <th>STATE_ABBR</th>
-                        <th>LAND_KM</th>
-                        <th>WATER_KM</th>
+                        {properties.map(pr => <th>{pr}</th>)}
                       </tr>
                     </thead>
                     <tbody>
-                      <tr>
-                        <td>District of Columbia</td>
-                        <td>11</td>
-                        <td>S Atl</td>
-                        <td>DC</td>
-                        <td>159.055</td>
-                        <td>17.991</td>
-                      </tr>
-                      <tr>
-                        <td>Rhode Island</td>
-                        <td>44</td>
-                        <td>N Eng</td>
-                        <td>RI</td>
-                        <td>2706.52</td>
-                        <td>538.056</td>
-                      </tr>
-                      <tr>
-                        <td>Delaware</td>
-                        <td>10</td>
-                        <td>S Atl</td>
-                        <td>DE</td>
-                        <td>5062.456</td>
-                        <td>1385.022</td>
-                      </tr>
+                        {italy.features.map(ft => (
+                        <tr>
+                            {
+                                Object.keys(ft.properties).map(key =>
+                                <td>{ft.properties[key]}</td>
+                                )
+                            }
+                        </tr>))}
                     </tbody>
                   </Table>
               </BorderLayout>
@@ -324,9 +461,13 @@ class DashboardEditorPlugin extends React.Component {
 
     renderChartCard(card) {
         return (
-            <ContainerDimensions>
-                { ({width, height}) => <SampleChart width={width} height={height} type={card.chartType} legend={false} /> }
-            </ContainerDimensions>
+            <div className="ms-widget-body" style={{ height: '100%' }}>
+                <ContainerDimensions>
+                    {({width, height}) => <SampleChart isAnimationActive={false} series={[{dataKey: card.chartType === 'line' ? 'length' : 'area'}]}data={card.chartType === 'line' ? [...dataLengthItaly] : [...dataAreaItaly]} xAxis={{dataKey: "name", show: true}} width={width - 40} height={height - 20} type={card.chartType} legend={false} /> }
+
+                    {/* ({width, height}) => <ChartLegend isAnimationActive={false} series={[{dataKey: card.chartType === 'line' ? 'length' : 'area'}]}data={card.chartType === 'line' ? [...dataLengthItaly] : [...dataAreaItaly]} width={width - 40} height={height - 20} type={'line'} /> */}
+                </ContainerDimensions>
+            </div>
         );
     }
 
@@ -342,7 +483,7 @@ class DashboardEditorPlugin extends React.Component {
             case 'chart':
             return this.renderChartCard(card);
             case 'legend':
-            return <div style={{display: 'flex', height: '100%'}}>{card.isConnected && <div style={{margin: 'auto'}}><div>Layer Name</div><img src={require('./dashboard/img/legend.png')}/></div>}</div>;
+            return <div style={{display: 'flex', height: '100%'}}>{card.isConnected && card.selectedMap.nodes && card.selectedMap.nodes.length > 0 && <div style={{margin: 'auto'}}><div>Regions of Italy</div><img src={require('./dashboard/img/legend-r.png')}/></div>}</div>;
             default:
             return card.text && <div className="ms-dashboard-text ql-editor" dangerouslySetInnerHTML={{__html: card.text}} /> || '';
         }
@@ -405,15 +546,16 @@ class DashboardEditorPlugin extends React.Component {
                         }}/>
                     <Sources key="dashboard-sources" onBack={() => { this.setState({ step: this.state.step - 1 }); }} onClick={(empty) => {
                         if (this.state.currentType === 'map') {
+                            const color = 'hsla(' + Math.floor(Math.random() * 360) + ', 100%, 50%, 0.5)';
                             this.setState({
                                 step: 2,
-                                cards: [...this.state.cards, {id: 'db' + count, i: 'db' + count, type: this.state.currentType, empty, x: count % 2 === 0 ? 0 : 6, y: 0, w: 6, h: 3 }],
+                                cards: [...this.state.cards, {color, id: 'db' + count, i: 'db' + count, type: this.state.currentType, empty, x: count % 2 === 0 ? 0 : 6, y: 0, w: 6, h: 3 }],
                                 selectedCards: [{id: 'db' + count, type: this.state.currentType }],
                                 stop: true,
                                 edit: true,
                                 emptyTOC: empty,
                                 statusEdit: 'create',
-                                currentEdit: {id: 'db' + count, i: 'db' + count, type: this.state.currentType, x: count % 2 === 0 ? 0 : 6, y: 0, w: 6, h: 3, nodes: empty && [] || [{
+                                currentEdit: {color, id: 'db' + count, i: 'db' + count, type: this.state.currentType, x: count % 2 === 0 ? 0 : 6, y: 0, w: 6, h: 3, nodes: empty && [] || [{
                                     id: 'l:0',
                                     group: 'Default',
                                     name: 'Regions',
@@ -451,6 +593,29 @@ class DashboardEditorPlugin extends React.Component {
                         this.setState({
                             step: pages.catalog
                         });
+                    }}
+                    onSave={() => {
+                        this.onSave();
+                    }}
+                    onClear={() => {
+                        this.onClear();
+                    }}
+                    mapTitle={this.state.currentEdit && this.state.currentEdit.title}
+                    onUpdateTitle={title => {
+                        this.setState({
+                            currentEdit: {...this.state.currentEdit, title}
+                        });
+                    }}
+                    connectingMaps={this.state.connectingMaps}
+                    onConnectingMap={() => {
+                        this.setState({
+                            connectingMaps: !this.state.connectingMaps
+                        });
+                    }}
+                    maps={this.state.cards.filter(ca => ca.type === 'map')}
+                    isConnected={this.state.currentEdit && this.state.currentEdit.isConnected}
+                    onClearConnection={() => {
+                        this.setState({ currentEdit: {...this.state.currentEdit, selectedMap: null, isConnected: false}, connectingMaps: false});
                     }}/>
                 <Builder statusEdit={this.state.statusEdit}
                     chartType={this.state.currentEdit && this.state.currentEdit.chartType}
@@ -458,8 +623,20 @@ class DashboardEditorPlugin extends React.Component {
                     isConnected={this.state.currentEdit && this.state.currentEdit.isConnected}
                     connectingMaps={this.state.connectingMaps} text={this.state.currentEdit && this.state.currentEdit.text || ''}
                     key="dashboard-builder"
+                    title={this.state.currentEdit && this.state.currentEdit.title}
+                    onUpdateTitle={title => {
+                        this.setState({
+                            currentEdit: {...this.state.currentEdit, title}
+                        });
+                    }}
                     onClearConnection={() => {
                         this.setState({ currentEdit: {...this.state.currentEdit, selectedMap: null, isConnected: false}, connectingMaps: false});
+                    }}
+                    onSave={() => {
+                        this.onSave();
+                    }}
+                    onClear={() => {
+                        this.onClear();
                     }}
                     type={this.state.currentEdit && this.state.currentEdit.type || this.state.currentType}
                         onChange={(value) => {
@@ -542,7 +719,59 @@ class DashboardEditorPlugin extends React.Component {
             <div className="mapstore-body">
                 <BorderLayout columns={!this.props.readOnly && [this.renderLeftColumn(), this.renderColumnsPanel()]}>
                     <Layout
+                        onDeleteCard={c => {
+                            this.setState({
+                                showDeleteModal: true,
+                                selectedCards: [...this.state.selectedCards, c]
+                            });
+                        }}
+                        onChangeColor= {card => {
+                            const color = 'hsla(' + Math.floor(Math.random() * 360) + ', 100%, 50%, 0.5)';
+                            this.setState({
+                                cards: this.state.cards.map(cc => {
+                                    if (cc.id === card.id) {
+                                        return {...cc, color};
+                                    }
 
+                                    if (cc.selectedMap && cc.selectedMap.id === card.id) {
+                                        const selectedMap = {...cc.selectedMap, color};
+                                        return {...cc, selectedMap};
+                                    }
+
+                                    return {...cc};
+                                })
+                            });
+                        }}
+                        onEditCard={(c) => {
+                            if (c.type === 'map') {
+                                this.setState({
+                                    step: pages.toc,
+                                    edit: true,
+                                    currentEdit: {...c},
+                                    selectedCards: [...this.state.selectedCards, c],
+                                    statusEdit: 'edit'
+                                });
+                            } else {
+                                this.setState({
+                                    step: pages.builder,
+                                    edit: true,
+                                    currentEdit: {...c},
+                                    selectedCards: [...this.state.selectedCards, c],
+                                    statusEdit: 'edit'
+                                });
+                            }
+                        }}
+                        onCardFull={full => {
+
+                            this.setState({
+                                fullPreview: full ? {...full} : null
+                            });
+                        }}
+                        fullPreview={this.state.fullPreview}
+                        showConnection={this.state.showConnection}
+                        onChange={cards => {
+                            this.setState({ cards});
+                        }}
                         onMouseEnter={() => {
                             this.setState({ isDraggable: true});
                         }}
@@ -560,6 +789,7 @@ class DashboardEditorPlugin extends React.Component {
 
                         cards={this.state.cards}
                         isEditing={this.state.edit}
+                        step={this.state.step !== -1}
                         readOnly={this.props.readOnly}
                         isDraggable={this.state.isDraggable && !this.props.readOnly}
                         isResizable={this.state.isResizable && !this.props.readOnly}
@@ -576,9 +806,9 @@ class DashboardEditorPlugin extends React.Component {
                                 resizing: true
                             });
                         }}
-                        onClick={(e, c, selected) => {
+                        onClick={(e, c /*, selected*/) => {
                             if (!this.props.readOnly) {
-                                if (!this.state.dragging && !this.state.resizing && !this.state.edit && !this.state.connectingMaps) {
+                                /*if (!this.state.dragging && !this.state.resizing && !this.state.edit && !this.state.connectingMaps) {
 
                                     if (e.ctrlKey) {
                                         this.setState({ selectedCards: [...this.state.selectedCards, c], stop: true, edit: false});
@@ -598,7 +828,7 @@ class DashboardEditorPlugin extends React.Component {
                                         dragging: false,
                                         resizing: false
                                     });
-                                }
+                                }*/
 
                                 if (this.state.connectingMaps) {
 
@@ -656,7 +886,7 @@ class DashboardEditorPlugin extends React.Component {
                         title={this.state.statusEdit === 'create' ? 'Exit Create Mode' : 'Exit Edit Mode'}
                         show={this.state.showNoSavedChanges}
                         bodyClassName="ms-flex ms-modal-alert-message"
-                        size="sm"
+                        size="xs"
                         onClose={() => {
                             this.setState({
                                 showNoSavedChanges: false
@@ -721,6 +951,50 @@ class DashboardEditorPlugin extends React.Component {
                                 </Col>
                             </Row>}
                         </Grid>
+                    </ResizableModal>
+                </Portal>
+                <Portal>
+                    <ResizableModal
+                        title="Delete Widget"
+                        bodyClassName="ms-flex modal-properties-container"
+                        show={this.state.showDeleteModal}
+                        size="xs"
+                        onClose={() => {
+                            this.setState({
+                                showDeleteModal: false,
+                                selectedCards: []
+                            });
+                        }}
+                        buttons={[
+                            {
+                                text: 'No',
+                                onClick: () => {
+                                    this.setState({
+                                        showDeleteModal: false,
+                                        selectedCards: []
+                                    });
+                                }
+                            },
+                            {
+                                text: 'Yes',
+                                onClick: () => {
+                                    this.setState({
+                                        cards: this.state.cards.filter(c => !head(this.state.selectedCards.filter(s => s.id === c.id))),
+                                        selectedCards: [],
+                                        step: -1,
+                                        stop: true,
+                                        selectedNodes: [],
+                                        showDeleteModal: false
+
+                                    });
+                                }
+                            }
+                        ]}>
+                        <div className="ms-alert">
+                            <div className="ms-alert-center">
+                                Are you sure to delete selected widget?
+                            </div>
+                        </div>
                     </ResizableModal>
                 </Portal>
             </div>

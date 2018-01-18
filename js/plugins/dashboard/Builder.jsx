@@ -12,7 +12,7 @@ const Toolbar = require('../../../MapStore2/web/client/components/misc/toolbar/T
 const BorderLayout = require('../../../MapStore2/web/client/components/layout/BorderLayout');
 const ReactQuill = require('react-quill');
 const WidgetsBuilder = require('../../../MapStore2/web/client/components/widgets/builder/WidgetsBuilder');
-const {Grid, Row, Col} = require('react-bootstrap');
+const {Grid, Row, Col, FormGroup, FormControl} = require('react-bootstrap');
 const AttributeFilter = require('../../components/AttributeFilter');
 
 require('react-select/dist/react-select.css');
@@ -30,7 +30,11 @@ class Builder extends React.Component {
         maps: PropTypes.array,
         step: PropTypes.number,
         statusEdit: PropTypes.string,
-        chartType: PropTypes.string
+        chartType: PropTypes.string,
+        onSave: PropTypes.func,
+        onClear: PropTypes.func,
+        onUpdateTitle: PropTypes.func,
+        title: PropTypes.string
     };
 
     static defaultProps = {
@@ -42,7 +46,11 @@ class Builder extends React.Component {
         text: '',
         connectingMaps: false,
         maps: [],
-        step: 0
+        step: 0,
+        onSave: () => {},
+        onClear: () => {},
+        onUpdateTitle: () => {},
+        title: ''
     };
 
     state = {
@@ -58,9 +66,10 @@ class Builder extends React.Component {
 
     render() {
         const connectedButton = (this.props.type === 'table' && this.props.maps.length > 0) || this.props.type === 'legend' || (this.props.type === 'chart' && this.props.maps.length > 0 && this.state.step > 0) ? {
-            text: this.props.isConnected ? 'Clear Connected Map' : 'Connect a Map',
-            onClick: this.props.isConnected ? this.props.onClearConnection : this.props.onClick,
-            className: 'ms-btn-sm'
+            glyph: this.props.isConnected ? 'plug' : 'unplug',
+            tooltip: this.props.isConnected ? 'Clear connection' : 'Connect a Map',
+            className: 'square-button-md',
+            onClick: this.props.isConnected ? this.props.onClearConnection : this.props.onClick
         } : null;
         const previous = this.props.type === 'chart' && this.state.step >= 2 ? {
             glyph: 'arrow-left',
@@ -86,7 +95,27 @@ class Builder extends React.Component {
             }
         } : null;
 
-        const buttons = [previous, connectedButton, filter, next].filter(v => v);
+        const save = this.props.type === 'table' || this.props.type === 'text'
+            || this.props.type === 'legend'
+            || (this.props.type === 'chart' && this.state.step > 1) ? {
+            glyph: 'floppy-disk',
+            className: 'square-button-md',
+            onClick: () => {
+                this.props.onSave();
+            }
+        } : null;
+
+        const close = this.props.type === 'table' || this.props.type === 'text'
+            || this.props.type === 'legend'
+            || (this.props.type === 'chart' && this.state.step > 1) ? {
+            glyph: '1-close',
+            className: 'square-button-md',
+            onClick: () => {
+                this.props.onClear();
+            }
+        } : null;
+
+        const buttons = [previous, connectedButton, filter, next, save, close].filter(v => v);
         return (
             <div key="ms-dashboard-sources" className={this.props.type === 'legend' ? "ms-vertical-side with-toc" : "ms-vertical-side-type"}>
                 <BorderLayout
@@ -97,8 +126,19 @@ class Builder extends React.Component {
                                     <Col xs={12}>
                                         <div className="m-title-side"></div>
                                     </Col>
+                                    {this.props.type !== 'chart' && <Col xs={12}>
+                                        <FormGroup>
+                                            <FormControl
+                                                value={this.props.title}
+                                                placeholder="Title"
+                                                onChange={e => {
+                                                    this.props.onUpdateTitle(e.target.value);
+                                                }}
+                                                type="text"/>
+                                        </FormGroup>
+                                    </Col>}
                                     <Col xs={12} className="text-center">
-                                    { (this.props.type === 'legend' || this.props.type === 'chart' || this.props.type === 'table') &&
+                                    { (this.props.type === 'legend' || this.props.type === 'chart' || this.props.type === 'table' || this.props.type === 'text') &&
                                         <Toolbar
                                             btnDefaultProps={{ bsStyle: 'primary'}}
                                             buttons={buttons}/>
@@ -143,6 +183,10 @@ class Builder extends React.Component {
                                 onEditorChange={(key, value) => {
                                     this.setState({ [key]: value, step: this.state.step + 1 });
                                     this.props.onUpdate(key, value);
+                                    if (key === 'title') {
+                                        this.props.onUpdateTitle(value);
+                                    }
+
                                 }}/>}
                                 {this.props.connectingMaps && <div className="ms-dashboard-overlay">
                                     <span>Select a Map to connect with the chart</span>

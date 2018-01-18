@@ -28,6 +28,9 @@ class Sources extends React.Component {
             description: 'Create a new map',
             type: 'empty'
         }, {
+            title: 'Regions of Italy Map',
+            description: 'Id, name, area and lenght data'
+        }/*, {
             title: 'Tessuto Urbanizzato Bolzano',
             description: 'Tessuto Urbanizzato del comune di Bolzano'
         }, {
@@ -40,7 +43,7 @@ class Sources extends React.Component {
             description: 'Current Temperature Southern Europe from meteo stations.Credits to LaMMa.'
         }, {
             title: 'Historical Maps of Florence'
-        }]
+        }*/]
     };
 
     state = {

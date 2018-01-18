@@ -168,6 +168,16 @@
         "FakeFooter",
         "FakeNavbar",
         "FakeToolbar"
+      ],
+      "annotations": [
+        {
+          "name": "Background",
+          "cfg": {
+              "showItaly": true
+          }
+        },
+        "Annotations",
+        "FakeFooter"
       ]
 	}
 }

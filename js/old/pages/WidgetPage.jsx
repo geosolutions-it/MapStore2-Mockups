@@ -395,6 +395,7 @@ class Side extends React.Component {
                 <FakeNavbar/>
                 <FakeBackgroundSel/>
                 {<div className="shadow-soft" style={{
+                    top: 0,
                     position: 'absolute',
                     width: 500,
                     height: '100%',

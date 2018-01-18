@@ -14,8 +14,8 @@ const BorderLayout = require('../../../MapStore2/web/client/components/layout/Bo
 const DefaultGroup = require('../../../MapStore2/web/client/components/TOC/DefaultGroup');
 const DefaultLayer = require('../../../MapStore2/web/client/components/TOC/DefaultLayer');
 const DefaultLayerOrGroup = require('../../../MapStore2/web/client/components/TOC/DefaultLayerOrGroup');
-const {Grid, Row, Col} = require('react-bootstrap');
-
+const {Grid, Row, Col, FormGroup, FormControl, Glyphicon} = require('react-bootstrap');
+const SwitchButton = require('../../components/SwitchButton');
 const emptyData = (nodes) => [
     {
         name: "Default",
@@ -39,7 +39,16 @@ class TOCDashboard extends React.Component {
         type: PropTypes.string,
         activateLegendTool: PropTypes.bool,
         empty: PropTypes.bool,
-        onAdd: PropTypes.func
+        onAdd: PropTypes.func,
+        onSave: PropTypes.func,
+        onClear: PropTypes.func,
+        mapTitle: PropTypes.string,
+        onUpdateTitle: PropTypes.func,
+        connectingMaps: PropTypes.bool,
+        onConnectingMap: PropTypes.func,
+        onClearConnection: PropTypes.func,
+        isConnected: PropTypes.bool,
+        maps: PropTypes.array
     };
 
     static defaultProps = {
@@ -49,7 +58,16 @@ class TOCDashboard extends React.Component {
         selectedNodes: [],
         type: '',
         activateLegendTool: true,
-        onAdd: () => {}
+        onAdd: () => {},
+        onSave: () => {},
+        onClear: () => {},
+        mapTitle: '',
+        onUpdateTitle: () => {},
+        connectingMaps: false,
+        onConnectingMap: () => {},
+        onClearConnection: () => {},
+        isConnected: false,
+        maps: []
     };
     getDefaultGroup = () => {
         return (
@@ -64,9 +82,38 @@ class TOCDashboard extends React.Component {
     render = () => {
         const Group = this.getDefaultGroup();
         const Layer = this.getDefaultLayer();
-
         return (
-            <div key="ms-dashboard-sources" className="ms-vertical-side with-toc">
+            <div key="ms-dashboard-sources" className="ms-vertical-side with-toc" style={{position: 'relative'}}>
+                {this.props.connectingMaps && <div style={{position: 'absolute', width: '300px', height: '100%'}}>
+                    <div className="ms-dashboard-overlay" style={{position: 'absolute', width: '300px', height: '100%'}}>
+                        <Grid fluid>
+                            <Row><Col xs={12}>Select a map to connect</Col></Row>
+                            <Row><Col xs={12}/></Row>
+                            <Row><Col xs={12}>Events:</Col></Row>
+                            <Row>
+                                <Col xs={6}>
+                                  <Glyphicon glyph="1-mark"/>&nbsp;Center
+                                </Col>
+                              <Col xs={6}>
+                                  <SwitchButton
+                                      checked
+                                      />
+                              </Col>
+                            </Row>
+                            <Row>
+                                <Col xs={6}>
+                                  <Glyphicon glyph="zoom-to"/>&nbsp;Zoom
+                                </Col>
+                              <Col xs={6}>
+                                  <SwitchButton
+
+                                      checked
+                                      />
+                              </Col>
+                            </Row>
+                        </Grid>
+                    </div>
+                </div>}
                 <BorderLayout
                     header={
                         <div className="ms-header-side">
@@ -75,13 +122,44 @@ class TOCDashboard extends React.Component {
                                     <Col xs={12}>
                                         {<div className="m-title-side">Edit Map</div>}
                                     </Col>
+                                    <Col xs={12}>
+                                        <FormGroup>
+                                            <FormControl
+                                                value={this.props.mapTitle}
+                                                placeholder="Title"
+                                                onChange={e => {
+                                                    this.props.onUpdateTitle(e.target.value);
+                                                }}
+                                                type="text"/>
+                                        </FormGroup>
+                                    </Col>
                                     <Col xs={12} className="text-center">
                                         <Toolbar
                                             btnDefaultProps={{ bsSize: 'sm', bsStyle: 'primary'}}
                                             buttons={[
                                                 {
+                                                    visible: this.props.maps.length > 1 && !this.props.isConnected && this.props.type === 'map',
+                                                    glyph: 'unplug',
+                                                    tooltip: 'Connect current map',
+                                                    className: 'square-button-md',
+                                                    onClick: () => {
+                                                        this.props.onConnectingMap();
+                                                    }
+                                                },
+                                                {
+                                                    visible: this.props.maps.length > 1 && this.props.isConnected && this.props.type === 'map',
+                                                    glyph: 'plug',
+                                                    tooltip: 'Clear map connection',
+                                                    className: 'square-button-md',
+                                                    onClick: () => {
+                                                        this.props.onClearConnection();
+                                                    }
+                                                },
+                                                {
                                                     visible: this.props.selectedNodes.length === 0 && this.props.type === 'map',
-                                                    text: 'Add new layer',
+                                                    glyph: 'plus',
+                                                    tooltip: 'Add new layer',
+                                                    className: 'square-button-md',
                                                     onClick: () => {
                                                         this.props.onAdd();
                                                     }
@@ -111,9 +189,30 @@ class TOCDashboard extends React.Component {
                                                     }
                                                 },*/
                                                 {
+                                                    visible: this.props.selectedNodes.length === 0 && this.props.type === 'map',
+                                                    glyph: 'floppy-disk',
+                                                    tooltip: 'Save your changes',
+                                                    className: 'square-button-md',
+                                                    onClick: () => {
+                                                        // this.props.onClick('table');
+                                                        this.props.onSave();
+                                                    }
+                                                },
+                                                {
+                                                    visible: this.props.selectedNodes.length === 0 && this.props.type === 'map',
+                                                    glyph: '1-close',
+                                                    tooltip: 'Close edit',
+                                                    className: 'square-button-md',
+                                                    onClick: () => {
+                                                        // this.props.onClick('legend');
+                                                        this.props.onClear();
+                                                    }
+                                                },
+                                                {
                                                     visible: this.props.selectedNodes.length > 0,
                                                     glyph: 'trash',
                                                     tooltip: 'Remove selected layers',
+                                                    className: 'square-button-md',
                                                     onClick: () => {
 
                                                     }
@@ -127,7 +226,9 @@ class TOCDashboard extends React.Component {
                         <TOC filter={() => true} nodes={emptyData(this.props.nodes)}>
                             <DefaultLayerOrGroup groupElement={Group} layerElement={Layer}/>
                         </TOC>
+
                 </BorderLayout>
+
             </div>
         );
     }

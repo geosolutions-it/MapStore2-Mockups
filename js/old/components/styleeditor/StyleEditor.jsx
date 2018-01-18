@@ -576,7 +576,7 @@ class StyleEditor extends React.Component {
         return (<span>
             <FakeIcons style={p}/>
 
-                <div className="shadow-soft" style={{position: 'absolute', width: 500, height: '100%', backgroundColor: '#fff', zIndex: 5}}><div className="mapstore-flex-container">
+                <div className="shadow-soft" style={{top: 0, position: 'absolute', width: 500, height: '100%', backgroundColor: '#fff', zIndex: 5}}><div className="mapstore-flex-container">
             <div className="m-header">
                 <div className="mapstore-block-width">
                     <a href="#/toc"><Button className="square-button no-border">

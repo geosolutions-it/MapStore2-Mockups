@@ -63,8 +63,8 @@ class Types extends React.Component {
                             <Grid fluid>
                                 <Row>
                                     <Col xs={12}>
-                            <div className="m-title-side"></div>
-                            </Col>
+                                        {<div className="m-title-side">Select Widget Type</div>}
+                                    </Col>
                                 <Col xs={12} className="text-center">
                         <Toolbar
                             btnDefaultProps={{ className: 'square-button-md', bsStyle: 'primary'}}

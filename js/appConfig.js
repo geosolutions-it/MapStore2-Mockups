@@ -95,6 +95,10 @@ module.exports = {
         name: "toc-synch",
         path: "/toc-synch",
         component: require('./pages/TOCSynch.jsx')
+    }, {
+        name: "annotations",
+        path: "/annotations",
+        component: require('./pages/Annotations.jsx')
     }],
     pluginsDef: require('./plugins.js'),
     initialState: {
