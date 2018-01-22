@@ -17,3 +17,9 @@ Start the development application locally:
 `npm start`
 
 The application runs at `http://localhost:8081` afterwards.
+
+Build:
+
+`npm run compile`
+
+output to folder `./www`

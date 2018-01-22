@@ -27,6 +27,7 @@
     "expect": "1.20.1",
     "extract-text-webpack-plugin": "2.1.0",
     "file-loader": "0.8.5",
+    "fs-extra": "^3.0.1",
     "glob": "7.1.1",
     "html-webpack-plugin": "2.17.0",
     "istanbul-instrumenter-loader": "2.0.0",
@@ -189,7 +190,8 @@
   },
   "scripts": {
     "clean": "rimraf dist",
-    "compile": "npm run clean && mkdirp ./dist && webpack --config prod-webpack.config.js",
+    "createApp": "node ./createApp.js",
+    "compile": "npm run clean && mkdirp ./dist && webpack --config prod-webpack.config.js && npm run createApp",
     "start": "webpack-dev-server --progress --colors --port 8081 --hot --inline --content-base .",
     "postinstall": "node checkCesium.js",
     "test": "karma start ./karma.conf.single-run.js",

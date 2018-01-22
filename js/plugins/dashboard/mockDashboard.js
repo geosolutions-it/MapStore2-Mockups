@@ -33,6 +33,7 @@ module.exports = [{
     "y": 3,
     "w": 4,
     "h": 2,
+    "showLegend": true,
     "chartType": "bar",
     "selectedMap": {
         "color": "hsla(270, 100%, 50%, 0.5)",
@@ -89,6 +90,7 @@ module.exports = [{
     "w": 1,
     "h": 3,
     "i": "db4",
+    "title": "Legend",
     "selectedMap": {
         "color": "hsla(270, 100%, 50%, 0.5)",
         "id": "db3",
@@ -112,6 +114,7 @@ module.exports = [{
     "id": "db5",
     "i": "db5",
     "type": "table",
+    "title": "Regions of Italy Features",
     "x": 4,
     "y": 3,
     "w": 4,

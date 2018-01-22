@@ -23,6 +23,7 @@ const SideCard = require('../../MapStore2/web/client/components/misc/cardgrids/S
 const ContainerDimensions = require('react-container-dimensions').default;
 require('react-quill/dist/quill.snow.css');
 const Combobox = require('react-widgets').Combobox;
+const Select = require('react-select');
 const SwitchPanel = require('../components/SwitchPanel');
 const {connect} = require('react-redux');
 const {setOption} = require('../actions/mockups');
@@ -31,6 +32,7 @@ require('codemirror/mode/sql/sql');
 const ItalyMap = require('../components/ItalyMap');
 const {wizardHanlders} = require('../../MapStore2/web/client/components/misc/wizard/enhancers');
 const Wizard = wizardHanlders(require('../../MapStore2/web/client/components/misc/wizard/WizardContainer'));
+
 const accessField = {
     ALLOW: {
         className: 'ms-allow-cell',
@@ -296,6 +298,10 @@ class DraggableGrid extends React.Component {
         selectedIds: []
     }
 
+    componentDidMount() {
+        this.grid.onToggleFilter();
+    }
+
     onRowsSelected = (rows) => {
         const selectedIds = this.state.selectedIds.concat(rows.map(r => r.row[this.props.rowKey]));
         this.setState({selectedIds });
@@ -313,6 +319,7 @@ class DraggableGrid extends React.Component {
         return (
         <DraggableContainer>
             <ReactDataGrid
+                ref={(grid) => { this.grid = grid; }}
                 enableCellSelection
                 rowActionsCell={RowActionsCell}
                 columns={this.props.columns}
@@ -321,6 +328,9 @@ class DraggableGrid extends React.Component {
                 minHeight={this.props.height}
                 minWidth={this.props.width}
                 rowRenderer={<RowRenderer onRowDrop={this.reorderRows}/>}
+                onAddFilter={() => {}}
+                getValidFilterValues={() => {}}
+                onClearFilters={() => {}}
                 rowSelection={{
                     showCheckbox: true,
                     enableShiftSelect: true,
@@ -625,13 +635,41 @@ class RulesManager extends React.Component {
                                             data={d.options}
                                             placeholder={d.placeholder || ''}
                                             onChange={e => { onChange(d.label.toLowerCase(), e); }}/> :
-                                        <FormGroup>
-                                            <FormControl disabled={!d.enabled} value={rule && rule[d.label.toLowerCase()]} placeholder={d.placeholder || ''} type="text"
-                                                onChange={e => {
-                                                    onChange(d.label.toLowerCase(), e.target.value);
+                                            <Select
+                                                clearable={false}
+                                                value={rule && rule[d.label.toLowerCase()] && {
+                                                    label: rule[d.label.toLowerCase()]
+                                                } || null}
+                                                disabled={!d.enabled}
+                                                options={[...[
+                                                    {
+                                                        label: '###-##-###-#'
+                                                    },
+                                                    {
+                                                        label: '***-**-***-*'
+                                                    }
+                                                ], ...(rule && rule[d.label.toLowerCase()] ? [{
+                                                    label: rule[d.label.toLowerCase()]
+                                                }] : [])]}
+                                                onClose={() => {
+                                                    if (this.state.currentIP.length === 12) {
+                                                        onChange(d.label.toLowerCase(), this.state.currentIP);
+                                                    }
                                                 }}
-                                                />
-                                        </FormGroup>
+                                                onOpen={() => {
+                                                    this.setState({
+                                                        currentIP: ''
+                                                    });
+                                                }}
+                                                placeholder={'Add IP'}
+                                                onInputChange={(value) => {
+                                                    this.setState({
+                                                        currentIP: value
+                                                    });
+                                                }}
+                                                onChange={(options) => {
+                                                    onChange(d.label.toLowerCase(), options.label);
+                                                }}/>
 
                                     }
                                 </Col>
@@ -642,7 +680,16 @@ class RulesManager extends React.Component {
             </Grid>
         );
     }
+    
 
+
+    /*<FormGroup>
+                                            <FormControl disabled={!d.enabled} value={rule && rule[d.label.toLowerCase()]} placeholder={d.placeholder || ''} type="text"
+                                                onChange={e => {
+                                                    onChange(d.label.toLowerCase(), e.target.value);
+                                                }}
+                                                />
+                                        </FormGroup>*/
     renderStyles() {
         const defaultStyle = isEmpty(this.state.currentRule.defaultStyle) ? { title: 'Default' } : {...this.state.currentRule.defaultStyle};
 
@@ -1231,7 +1278,6 @@ class RulesManager extends React.Component {
                                     _rows: [...rows]
                                 });
                             }}
-                            selectedIds={this.state.selectedRow}
                             onSelect={(selected) => {
                                 this.props.setOption('selectedRowRules', [...selected]);
                             }} columns={this.state._columns} rows={this.state._rows} width={width} height={height}/>

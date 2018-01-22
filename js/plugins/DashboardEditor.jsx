@@ -23,7 +23,7 @@ const ContainerDimensions = require('react-container-dimensions').default;
 const tooltip = require('../../MapStore2/web/client/components/misc/enhancers/tooltip');
 const ButtonT = tooltip(Button);
 const italy = require('../../assets/json/italy.json');
-const ChartLegend = require('../components/ChartLegend');
+const ChartView = require('../components/ChartView');
 
 const dataAreaItaly = italy.features.map(ft => {
     return {name: ft.properties.name, area: ft.properties.area, pv: 2, amt: 2};
@@ -110,6 +110,7 @@ const LayoutComponent = ({ onChangeColor, step, onDeleteCard, onEditCard, onCard
         rowHeight={104}
         cols={12}
         isDraggable={!readOnly}
+        isResizable={!readOnly}
         onLayoutChange={onLayoutChange}
         >
         {cards.map((c) => {
@@ -168,7 +169,7 @@ const LayoutComponent = ({ onChangeColor, step, onDeleteCard, onEditCard, onCard
                         <MenuItem onClick={() => { onCardFull(c); }} eventKey="2"><Glyphicon glyph="resize-full"/>&nbsp; Resize</MenuItem>
 
                         {/*<MenuItem onClick={() => { onDeleteCard(c); }} eventKey="2"><Glyphicon glyph="trash"/>&nbsp; Show Chart Data</MenuItem>*/}
-                        {c.type === 'chart' && <MenuItem onClick={() => { }} eventKey="2"><Glyphicon glyph="list"/>&nbsp; Show Legend</MenuItem>}
+                        {c.type === 'chart' && c.chartType !== 'gauge' && <MenuItem onClick={() => { onEditCard(c, 'legend'); }} eventKey="2"><Glyphicon glyph="list"/>&nbsp; {!c.showLegend ? 'Show Legend' : 'Hide Legend'}</MenuItem>}
                         {/*<MenuItem divider />*/}
 
                         {c.type === 'chart' && <MenuItem onClick={() => { }} eventKey="2"><Glyphicon glyph="download"/>&nbsp; Download Data</MenuItem>}
@@ -463,10 +464,16 @@ class DashboardEditorPlugin extends React.Component {
         return (
             <div className="ms-widget-body" style={{ height: '100%' }}>
                 <ContainerDimensions>
-                    {({width, height}) => <SampleChart isAnimationActive={false} series={[{dataKey: card.chartType === 'line' ? 'length' : 'area'}]}data={card.chartType === 'line' ? [...dataLengthItaly] : [...dataAreaItaly]} xAxis={{dataKey: "name", show: true}} width={width - 40} height={height - 20} type={card.chartType} legend={false} /> }
-
-                    {/* ({width, height}) => <ChartLegend isAnimationActive={false} series={[{dataKey: card.chartType === 'line' ? 'length' : 'area'}]}data={card.chartType === 'line' ? [...dataLengthItaly] : [...dataAreaItaly]} width={width - 40} height={height - 20} type={'line'} /> */}
+                    { ({width, height}) => <ChartView showLegend={card.showLegend} isAnimationActive={false} series={[{dataKey: card.chartType === 'line' ? 'length' : 'area'}]}data={card.chartType === 'line' ? [...dataLengthItaly] : [...dataAreaItaly]} xAxis={{dataKey: "name", show: true}} width={width - 40} height={height - 20} type={card.chartType}/> }
                 </ContainerDimensions>
+            </div>
+        );
+    }
+
+    renderCounter(card) {
+        return (
+            <div style={{display: 'flex', width: '100%', height: '100%', overflow: 'hidden'}}>
+                <div style={{margin: 'auto', fontSize: 52, textOverflow: 'ellipsis', whiteSpace: 'nowrap', fontWeight: 'bold', overflow: 'hidden'}}>{card.value} {card.uOM}</div>
             </div>
         );
     }
@@ -478,6 +485,8 @@ class DashboardEditorPlugin extends React.Component {
         switch (card.type) {
             case 'map':
             return this.renderMapCard(card);
+            case 'counter':
+            return this.renderCounter(card);
             case 'table':
             return this.renderTable(card);
             case 'chart':
@@ -618,12 +627,22 @@ class DashboardEditorPlugin extends React.Component {
                         this.setState({ currentEdit: {...this.state.currentEdit, selectedMap: null, isConnected: false}, connectingMaps: false});
                     }}/>
                 <Builder statusEdit={this.state.statusEdit}
+                    counter={this.state.currentEdit && this.state.currentEdit.type === 'counter' && this.state.currentEdit}
                     chartType={this.state.currentEdit && this.state.currentEdit.chartType}
                     maps={this.state.cards.filter(c => c.type === 'map')}
                     isConnected={this.state.currentEdit && this.state.currentEdit.isConnected}
                     connectingMaps={this.state.connectingMaps} text={this.state.currentEdit && this.state.currentEdit.text || ''}
                     key="dashboard-builder"
                     title={this.state.currentEdit && this.state.currentEdit.title}
+                    onUpdateCounter={(key, value) => {
+                        let randomValue = {};
+                        if (key === 'operation') {
+                            randomValue = {value: Math.floor(Math.random() * 1000)};
+                        }
+                        this.setState({
+                            currentEdit: {...this.state.currentEdit, [key]: value, ...randomValue}
+                        });
+                    }}
                     onUpdateTitle={title => {
                         this.setState({
                             currentEdit: {...this.state.currentEdit, title}
@@ -742,24 +761,33 @@ class DashboardEditorPlugin extends React.Component {
                                 })
                             });
                         }}
-                        onEditCard={(c) => {
-                            if (c.type === 'map') {
-                                this.setState({
-                                    step: pages.toc,
-                                    edit: true,
-                                    currentEdit: {...c},
-                                    selectedCards: [...this.state.selectedCards, c],
-                                    statusEdit: 'edit'
-                                });
+                        onEditCard={(c, type) => {
+                            if (type === 'legend') {
+                                if (c.type === 'chart') {
+                                    this.setState({
+                                        cards: this.state.cards.map(cc => cc.id === c.id ? {...cc, showLegend: !cc.showLegend} : {...cc})
+                                    });
+                                }
                             } else {
-                                this.setState({
-                                    step: pages.builder,
-                                    edit: true,
-                                    currentEdit: {...c},
-                                    selectedCards: [...this.state.selectedCards, c],
-                                    statusEdit: 'edit'
-                                });
+                                if (c.type === 'map') {
+                                    this.setState({
+                                        step: pages.toc,
+                                        edit: true,
+                                        currentEdit: {...c},
+                                        selectedCards: [...this.state.selectedCards, c],
+                                        statusEdit: 'edit'
+                                    });
+                                } else {
+                                    this.setState({
+                                        step: pages.builder,
+                                        edit: true,
+                                        currentEdit: {...c},
+                                        selectedCards: [...this.state.selectedCards, c],
+                                        statusEdit: 'edit'
+                                    });
+                                }
                             }
+
                         }}
                         onCardFull={full => {
 

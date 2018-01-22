@@ -31,6 +31,11 @@ class Types extends React.Component {
             description: 'Add a map',
             preview: <Glyphicon glyph="1-map" />
         }, {
+            title: 'Legend',
+            type: 'legend',
+            description: 'Add a legend',
+            preview: <Glyphicon glyph="list" />
+        }, {
             title: 'Chart',
             type: 'chart',
             description: 'Add a chart',
@@ -40,12 +45,12 @@ class Types extends React.Component {
             type: 'table',
             description: 'Add a table',
             preview: <Glyphicon glyph="features-grid" />
-    }, {
-            title: 'Legend',
-            type: 'legend',
-            description: 'Add a legend',
-            preview: <Glyphicon glyph="list" />
-    }, {
+        }, {
+            title: 'Counter',
+            type: 'counter',
+            description: 'Add a counter',
+            preview: <Glyphicon glyph="counter" />
+        }, {
             title: 'Text',
             type: 'text',
             description: 'Add a textarea',
