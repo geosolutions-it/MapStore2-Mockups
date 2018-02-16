@@ -173,7 +173,8 @@
         {
           "name": "Background",
           "cfg": {
-              "showItaly": true
+              "showItaly": false,
+              "draw": true
           }
         },
         "Annotations",

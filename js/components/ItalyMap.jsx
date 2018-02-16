@@ -14,6 +14,20 @@ require('leaflet/dist/leaflet.css');
 const {isObject, isEqual} = require('lodash');
 // const {Map, PolygonGroup} = require('react-d3-map');
 let count = 0;
+
+const createFeature = (type = 'Polygon', coords = []) => ({
+    "type": "Feature",
+    "geometry": {
+        "type": type,
+        "coordinates": coords
+    }
+});
+
+const createGeoJSON = (features = []) => ({
+    "type": "FeatureCollection",
+    "features": [...features]
+ });
+
 class ItalyMap extends React.Component {
 
     static propTypes = {
@@ -23,7 +37,10 @@ class ItalyMap extends React.Component {
         height: PropTypes.number,
         onUpdate: PropTypes.func,
         center: PropTypes.object,
-        zoom: PropTypes.number
+        zoom: PropTypes.number,
+        draw: PropTypes.bool,
+        drawFeatures: PropTypes.array,
+        onClickDrawFeature: PropTypes.func
     };
 
     static defaultProps = {
@@ -33,7 +50,10 @@ class ItalyMap extends React.Component {
         height: 500,
         onUpdate: () => {},
         zoom: 5,
-        center: {x: 12.492373, y: 41.890251}
+        center: {x: 12.492373, y: 41.890251},
+        draw: false,
+        drawFeatures: [],
+        onClickDrawFeature: () => {}
     };
 
     state = {};
@@ -71,6 +91,12 @@ class ItalyMap extends React.Component {
         }
         if (this.props.width !== newProps.width || this.props.height !== newProps.height && this.map) {
             this.map.invalidateSize();
+        }
+
+        if (!isEqual(newProps.drawFeatures, this.props.drawFeatures) && this.drawLayer && this.drawLayer.clearLayers) {
+            this.drawLayer.clearLayers();
+            const json = newProps.drawFeatures.map(feat => createFeature(feat.type, feat.coords));
+            this.drawLayer.addData(json);
         }
     }
 
@@ -113,6 +139,20 @@ class ItalyMap extends React.Component {
                 maxNativeZoom: 19,
                 maxZoom: 23
             }).addTo(this.map);
+
+            if (this.props.draw) {
+                const json = this.props.drawFeatures && this.props.drawFeatures.map(feat => createFeature(feat.type, feat.coords));
+                this.drawLayer = L.geoJson({...createGeoJSON(json)}, {
+                    style: () => {
+                        return {fillColor: '#ffcc33', color: '#ffcc33', fillOpacity: 0.1, opacity: 1.0};
+                    },
+                    onEachFeature: (feature, layer) => {
+                        layer.on({
+                            click: () => { this.props.onClickDrawFeature(feature); } // this.props.onClickDrawFeature.bind(null, feature, layer);
+                        });
+                    }
+                }).addTo(this.map);
+            }
         }
     }
 

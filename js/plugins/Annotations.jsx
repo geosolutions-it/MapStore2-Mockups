@@ -12,7 +12,7 @@ const {connect} = require('react-redux');
 const Dock = require('react-dock').default;
 const BorderLayout = require('../../MapStore2/web/client/components/layout/BorderLayout');
 const Toolbar = require('../../MapStore2/web/client/components/misc/toolbar/Toolbar');
-const {Grid, Row, Col, Glyphicon, Button, FormGroup, FormControl, Nav, NavItem, DropdownButton, MenuItem} = require('react-bootstrap');
+const {Grid, Row, Col, Glyphicon, Button, FormGroup, FormControl, Nav, NavItem, DropdownButton, MenuItem, Alert} = require('react-bootstrap');
 const tooltip = require('../../MapStore2/web/client/components/misc/enhancers/tooltip');
 const NavItemT = tooltip(NavItem);
 const Filter = require('../../MapStore2/web/client/components/misc/Filter');
@@ -22,7 +22,7 @@ const ReactQuill = require('react-quill');
 // const ResizableModal = require('../../MapStore2/web/client/components/misc/ResizableModal');
 const ResizableModal = require('../components/ResizableModal');
 const ColorSelector = require('../components/ColorSelector');
-const {head} = require('lodash');
+const {head, isEqual} = require('lodash');
 const MarkerUtils = require('../../MapStore2/web/client/utils/MarkerUtils');
 const Select = require('react-select');
 
@@ -32,7 +32,8 @@ const shapes = MarkerUtils.extraMarkers.shapes;
 const markers = MarkerUtils.extraMarkers.getGrid();
 const bIndexMarker = markers[0].markers.reduce((a, b, i) => b.name === 'black' ? i : a, 0);
 const Slider = require('react-nouislider');
-
+const CoordinatesEditor = require('../components/CoordinatesEditor');
+const {setOption} = require('../actions/mockups');
 const translateColor = {
     'red': 'red',
     'orange-dark': 'darkorange',
@@ -54,9 +55,9 @@ require('font-awesome/css/font-awesome.css');
 const DropdownButtonT = tooltip(DropdownButton);
 const DropdownGeometry = ({onClick, ...props}) => (
     <DropdownButtonT tooltip={props.tooltip} className="square-button-md" bsStyle="primary" title={<Glyphicon glyph="pencil-add"/>} noCaret>
-        <MenuItem onClick={() => { onClick(); }} eventKey="1"><Glyphicon glyph="point"/>&nbsp; Marker</MenuItem>
-        <MenuItem onClick={() => { onClick(); }} eventKey="2"><Glyphicon glyph="line"/>&nbsp; Line</MenuItem>
-        <MenuItem onClick={() => { onClick(); }} eventKey="3"><Glyphicon glyph="polygon"/>&nbsp; Polygon</MenuItem>
+        <MenuItem onClick={() => { onClick('Point'); }} eventKey="1"><Glyphicon glyph="point"/>&nbsp; Marker</MenuItem>
+        <MenuItem onClick={() => { onClick('LineString'); }} eventKey="2"><Glyphicon glyph="line"/>&nbsp; Line</MenuItem>
+        <MenuItem onClick={() => { onClick('Polygon'); }} eventKey="3"><Glyphicon glyph="polygon"/>&nbsp; Polygon</MenuItem>
     </DropdownButtonT>
 );
 
@@ -65,7 +66,9 @@ let count = 1;
 class Annotations extends React.Component {
     static propTypes = {
         annotations: PropTypes.array,
-        open: PropTypes.bool
+        open: PropTypes.bool,
+        onUpdateDraw: PropTypes.func,
+        clickedFeature: PropTypes.object
     };
 
     static defaultProps = {
@@ -75,21 +78,29 @@ class Annotations extends React.Component {
                 preview: <Glyphicon glyph="comment"/>
             }
         ],
-        open: true
+        open: true,
+        onUpdateDraw: () => {},
+        clickedFeature: {}
     };
 
     state = {
         annotations: [
             {
                 title: 'My first annotation',
-                description: '<p>This is an annotation</p>',
+                description: '<p>Bounding box of Italy</p>',
                 preview: 'comment',
                 id: 'annotation:0',
                 marker: {
                     color: 'blue',
                     shape: 'circle',
                     icon: 'comment'
-                }
+                },
+                coordinates: [[
+                    [6.7499552751, 47.1153931748],
+                    [18.4802470232, 47.1153931748],
+                    [18.4802470232, 36.619987291],
+                    [6.7499552751, 36.619987291]
+                ]]
             }
         ],
         action: 'view',
@@ -100,8 +111,38 @@ class Annotations extends React.Component {
                 icon: 'comment'
             }
         },
-        styleType: 'marker'
+        styleType: 'marker',
+        addGeometry: false,
+        currentCoordinates: []
     };
+
+    componentDidMount() {
+        const coords = [...this.state.annotations, (this.state.currentAnnotation || {})].reduce((allAnnot, annot) => [...allAnnot, ...annot.coordinates || []], []);
+        this.props.onUpdateDraw('drawFeatures', [{
+            type: 'Polygon',
+            coords: [...coords, this.state.currentCoordinates && this.state.currentCoordinates.length > 0 && this.state.currentCoordinates || null].filter(val => val)
+        }]);
+    }
+
+    componentWillUpdate(newProps, newState) {
+        // drawFeatures
+        /*if (!isEqual(newState.currentCoordinates, this.state.currentCoordinates)) {
+            this.props.onUpdateDraw('drawFeatures', [{
+                type: 'Polygon',
+                coords: [newState.currentCoordinates]
+            }]);
+        }*/
+
+        if (!isEqual(newState.annotations, this.state.annotations)
+        || !isEqual(newState.currentAnnotation, this.state.currentAnnotation)
+        || !isEqual(newState.currentCoordinates, this.state.currentCoordinates)) {
+            const coords = [...newState.annotations, (newState.currentAnnotation || {})].reduce((allAnnot, annot) => [...allAnnot, ...annot.coordinates || []], []);
+            this.props.onUpdateDraw('drawFeatures', [{
+                type: 'Polygon',
+                coords: [...coords, newState.currentCoordinates && newState.currentCoordinates.length > 0 && newState.currentCoordinates || null].filter(val => val)
+            }]);
+        }
+    }
 
     renderHeader() {
         return (
@@ -127,6 +168,16 @@ class Annotations extends React.Component {
                             btnDefaultProps={{ className: 'square-button-md', bsStyle: 'primary'}}
                             buttons={[
                                 {
+                                    glyph: 'upload',
+                                    tooltip: 'Upload annotations',
+                                    visible: this.state.action === 'view',
+                                    onClick: () => {
+                                        this.setState({
+                                            showUploadModal: true
+                                        });
+                                    }
+                                },
+                                {
                                     glyph: 'plus',
                                     tooltip: 'Create new annotation',
                                     visible: this.state.action === 'view',
@@ -147,8 +198,16 @@ class Annotations extends React.Component {
                                     }
                                 },
                                 {
+                                    glyph: 'download',
+                                    tooltip: 'Download all annotations',
+                                    visible: this.state.action === 'view',
+                                    onClick: () => {
+                                    }
+                                },
+                                {
                                     glyph: 'arrow-left',
                                     tooltip: 'Cancel create new annotation',
+                                    disabled: this.state.addGeometry,
                                     visible: this.state.action === 'new' || this.state.action === 'preview' || this.state.action === 'edit' || this.state.action === 'style',
                                     onClick: () => {
                                         if (this.state.action === 'preview') {
@@ -168,11 +227,24 @@ class Annotations extends React.Component {
                                     }
                                 },
                                 {
-                                    el: DropdownGeometry,
-                                    visible: this.state.action === 'new' || this.state.action === 'edit',
-                                    tooltip: 'Add new geometry to annotation',
+                                    visible: this.state.addGeometry,
+                                    bsStyle: 'success',
+                                    glyph: 'pencil-add',
+                                    tooltip: 'Complete draw geometry',
                                     onClick: () => {
                                         this.setState({
+                                            addGeometry: false
+                                        });
+                                    }
+                                },
+                                {
+                                    el: DropdownGeometry,
+                                    visible: !this.state.addGeometry && (this.state.action === 'new' || this.state.action === 'edit'),
+                                    tooltip: 'Add new geometry to annotation',
+                                    disabled: this.state.addGeometry,
+                                    onClick: () => {
+                                        this.setState({
+                                            currentAnnotation: {...this.state.currentAnnotation, geometryType: 'Polygon'},
                                             showMockAdd: true
                                         });
                                     }
@@ -180,6 +252,7 @@ class Annotations extends React.Component {
                                 {
                                     glyph: 'polygon-trash',
                                     tooltip: 'Remove geometry',
+                                    disabled: this.state.addGeometry,
                                     visible: this.state.action === 'new' || this.state.action === 'edit',
                                     onClick: () => {
                                         this.setState({
@@ -190,6 +263,7 @@ class Annotations extends React.Component {
                                 {
                                     glyph: 'dropper',
                                     tooltip: 'Choose a different style',
+                                    disabled: this.state.addGeometry,
                                     visible: this.state.action === 'new' || this.state.action === 'edit',
                                     onClick: () => {
                                         this.setState({
@@ -202,9 +276,11 @@ class Annotations extends React.Component {
                                 {
                                     glyph: 'floppy-disk',
                                     tooltip: 'Save annotation',
+                                    disabled: this.state.addGeometry,
                                     visible: this.state.action === 'new' || this.state.action === 'edit',
                                     onClick: () => {
-                                        if (this.state.currentAnnotation.title) {
+                                        const isCoord = this.state.currentAnnotation && this.state.currentAnnotation.coordinates && this.state.currentAnnotation.coordinates.length > 0;
+                                        if (this.state.currentAnnotation.title && isCoord) {
                                             if (this.state.action === 'new') {
                                                 this.setState({
                                                     action: 'view',
@@ -252,6 +328,16 @@ class Annotations extends React.Component {
                                             showDelete: true
                                         });
                                     }
+                                },
+                                {
+                                    glyph: 'download',
+                                    tooltip: 'Download current annotation',
+                                    visible: this.state.action === 'preview',
+                                    onClick: () => {
+                                        this.setState({
+                                            showDownloadModal: true
+                                        });
+                                    }
                                 }
                             ]}/>
                     </Col>
@@ -275,16 +361,18 @@ class Annotations extends React.Component {
     }
 
     renderNew() {
+        const isCoord = this.state.currentAnnotation && this.state.currentAnnotation.coordinates && this.state.currentAnnotation.coordinates.length > 0;
+
         return (
             <Grid fluid style={{ width: '100%' }} className="ms-edit">
                 <Row>
                     <Col xs={12}>
-                        {this.state.warnTitle && <span className="text-danger"><Glyphicon glyph="pencil-add"/>&nbsp;Geometry Required!</span>}
-                        {this.state.warnTitle && <hr/>}
+                        {this.state.warnTitle && !isCoord && <span className="text-danger"><Glyphicon glyph="pencil-add"/>&nbsp;Geometry Required!</span>}
+                        {this.state.warnTitle && !isCoord && <hr/>}
                     </Col>
 
                     <Col xs={12}>
-                        Title {this.state.warnTitle && <span className="text-danger">( Required! )</span>} :
+                        Title {!this.state.currentAnnotation.title && this.state.warnTitle && <span className="text-danger">( Required! )</span>} :
                     </Col>
                     <Col xs={12}>
                         <FormGroup>
@@ -317,16 +405,65 @@ class Annotations extends React.Component {
                             />
                     </Col>
                 </Row>
+                {(this.state.addGeometry && this.state.action === 'new') && <Row>
+                    <CoordinatesEditor
+                        items={[]}
+                        isDraggable={false}
+                        onComplete={() => {
+                            this.setState({
+                                currentCoordinates: [],
+                                currentAnnotation: {...this.state.currentAnnotation, coordinates: [...(this.state.currentAnnotation && this.state.currentAnnotation.coordinates || []), [...this.state.currentCoordinates]]}
+                            });
+                        }}
+                        onChange={(component) => {
+                            this.setState({
+                                currentCoordinates: component.filter(cmp => !isNaN(parseFloat(cmp.lon)) && !isNaN(parseFloat(cmp.lat))).map(cmp => [cmp.lon, cmp.lat])
+                            });
+                        }}/>
+                </Row>}
+                {(this.state.action === 'edit' && this.state.currentAnnotation.coordinates && !this.state.currentAnnotation.editing) && <Row>
+                    <CoordinatesEditor
+                        items={[]}
+                        isDraggable
+                        noComplete
+                        components={this.state.currentAnnotation && this.state.currentAnnotation.coordinates[0] && this.state.currentAnnotation.coordinates[0].map(coord => ({lat: coord[1], lon: coord[0]}))}
+                        onComplete={() => {}}
+                        onChange={() => {}}/>
+                </Row>}
+
             </Grid>
         );
     }
     /*
-    modules={{
-        toolbar: [
-        [{ 'size': ['small', false, 'large', 'huge'] }, 'bold', 'italic', 'underline', 'blockquote'],
-        [{ 'list': 'bullet' }, { 'align': [] }],
-        [{ 'color': [] }, { 'background': [] }, 'clean'], ['image', 'video', 'link']
-    ]}}
+   {(this.state.addGeometry || this.state.action === 'edit' && this.state.currentAnnotation.coordinates) && <Row>
+                    <CoordinatesEditor
+                        items={[]}
+                        isDraggable={this.state.action === 'edit'}
+                        noComplete={this.state.action === 'edit'}
+                        // components={this.props.clickedFeature && this.props.clickedFeature.geometry && this.props.clickedFeature.geometry.coordinates
+                            // && this.props.clickedFeature.geometry.coordinates[0] && this.props.clickedFeature.geometry.coordinates[0].map(coord => ({lat: coord[1], lon: coord[0]})) || []}
+                        onComplete={() => {
+                            if (!(this.state.action === 'edit')) {
+                                this.setState({
+                                    currentCoordinates: [],
+                                    currentAnnotation: {...this.state.currentAnnotation, coordinates: [...(this.state.currentAnnotation && this.state.currentAnnotation.coordinates || []), [...this.state.currentCoordinates]]}
+                                });
+                            }
+                        }}
+                        onChange={(component) => {
+                            if (!(this.state.action === 'edit')) {
+                                this.setState({
+                                    currentCoordinates: component.filter(cmp => !isNaN(parseFloat(cmp.lon)) && !isNaN(parseFloat(cmp.lat))).map(cmp => [cmp.lon, cmp.lat])
+                                });
+                            } else {
+
+                                this.setState({
+                                    currentCoordinates: component.filter(cmp => !isNaN(parseFloat(cmp.lon)) && !isNaN(parseFloat(cmp.lat))).map(cmp => [cmp.lon, cmp.lat]),
+                                    currentAnnotation: {...this.state.currentAnnotation, editing: true, coordinates: [[[...component.filter(cmp => !isNaN(parseFloat(cmp.lon)) && !isNaN(parseFloat(cmp.lat))).map(cmp => [cmp.lon, cmp.lat])]]]}
+                                });
+                            }
+                        }}/>
+                </Row>}
     */
     renderPreview() {
         const {title, description} = this.state.currentAnnotation;
@@ -684,10 +821,11 @@ class Annotations extends React.Component {
                         title="Mock up info - Add Geometry"
                         bodyClassName="ms-flex"
                         show={this.state.showMockAdd}
-                        size="xs"
+                        size="lg"
                         onClose={() => {
                             this.setState({
-                                showMockAdd: false
+                                showMockAdd: false,
+                                addGeometry: true
                             });
                         }}
                         buttons={[
@@ -695,7 +833,8 @@ class Annotations extends React.Component {
                                 text: 'OK',
                                 onClick: () => {
                                     this.setState({
-                                        showMockAdd: false
+                                        showMockAdd: false,
+                                        addGeometry: true
                                     });
                                 }
                             }
@@ -703,13 +842,31 @@ class Annotations extends React.Component {
                         <div className="ms-alert">
                             <div className="ms-alert-center">
                                 <span>
-                                    <p className="text-danger">NB: Not add this modal</p>
+                                    <h4 className="text-danger">NB: Not add this modal</h4>
                                     <ul>
-                                        <li>Disable buttons and inputs areas</li>
+                                        <li>Disable buttons and inputs areas (Verify if it's possible to enable input areas on CREATE and EDIT)</li>
                                         <li>Draw the geometry on map</li>
                                         <li>When geometry has been added the inputs areas will be active again</li>
                                     </ul>
                                     <p>Similar workflow of current annotation and feature grid editor</p>
+                                    <br/>
+                                    <h4><strong>Additional notes for coordinates editor</strong></h4>
+                                    <h4><strong>CREATE MODE</strong></h4>
+                                    <h5>Current mockup uses only Polygon geometry</h5>
+                                    <ul>
+                                        <li>Check length limit for coordinates based on geometry type (3 Polygon, 2 Linestring, 1 Point,...)</li>
+                                        <li>Disable save geometry if it is not valid</li>
+                                        <li>Validate format of coordinate, default WGS84</li>
+                                        <li>Coordinates editor should be synchronized with the geometry on map and vice versa</li>
+                                    </ul>
+                                    <h4><strong>Additional notes for coordinates editor - EDIT MODE</strong></h4>
+                                    <h4><strong>EDIT MODE</strong></h4>
+                                    <ul>
+                                        <li>Coordinates editor should be active only in two cases if a geometry is selected from map or CREATE MODE is enabled</li>
+                                        <li>EDIT MODE enable drag and drop of coordinates, remove and add new coordinates (always syncronized with the map)</li>
+                                        <li>A minimum limit of coordinates and a validation should be add on EDIT MODE also</li>
+                                    </ul>
+                                    <h4><strong>Click on OK or close to visualize the coordinate editor at the bottom of the panel</strong></h4>
                                 </span>
                             </div>
                         </div>
@@ -747,15 +904,34 @@ class Annotations extends React.Component {
                         </div>
                     </ResizableModal>
                 </Portal>
+
+                <Portal>
+                    <ResizableModal
+                        title="Upload Annotation"
+                        bodyClassName="ms-flex"
+                        show={this.state.showUploadModal}
+                        size="xs"
+                        onClose={() => {
+                            this.setState({
+                                showUploadModal: false
+                            });
+                        }}>
+                        <div className="ms-alert">
+                            <div className="ms-alert-center text-center">
+                                <Alert style={{margin: 15}}>Drop your file here or click to select the Annotation File to import. (supported files: JSON)</Alert>
+                            </div>
+                        </div>
+                    </ResizableModal>
+                </Portal>
             </span>
         );
     }
 }
 
-const AnnotationsPlugin = connect(() => ({
-
+const AnnotationsPlugin = connect(state => ({
+    clickedFeature: state.mockups && state.mockups.clickedDrawFeature || {}
 }), {
-
+    onUpdateDraw: setOption
 })(Annotations);
 
 module.exports = {

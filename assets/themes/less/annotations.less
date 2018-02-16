@@ -80,8 +80,8 @@
             display: flex;
             height: 100%;
             flex-direction: column;
-            .row {
-                &:last-child {
+            > .row {
+                &:nth-child(2), &:nth-child(3) {
                     flex: 1;
                     overflow-y: auto;
 

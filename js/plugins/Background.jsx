@@ -17,13 +17,19 @@ class Background extends React.Component {
     static propTypes = {
         region: PropTypes.string,
         showItaly: PropTypes.bool,
-        onClick: PropTypes.func
+        onClick: PropTypes.func,
+        draw: PropTypes.bool,
+        drawFeatures: PropTypes.array,
+        onClickDrawFeature: PropTypes.func
     };
 
     static defaultProps = {
         region: '',
         showItaly: false,
-        onClick: () => {}
+        onClick: () => {},
+        draw: false,
+        drawFeatures: [],
+        onClickDrawFeature: () => {}
     };
 
     render() {
@@ -31,7 +37,7 @@ class Background extends React.Component {
             <span>
                 <div className="mockups-bg" style={{position: 'absolute', width: '100%', height: '100%', cursor: 'pointer'}} onClick={this.props.onClick}>
                     <ContainerDimensions>
-                        { ({width, height}) => <ItalyMap region={this.props.showItaly ? 'all' : this.props.region} width={width} height={height}/> }
+                        { ({width, height}) => <ItalyMap onClickDrawFeature={feature => this.props.onClickDrawFeature('clickedDrawFeature', feature)} region={this.props.showItaly ? 'all' : this.props.region} width={width} height={height} draw={this.props.draw} drawFeatures={this.props.drawFeatures}/> }
                     </ContainerDimensions>
                 </div>
             </span>
@@ -47,9 +53,11 @@ class Background extends React.Component {
 }
 
 const BackgroundPlugin = connect((state) => ({
-    region: state.mockups && state.mockups.region
+    region: state.mockups && state.mockups.region,
+    drawFeatures: state.mockups && state.mockups.drawFeatures || []
 }), {
-    onClick: setOption.bind(null, 'clickMap', true)
+    onClick: setOption.bind(null, 'clickMap', true),
+    onClickDrawFeature: setOption
 })(Background);
 
 module.exports = {
