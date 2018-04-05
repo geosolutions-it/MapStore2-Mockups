@@ -99,6 +99,18 @@ module.exports = {
         name: "annotations",
         path: "/annotations",
         component: require('./pages/Annotations.jsx')
+    }, {
+        name: "featured-maps",
+        path: "/featured-maps",
+        component: require('./pages/FeaturedMaps.jsx')
+    }, {
+        name: "home-m",
+        path: "/home-m",
+        component: require('./pages/HomeM.jsx')
+    }, {
+        name: '/action-legend',
+        path: '/action-legend',
+        component: require('./pages/ActionLegend')
     }],
     pluginsDef: require('./plugins.js'),
     initialState: {

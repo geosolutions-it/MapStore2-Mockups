@@ -21,6 +21,24 @@ class ArchivePlugin extends React.Component {
     static defaultProps = {
         cards: [
             {
+                title: 'Featured maps',
+                desc: 'featured maps desktop',
+                link: 'featured-maps',
+                src: 'hom.png'
+            },
+            {
+                title: 'Featured maps',
+                desc: 'featured maps on mobile',
+                link: 'home-m',
+                src: 'mob.png'
+            },
+            {
+                title: 'Legend',
+                desc: 'action legend',
+                link: 'action-legend',
+                src: 'act.png'
+            },
+            {
                 title: 'Style Editor Point',
                 desc: 'Style Editor for PointSymbolizer',
                 link: 'styleeditor',

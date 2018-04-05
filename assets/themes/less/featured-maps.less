@@ -1,0 +1,195 @@
+
+.ms-featured-map-carousel {
+    .shadow-soft;
+    .carousel-control {
+        width: @square-btn-size;
+        background-image: none;
+        background-color: fade(@ms2-color-background, 90%);
+        color: @ms2-color-text;
+    }
+    .ms-remove-current {
+        position: absolute;
+        right: @square-btn-size + 10;
+        top: 10px;
+        color: @ms2-color-background;
+        text-shadow: 0 1px 2px #000;
+        font-size: @icon-size;
+        transition: 0.3s all;
+        &:hover {
+            transform: scale(1.2);
+        }
+    }
+    .carousel-caption {
+        color: @ms2-color-background;
+        text-shadow: 0 1px 2px @ms2-color-text;
+    }
+    .carousel-indicators  {
+        li {
+            .shadow-soft;
+        }
+    }
+}
+/*
+.text-border-2 (@color: #fff, @size: 1px) {
+    text-shadow: @size * 2 0 0 @color, -@size * 2 0 0 @color, 0 @size * 2 0 @color, 0 -@size * 2 0 @color, @size @size @color, -@size -@size 0 @color, @size -@size 0 @color, -@size @size 0 @color;
+}
+*/
+
+#page-faetured-maps,
+#page-home-m {
+    .navbar-nav > li {
+        float: left;
+    }
+    > div {
+        position: absolute;
+    }
+    .ms2-border-layout-content {
+        display: block !important;
+    }
+    .ms-super-fake-navbar {
+        .shadow-soft;
+        z-index: 10;
+    }
+    .maps-search {
+        width: 500px;
+        margin: 15px auto;
+        margin-top: 30px;
+        .shadow-soft;
+    }
+
+    
+    .ms-grid-map {
+        margin: 4px 0;
+        padding-left: 4px;
+        padding-right: 4px;
+        height: @square-btn-size * 3.5;
+        overflow: visible;
+        
+        .gridcard {
+            height: @square-btn-size * 3.5;
+            transition: all 0.3s;
+            .shadow-soft;
+            .gridcard-title {
+                background-color: transparent;
+                color: #fff;
+                text-shadow: 0 1px 2px rgba(0, 0, 0, 0.9);
+                font-size: @font-size-large;
+                width: 100%;
+                text-align: center;
+                padding: 4px;
+                padding-top: 8px;
+                min-height: auto;
+            }
+            .map-thumb-description {
+                background-color: transparent;
+                color: #333;
+                color: #fff;
+                text-shadow: 0 1px 2px rgba(0, 0, 0, 0.9);
+                width: 100%;
+                text-align: center;
+                padding: 4px;
+            }
+            .gridcard-tools {
+                padding: 4px 8px;
+                width: 100%;
+                right: 0;
+                height: auto !important;
+                & > button {
+                    float: right;
+                }
+            }
+            &:hover {
+                .shadow-far;
+                cursor: pointer;
+                z-index: 10;
+                opacity: 0.7;
+            }
+        }
+    }
+
+    .ms-grid-horizontal {
+        width: 100%;
+        overflow: hidden;
+        margin-left: 0;
+        margin-right: 0;
+        .row {
+            padding: 0;
+            margin: 0;
+        }
+        #mapstore-maps-grid {
+            height: @square-btn-size * 4;
+            overflow: hidden;
+            width: 100%;
+            padding: 0;
+            position: relative;
+            .row:first-child {
+                overflow: hidden;
+                white-space: nowrap;
+                overflow-x: auto;
+                width: 100%;
+                position: absolute;
+                box-sizing: border-box;
+                .ms-grid-map {
+                    width: @square-btn-size * 4;
+                    float: none;
+                    display: inline-block;
+                }
+            }
+        }
+    }
+
+    .ms-home-main-navbar {
+        .ms-brand-img {
+            float: left;
+            height: @square-btn-size;
+            width: auto;
+            img {
+                padding: 6px;
+                margin: 4px;
+                height: @square-btn-size;
+                width: auto;
+            }
+        }
+        .btn-group {
+            float: right;
+            margin: 4px;
+        }
+    }
+}
+.ms-head-mob-icon {
+    display: none;
+}
+
+@media screen and (max-width: 700px) {
+    #page-faetured-maps,
+        #page-home-m {
+        .maps-search {
+            width: 100%;
+            margin: 0;
+        }
+        .ms-head-nav {
+            display: none;
+        }
+        .ms-head-mob-icon {
+            display: inline-block;
+        }
+
+        .ms-home-main-navbar {
+            .ms-brand-img {
+                float: left;
+                height: @square-btn-size;
+                width: @square-btn-size + 10px;
+                overflow: hidden;
+                img {
+                    padding: 6px;
+                    height: @square-btn-size;
+                    width: auto;
+                }
+            }
+            .btn-group {
+                margin: (@square-btn-size - @square-btn-medium-size) / 2;
+            }
+        }
+    }
+}
+

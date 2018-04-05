@@ -9,14 +9,14 @@ const PropTypes = require('prop-types');
 
 const React = require('react');
 const Message = require('../../../MapStore2/web/client/components/I18N/Message');
-const GridCard = require('../../../MapStore2/web/client/components/misc/GridCard');
+const GridCard = require('./GridCard');
 const thumbUrl = require('./style/default.jpg');
 const assign = require('object-assign');
 
 const ConfirmModal = require('./modals/ConfirmModal');
 const LocaleUtils = require('../../../MapStore2/web/client/utils/LocaleUtils');
 
-require("./style/mapcard.css");
+// require("./style/mapcard.css");
 
 class MapCard extends React.Component {
     static propTypes = {
@@ -83,15 +83,20 @@ class MapCard extends React.Component {
         }] || [];
 
         if (this.props.map.canEdit === true) {
-            availableAction.push({
+            availableAction.push( {
+                onClick: (evt) => {this.stopPropagate(evt); /* mockup-only */this.props.onOpenDetails(this.props.map); },
+                glyph: this.props.map.featured ? "star" : "star-empty",
+                tooltip: this.props.map.featured ? 'Remove from featured map' : 'Add to featured map',
+                bsStyle: this.props.map.featured ? "success" : "primary"
+            }, {
                 onClick: (evt) => {this.stopPropagate(evt); this.onEdit(this.props.map); },
                 glyph: "wrench",
                 disabled: this.props.map.updating,
                 loading: this.props.map.updating,
                 tooltip: LocaleUtils.getMessageById(this.context.messages, "manager.editMapMetadata")
             }, {
-                onClick: (evt) => {this.stopPropagate(evt); this.displayDeleteDialog(); },
-                glyph: "remove-circle",
+                onClick: (evt) => {this.stopPropagate(evt); /*this.displayDeleteDialog();*/ },
+                glyph: "trash",
                 disabled: this.props.map.deleting,
                 loading: this.props.map.deleting,
                 tooltip: LocaleUtils.getMessageById(this.context.messages, "manager.deleteMap")

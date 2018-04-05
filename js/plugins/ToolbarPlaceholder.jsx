@@ -11,7 +11,7 @@ const PropTypes = require('prop-types');
 const {createSelector} = require('reselect');
 const {connect} = require('react-redux');
 
-class FakeToolbar extends React.Component {
+class ToolbarPlaceholder extends React.Component {
 
     static propTypes = {
         onSelect: PropTypes.func,
@@ -75,8 +75,8 @@ const selector = createSelector([
     right: detailsPanel && 658 || clickMap && 500 || 0
 }));
 
-const FakeToolbarPlugin = connect(selector)(FakeToolbar);
+const ToolbarPlaceholderPlugin = connect(selector)(ToolbarPlaceholder);
 
 module.exports = {
-    FakeToolbarPlugin
+    ToolbarPlaceholderPlugin
 };

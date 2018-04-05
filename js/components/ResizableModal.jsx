@@ -103,7 +103,7 @@ class ResizableModal extends React.Component {
                     {this.props.children}
                 </div>
                 <div role="footer">
-                    <Toolbar buttons={this.props.buttons}/>
+                    <Toolbar btnDefaultProps={{bsStyle: 'primary'}} buttons={this.props.buttons}/>
                 </div>
             </Dialog>
         );
