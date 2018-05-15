@@ -10,7 +10,7 @@ const PropTypes = require('prop-types');
 const React = require('react');
 const Metadata = require('../forms/Metadata');
 const Thumbnail = require('../forms/Thumbnail');
-const PermissionEditor = require('../../../../MapStore2/web/client/components/security/PermissionEditor');
+const PermissionEditor = require('../../../../old_ms2_226bfec4/web/client/components/security/PermissionEditor');
 
 require('./css/modals.css');
 

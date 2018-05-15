@@ -11,7 +11,7 @@ module.exports = {
         FakeTOCPlugin: require('./plugins/FakeTOC'),
         FakeFooterPlugin: require('./plugins/FakeFooter'),
         FakeNavbarPlugin: require('./plugins/FakeNavbar'),
-        FakeToolbarPlugin: require('./plugins/FakeToolbar'),
+        ToolbarPlaceholderPlugin: require('./plugins/ToolbarPlaceholder'),
 
         BackgroundPlugin: require('./plugins/Background'),
         QueryBuilderPlugin: require('./plugins/QueryBuilder'),
@@ -35,7 +35,12 @@ module.exports = {
 
         TOCPlugin: require('./plugins/TOC'),
 
-        AnnotationsPlugin: require('./plugins/Annotations')
+        AnnotationsPlugin: require('./plugins/Annotations'),
+
+        FeaturedMapsPlugin: require('./plugins/FeaturedMaps'),
+
+
+        TOCActionLegendPlugin: require('./plugins/TOCActionLegend')
 
     },
     requires: {}

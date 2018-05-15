@@ -8,10 +8,10 @@
 
 
 const React = require('react');
-const SideGrid = require('../../MapStore2/web/client/components/misc/cardgrids/SideGrid');
-const Message = require('../../MapStore2/web/client/components/I18N/Message');
-const sampleData = require('../../MapStore2/web/client/components/widgets/enhancers/sampleChartData');
-const SimpleChart = sampleData(require('../../MapStore2/web/client/components/charts/SimpleChart'));
+const SideGrid = require('../../old_ms2_226bfec4/web/client/components/misc/cardgrids/SideGrid');
+const Message = require('../../old_ms2_226bfec4/web/client/components/I18N/Message');
+const sampleData = require('../../old_ms2_226bfec4/web/client/components/widgets/enhancers/sampleChartData');
+const SimpleChart = sampleData(require('../../old_ms2_226bfec4/web/client/components/charts/SimpleChart'));
 const {Row} = require('react-bootstrap');
 const sampleProps = {
     legend: false,
@@ -21,7 +21,7 @@ const sampleProps = {
     height: 100,
     popup: false
 };
-const StepHeader = require('../../MapStore2/web/client/components/misc/wizard/StepHeader');
+const StepHeader = require('../../old_ms2_226bfec4/web/client/components/misc/wizard/StepHeader');
 
 const ITEMS = [{
     type: "bar"

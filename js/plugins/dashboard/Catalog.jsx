@@ -8,9 +8,9 @@
 
 const React = require('react');
 const PropTypes = require('prop-types');
-const Toolbar = require('../../../MapStore2/web/client/components/misc/toolbar/Toolbar');
-const SideCard = require('../../../MapStore2/web/client/components/misc/cardgrids/SideCard');
-const BorderLayout = require('../../../MapStore2/web/client/components/layout/BorderLayout');
+const Toolbar = require('../../../old_ms2_226bfec4/web/client/components/misc/toolbar/Toolbar');
+const SideCard = require('../../../old_ms2_226bfec4/web/client/components/misc/cardgrids/SideCard');
+const BorderLayout = require('../../../old_ms2_226bfec4/web/client/components/layout/BorderLayout');
 const {Grid, Row, Col, FormGroup, FormControl, Glyphicon} = require('react-bootstrap');
 const Combobox = require('react-widgets').Combobox;
 const {head} = require('lodash');

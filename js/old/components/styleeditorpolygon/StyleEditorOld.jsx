@@ -9,7 +9,7 @@ const ColorSelector = require('./ColorSelector');
 const ColorRampSelector = require('./ColorRampSelector');
 const StyleSelector = require('./StyleSelector');
 const MarkerList = require('./MarkerList');
-const ColorPicker = require('../../../MapStore2/web/client/components/style/ColorPicker');
+const ColorPicker = require('../../../old_ms2_226bfec4/web/client/components/style/ColorPicker');
 const Codemirror = require('react-codemirror');
 
 const {Table, Row, Col, Nav, NavItem, Button, ButtonGroup, Glyphicon} = require('react-bootstrap');

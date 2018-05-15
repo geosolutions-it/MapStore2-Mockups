@@ -10,7 +10,7 @@ const React = require('react');
 const PropTypes = require('prop-types');
 const {Panel} = require('react-bootstrap');
 const SwitchButton = require('./SwitchButton');
-const Toolbar = require('../../MapStore2/web/client/components/misc/toolbar/Toolbar');
+const Toolbar = require('../../old_ms2_226bfec4/web/client/components/misc/toolbar/Toolbar');
 const ReactCSSTransitionGroup = require('react-addons-css-transition-group');
 
 class SwitchPanel extends React.Component {

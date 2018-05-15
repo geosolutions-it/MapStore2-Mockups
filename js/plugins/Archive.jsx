@@ -10,7 +10,7 @@ const React = require('react');
 const PropTypes = require('prop-types');
 const ContainerDimensions = require('react-container-dimensions').default;
 const ArchiveCard = require('../components/ArchiveCard');
-const Filter = require('../../MapStore2/web/client/components/misc/Filter');
+const Filter = require('../../old_ms2_226bfec4/web/client/components/misc/Filter');
 
 class ArchivePlugin extends React.Component {
 
@@ -20,6 +20,24 @@ class ArchivePlugin extends React.Component {
 
     static defaultProps = {
         cards: [
+            {
+                title: 'Featured maps',
+                desc: 'featured maps desktop',
+                link: 'featured-maps',
+                src: 'hom.png'
+            },
+            {
+                title: 'Featured maps',
+                desc: 'featured maps on mobile (use mobile device)',
+                link: 'home-m',
+                src: 'mob.png'
+            },
+            {
+                title: 'Legend',
+                desc: 'action legend',
+                link: 'action-legend',
+                src: 'act.png'
+            },
             {
                 title: 'Style Editor Point',
                 desc: 'Style Editor for PointSymbolizer',

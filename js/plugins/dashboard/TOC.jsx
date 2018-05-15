@@ -8,12 +8,12 @@
 
 const React = require('react');
 const PropTypes = require('prop-types');
-const Toolbar = require('../../../MapStore2/web/client/components/misc/toolbar/Toolbar');
-const TOC = require('../../../MapStore2/web/client/components/TOC/TOC');
-const BorderLayout = require('../../../MapStore2/web/client/components/layout/BorderLayout');
-const DefaultGroup = require('../../../MapStore2/web/client/components/TOC/DefaultGroup');
-const DefaultLayer = require('../../../MapStore2/web/client/components/TOC/DefaultLayer');
-const DefaultLayerOrGroup = require('../../../MapStore2/web/client/components/TOC/DefaultLayerOrGroup');
+const Toolbar = require('../../../old_ms2_226bfec4/web/client/components/misc/toolbar/Toolbar');
+const TOC = require('../../../old_ms2_226bfec4/web/client/components/TOC/TOC');
+const BorderLayout = require('../../../old_ms2_226bfec4/web/client/components/layout/BorderLayout');
+const DefaultGroup = require('../../../old_ms2_226bfec4/web/client/components/TOC/DefaultGroup');
+const DefaultLayer = require('../../../old_ms2_226bfec4/web/client/components/TOC/DefaultLayer');
+const DefaultLayerOrGroup = require('../../../old_ms2_226bfec4/web/client/components/TOC/DefaultLayerOrGroup');
 const {Grid, Row, Col, FormGroup, FormControl, Glyphicon} = require('react-bootstrap');
 const SwitchButton = require('../../components/SwitchButton');
 const emptyData = (nodes) => [

@@ -20,14 +20,14 @@ const emptyData = (nodes) => [
         nodes
     }
 ];
-const TOC = require('../../MapStore2/web/client/components/TOC/TOC');
-const DefaultGroup = require('../../MapStore2/web/client/components/TOC/DefaultGroup');
+const TOC = require('../../old_ms2_226bfec4/web/client/components/TOC/TOC');
+const DefaultGroup = require('../../old_ms2_226bfec4/web/client/components/TOC/DefaultGroup');
 const DefaultLayer = require('../components/DefaultLayer');
-const DefaultLayerOrGroup = require('../../MapStore2/web/client/components/TOC/DefaultLayerOrGroup');
-const BorderLayout = require('../../MapStore2/web/client/components/layout/BorderLayout');
-const Filter = require('../../MapStore2/web/client/components/misc/Filter');
+const DefaultLayerOrGroup = require('../../old_ms2_226bfec4/web/client/components/TOC/DefaultLayerOrGroup');
+const BorderLayout = require('../../old_ms2_226bfec4/web/client/components/layout/BorderLayout');
+const Filter = require('../../old_ms2_226bfec4/web/client/components/misc/Filter');
 const {Grid, Row, Col, Glyphicon} = require('react-bootstrap');
-const Toolbar = require('../../MapStore2/web/client/components/misc/toolbar/Toolbar');
+const Toolbar = require('../../old_ms2_226bfec4/web/client/components/misc/toolbar/Toolbar');
 
 class TOCPlugin extends React.Component {
 

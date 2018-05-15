@@ -8,11 +8,11 @@
 const React = require('react');
 const {head} = require('lodash');
 const {Row, Col, Form, FormGroup, ControlLabel} = require('react-bootstrap');
-const Message = require('../../MapStore2/web/client/components/I18N/Message');
+const Message = require('../../old_ms2_226bfec4/web/client/components/I18N/Message');
 const Select = require('react-select');
-const ColorRangeSelector = require('../../MapStore2/web/client/components/style/ColorRangeSelector');
-const StepHeader = require('../../MapStore2/web/client/components/misc/wizard/StepHeader');
-const SwitchButton = require('../../MapStore2/web/client/components/misc/switch/SwitchButton');
+const ColorRangeSelector = require('../../old_ms2_226bfec4/web/client/components/style/ColorRangeSelector');
+const StepHeader = require('../../old_ms2_226bfec4/web/client/components/misc/wizard/StepHeader');
+const SwitchButton = require('../../old_ms2_226bfec4/web/client/components/misc/switch/SwitchButton');
 const COLORS = [{
     name: 'global.colors.random',
     schema: 'qualitative',

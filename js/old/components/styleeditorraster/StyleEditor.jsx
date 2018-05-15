@@ -2,8 +2,8 @@
 const React = require('react');
 const PropTypes = require('prop-types');
 
-const ConfirmModal = require('../../../../MapStore2/web/client/components/maps/modals/ConfirmModal');
-const SimpleChart = require('../../../../MapStore2/web/client/components/charts/SimpleChart');
+const ConfirmModal = require('../../../../old_ms2_226bfec4/web/client/components/maps/modals/ConfirmModal');
+const SimpleChart = require('../../../../old_ms2_226bfec4/web/client/components/charts/SimpleChart');
 const Combobox = require('react-widgets').Combobox;
 const SwitchPanel = require('./SwitchPanel');
 const ColorSelector = require('./ColorSelector');
@@ -14,7 +14,7 @@ const ClassificationTable = require('./ClassificationTable');
 const ContainerDimensions = require('react-container-dimensions').default;
 
 const MarkerList = require('./MarkerList');
-const ColorPicker = require('../../../../MapStore2/web/client/components/style/ColorPicker');
+const ColorPicker = require('../../../../old_ms2_226bfec4/web/client/components/style/ColorPicker');
 const Codemirror = require('react-codemirror');
 
 const FakeIcons = require('../FakeIcons');

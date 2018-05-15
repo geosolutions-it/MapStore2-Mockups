@@ -3,9 +3,9 @@ const PropTypes = require('prop-types');
 // const ComponentViewer = require('../components/ComponentViewer');
 const ResizableModal = require('../components/ResizableModal');
 const {Button} = require('react-bootstrap');
-const BorderLayout = require('../../MapStore2/web/client/components/layout/BorderLayout');
-const Filter = require('../../MapStore2/web/client/components/misc/Filter');
-// const Portal = require('../../MapStore2/web/client/components/misc/Portal');
+const BorderLayout = require('../../old_ms2_226bfec4/web/client/components/layout/BorderLayout');
+const Filter = require('../../old_ms2_226bfec4/web/client/components/misc/Filter');
+// const Portal = require('../../old_ms2_226bfec4/web/client/components/misc/Portal');
 
 class ComponentsArchive extends React.Component {
     static propTypes = {

@@ -13,7 +13,7 @@
         "QueryBuilder",
         "FakeFooter",
         "FakeNavbar",
-        "FakeToolbar"
+        "ToolbarPlaceholder"
       ],
 			"maps-list": [
         "Header",
@@ -70,7 +70,7 @@
         "FakeFooter",
         "FakeNavbar",
         {
-          "name": "FakeToolbar",
+          "name": "ToolbarPlaceholder",
           "cfg": {
             "fixed": false
           }
@@ -135,7 +135,7 @@
         },
         "FakeFooter",
         {
-          "name": "FakeToolbar",
+          "name": "ToolbarPlaceholder",
           "cfg": {
             "fixed": false
           }
@@ -167,7 +167,7 @@
         "TOC",
         "FakeFooter",
         "FakeNavbar",
-        "FakeToolbar"
+        "ToolbarPlaceholder"
       ],
       "annotations": [
         {
@@ -179,6 +179,34 @@
         },
         "Annotations",
         "FakeFooter"
+      ],
+      "faetured-maps": [
+        "FeaturedMaps"
+      ],
+      "home-m": [
+        {
+          "name": "FeaturedMaps",
+          "cfg": {
+            "mobile": true
+          }
+        }
+      ],
+      "action-legend": [
+        {
+          "name": "Background",
+          "cfg": {
+              "showItaly": true
+          }
+        },
+        "TOCActionLegend",
+        "FakeFooter",
+        "FakeNavbar",
+        {
+          "name": "ToolbarPlaceholder",
+          "cfg": {
+            "fixed": true
+          }
+        }
       ]
 	}
 }

@@ -6,9 +6,9 @@
  * LICENSE file in the root directory of this source tree.
  */
 const React = require('react');
-const Message = require('../../MapStore2/web/client/components/I18N/Message');
-const BorderLayout = require('../../MapStore2/web/client/components/layout/BorderLayout');
-const ConfirmModal = require('../../MapStore2/web/client/components/maps/modals/ConfirmModal');
+const Message = require('../../old_ms2_226bfec4/web/client/components/I18N/Message');
+const BorderLayout = require('../../old_ms2_226bfec4/web/client/components/layout/BorderLayout');
+const ConfirmModal = require('../../old_ms2_226bfec4/web/client/components/maps/modals/ConfirmModal');
 
 module.exports = ({
     id,

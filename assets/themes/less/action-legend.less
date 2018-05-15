@@ -1,0 +1,129 @@
+#page-action-legend {
+    .ms-toc-header {
+        border-bottom: 1px solid @ms2-color-shade-lighter;
+    }
+    .toc-default-group {
+        border-bottom: 1px solid @ms2-color-shade-lighter;
+    }
+    .toc-default-layer {
+        margin-right: 15px;
+    }
+    @import "./sidegrid.less";
+    .msSideGrid {
+        margin: 15px;
+        background-color: @ms2-color-background;
+        width: ~"calc(100% - 30px)";
+        position: relative;
+    }
+    /*!!! ONLY MOCKUP !!!!*/
+    .mapstore-side-card.ms-sm {
+        width: 100% !important;
+        height: auto !important;
+        overflow: visible;
+        display: flex;
+        .mapstore-side-preview {
+            width: auto !important;
+            .glyphicon {
+                font-size: @icon-size-md;
+            }
+        }
+        .mapstore-side-card-info {
+            .mapstore-side-card-title {
+                flex: 1;
+                border-bottom: 1px solid @ms2-color-shade-lighter;
+            }
+            .mapstore-side-card-desc {
+                display: none;
+            }
+        }
+        &:hover {
+            transform: none !important;
+        }
+
+        &.ms-no-visible {
+            opacity: 0.4;
+        }
+    }
+
+    // .ms-action-legend {
+        .noUi-target {
+            background-color: @ms2-color-primary;
+            &.noUi-horizontal {
+                margin: 0;
+                .noUi-base {
+                    .noUi-origin {
+                        .noUi-handle {
+                            border-top: 1px solid @ms2-color-background;
+                            width: 10px;
+                            height: 15px;
+                            left: -5px;
+                            top: -8px;
+                        }
+                    } 
+                } 
+            }
+        }
+    // }
+    /*!!! END - ONLY MOCKUP !!!!*/
+
+    .ms-action-legend {
+        .shadow-far;
+        pointer-events: auto;
+        position: absolute;
+        top: 4px;
+        left: 4px;
+        background-color: @ms2-color-background;
+        width: 300px;
+        overflow: hidden;
+        display: flex;
+        flex-direction: column;
+        margin: 0;
+        border: none;
+        .panel-heading {
+            a {
+                &:hover {
+                    text-decoration: none;
+                }
+            }
+            padding: 0;
+            .panel-title {
+                .row {
+                    display: flex;
+                    align-items: center;
+                    /*> div {
+                        display: flex;
+                        align-items: center;
+                    }*/
+                }
+            }
+        }
+        .panel-collapse {
+            flex: 1;
+            transition: unset;
+            overflow: auto;
+            .panel-body {
+                padding: 0;
+            }
+        }
+
+       /* & > div {
+            position: absolute;
+            & > .container-fluid {
+                
+                width: 100%;
+                &:first-child {
+                    border-bottom: 1px solid @ms2-color-shade-lighter;
+                }
+                &:last-child {
+                    border-top: 1px solid @ms2-color-shade-lighter;
+                    height: 15px;
+                }
+            }
+        }
+        main {
+            position: relative;
+        }*/
+    }
+}
+
+

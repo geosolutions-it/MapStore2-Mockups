@@ -8,7 +8,7 @@
 
 const React = require('react');
 const PropTypes = require('prop-types');
-const Filter = require('../../MapStore2/web/client/components/misc/Filter');
+const Filter = require('../../old_ms2_226bfec4/web/client/components/misc/Filter');
 const {ButtonGroup, Button, Glyphicon, DropdownButton, MenuItem} = require('react-bootstrap');
 
 class HeaderPlugin extends React.Component {
@@ -42,7 +42,7 @@ class HeaderPlugin extends React.Component {
                 <div className="m-right">
                     <ButtonGroup>
                         <Button className="square-button no-border">
-                            <img src={require('../../MapStore2/web/client/components/I18N/images/flags/en-US.png')} />
+                            <img src={require('../../old_ms2_226bfec4/web/client/components/I18N/images/flags/en-US.png')} />
                         </Button>
                         {this.props.homeButton && <a href="#/maps-archive"><Button bsStyle="primary" className="square-button" bsStyle="primary">
                             <Glyphicon glyph="home"/>

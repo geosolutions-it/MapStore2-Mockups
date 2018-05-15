@@ -8,14 +8,14 @@
 
 const React = require('react');
 const PropTypes = require('prop-types');
-const BorderLayout = require('../../MapStore2/web/client/components/layout/BorderLayout');
+const BorderLayout = require('../../old_ms2_226bfec4/web/client/components/layout/BorderLayout');
 const SwitchPanel = require('../components/SwitchPanel');
 const {Button, Glyphicon, Row, Col, Modal} = require('react-bootstrap');
 const Combobox = require('react-widgets').Combobox;
 const {setOption} = require('../actions/mockups');
 const {createSelector} = require('reselect');
 const {connect} = require('react-redux');
-const Toolbar = require('../../MapStore2/web/client/components/misc/toolbar/Toolbar');
+const Toolbar = require('../../old_ms2_226bfec4/web/client/components/misc/toolbar/Toolbar');
 const ConditionsGroup = require('../components/ConditionsGroup');
 
 const ListItem = ({ item }) => (

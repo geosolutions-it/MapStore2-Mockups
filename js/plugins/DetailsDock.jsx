@@ -10,7 +10,7 @@ const React = require('react');
 const PropTypes = require('prop-types');
 const {connect} = require('react-redux');
 const Dock = require('react-dock').default;
-const BorderLayout = require('../../MapStore2/web/client/components/layout/BorderLayout');
+const BorderLayout = require('../../old_ms2_226bfec4/web/client/components/layout/BorderLayout');
 const {Button, Glyphicon} = require('react-bootstrap');
 const {setOption} = require('../actions/mockups');
 

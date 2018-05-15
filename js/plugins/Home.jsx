@@ -8,7 +8,7 @@
 
 const React = require('react');
 const {Grid, Row, Col, Jumbotron} = require('react-bootstrap');
-const BorderLayout = require('../../MapStore2/web/client/components/layout/BorderLayout');
+const BorderLayout = require('../../old_ms2_226bfec4/web/client/components/layout/BorderLayout');
 class Home extends React.Component {
 
     render() {
@@ -36,7 +36,7 @@ class Home extends React.Component {
                     </Row>
                     <Row>
                         <Col sm={6}>
-                            <img style={{width: '100%'}} src={require('../../MapStore2/web/client/product/assets/img/Viewer.jpg')}/>
+                            <img style={{width: '100%'}} src={require('../../old_ms2_226bfec4/web/client/product/assets/img/Viewer.jpg')}/>
                         </Col>
                         <Col sm={6}>
                             <h1>
@@ -49,7 +49,7 @@ class Home extends React.Component {
                     </Row>
                     <Row>
                         <Col sm={6}>
-                            <img style={{width: '100%'}} src={require('../../MapStore2/web/client/product/assets/img/3DViewer.jpg')}/>
+                            <img style={{width: '100%'}} src={require('../../old_ms2_226bfec4/web/client/product/assets/img/3DViewer.jpg')}/>
                         </Col>
                         <Col sm={6}>
                             <h1>
@@ -62,7 +62,7 @@ class Home extends React.Component {
                     </Row>
                     <Row>
                         <Col sm={6}>
-                            <img style={{width: '100%'}} src={require('../../MapStore2/web/client/product/assets/img/MousePosition.jpg')}/>
+                            <img style={{width: '100%'}} src={require('../../old_ms2_226bfec4/web/client/product/assets/img/MousePosition.jpg')}/>
                         </Col>
                         <Col sm={6}>
                             <h1>

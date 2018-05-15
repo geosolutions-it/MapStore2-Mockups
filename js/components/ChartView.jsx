@@ -7,7 +7,7 @@
  */
 
 const React = require('react');
-const SimpleChart = require('../../MapStore2/web/client/components/charts/SimpleChart');
+const SimpleChart = require('../../old_ms2_226bfec4/web/client/components/charts/SimpleChart');
 
 module.exports = ({legendPosition = 'auto-br', legendHeight = 200, legendWidth = 200, width, height, showLegend, ...props} = {}) => {
 

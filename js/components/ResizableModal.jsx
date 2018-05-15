@@ -9,8 +9,8 @@
 const PropTypes = require('prop-types');
 const React = require('react');
 const {Glyphicon} = require('react-bootstrap');
-const Dialog = require('../../MapStore2/web/client/components/misc/Dialog');
-const Toolbar = require('../../MapStore2/web/client/components/misc/toolbar/Toolbar');
+const Dialog = require('../../old_ms2_226bfec4/web/client/components/misc/Dialog');
+const Toolbar = require('../../old_ms2_226bfec4/web/client/components/misc/toolbar/Toolbar');
 
 const sizes = {
     xs: ' ms-xs',
@@ -103,7 +103,7 @@ class ResizableModal extends React.Component {
                     {this.props.children}
                 </div>
                 <div role="footer">
-                    <Toolbar buttons={this.props.buttons}/>
+                    <Toolbar btnDefaultProps={{bsStyle: 'primary'}} buttons={this.props.buttons}/>
                 </div>
             </Dialog>
         );
