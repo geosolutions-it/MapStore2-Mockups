@@ -12,7 +12,7 @@ const PropTypes = require('prop-types');
 const dragSource = require('react-dnd').DragSource;
 const dropTarget = require('react-dnd').DropTarget;
 
-const SideCard = require('../../MapStore2/web/client/components/misc/cardgrids/SideCard');
+const SideCard = require('../../old_ms2_226bfec4/web/client/components/misc/cardgrids/SideCard');
 
 const cardSource = {
     beginDrag: function(props) {

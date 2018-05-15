@@ -20,15 +20,23 @@ const emptyData = (nodes) => [
         nodes
     }
 ];
-const TOC = require('../../MapStore2/web/client/components/TOC/TOC');
-const DefaultGroup = require('../../MapStore2/web/client/components/TOC/DefaultGroup');
-const DefaultLayer = require('../../MapStore2/web/client/components/TOC/DefaultLayer');
-const DefaultLayerOrGroup = require('../../MapStore2/web/client/components/TOC/DefaultLayerOrGroup');
-const BorderLayout = require('../../MapStore2/web/client/components/layout/BorderLayout');
-const Filter = require('../../MapStore2/web/client/components/misc/Filter');
+const TOC = require('../../old_ms2_226bfec4/web/client/components/TOC/TOC');
+const DefaultGroup = require('../../old_ms2_226bfec4/web/client/components/TOC/DefaultGroup');
+const DefaultLayer = require('../../old_ms2_226bfec4/web/client/components/TOC/DefaultLayer');
+const DefaultLayerOrGroup = require('../../old_ms2_226bfec4/web/client/components/TOC/DefaultLayerOrGroup');
+const BorderLayout = require('../../old_ms2_226bfec4/web/client/components/layout/BorderLayout');
+const Filter = require('../../old_ms2_226bfec4/web/client/components/misc/Filter');
 const {Grid, Row, Col, Glyphicon, Button} = require('react-bootstrap');
-const Toolbar = require('../../MapStore2/web/client/components/misc/toolbar/Toolbar');
+const Toolbar = require('../../old_ms2_226bfec4/web/client/components/misc/toolbar/Toolbar');
 const ActionLegend = require('../components/ActionLegend');
+const BackgroundSelector = require('../../old_ms2_226bfec4/web/client/components/background/BackgroundSelector');
+const bgImage = require('../../old_ms2_226bfec4/web/client/plugins/background/assets/img/mapnik.jpg');
+
+const legendsImg = {
+    'layer:01': require('../plugins/dashboard/img/legend-r.png'),
+    'layer:02': require('../../assets/img/usa-legend.png'),
+    'layer:03': require('../../assets/img/unesco-legend.png')
+};
 
 class TOCActionLegendPlugin extends React.Component {
 
@@ -62,6 +70,7 @@ class TOCActionLegendPlugin extends React.Component {
 
     state = {
         show: false,
+        legendExpanded: true,
         nodes: [{
             id: 'layer:01',
             name: 'italy:regions',
@@ -69,7 +78,8 @@ class TOCActionLegendPlugin extends React.Component {
             group: 'Default',
             visibility: true,
             expanded: true,
-            synced: false
+            synced: false,
+            legendSrc: legendsImg['layer:01']
         }, {
             id: 'layer:02',
             name: 'USA Population',
@@ -77,7 +87,8 @@ class TOCActionLegendPlugin extends React.Component {
             group: 'Default',
             visibility: true,
             expanded: false,
-            synced: true
+            synced: true,
+            legendSrc: legendsImg['layer:02']
         }, {
             id: 'layer:03',
             name: 'Unesco Items',
@@ -85,7 +96,8 @@ class TOCActionLegendPlugin extends React.Component {
             group: 'Default',
             visibility: true,
             expanded: false,
-            synced: false
+            synced: false,
+            legendSrc: legendsImg['layer:03']
         }, {
             id: 'layer:04',
             name: 'Layer empty',
@@ -170,8 +182,9 @@ class TOCActionLegendPlugin extends React.Component {
         };
         const Group = this.getDefaultGroup();
         const Layer = this.getDefaultLayer();
-        return this.state.show ? (
-            <Dock dockStyle={{height: 'calc(100% - 30px)'}} {...dockProps} isVisible size={300} >
+        return(
+            <div style={{ position: 'absolute', width: '100%', height: '100%', pointerEvents: 'none'}}>
+            <Dock dockStyle={{height: 'calc(100% - 30px)', pointerEvents: 'auto'}} {...dockProps} isVisible={this.state.show} size={300} >
                 <BorderLayout
                     header={
                         this.renderHeader()
@@ -181,22 +194,51 @@ class TOCActionLegendPlugin extends React.Component {
                     </TOC>
                 </BorderLayout>
             </Dock>
-        ) : (
-            <div >
-                <Button id="drawer-menu-button" style={{position: 'absolute'}} bsStyle="primary" className="square-button" onClick={() => {
+      
+
+            
+                {/*<Button id="drawer-menu-button" style={{position: 'absolute'}} bsStyle="primary" className="square-button" onClick={() => {
                     this.setState({
                         show: true
                     });
                 }}>
                     <Glyphicon glyph="1-layer"/>
-                </Button>
-                <ActionLegend
+            </Button>*/}
+                {!this.state.show && <ActionLegend
+                    height={this.state.legendHeight || undefined}
+                    expanded={this.state.legendExpanded || false}
                     layers={this.state.nodes}
+                    onExpand={expanded => {
+                        this.setState({
+                            legendExpanded: expanded
+                        });
+                    }}
+                    onResize={(height) => {
+                        this.setState({
+                            legendHeight: height
+                        });
+                    }}
+                    onClick={() => {
+                        this.setState({
+                            show: true
+                        });
+                    }}
                     onChange={(id, key, value) => {
                         this.setState({
                             nodes: this.state.nodes.map(layer => layer.id === id ? {...layer, [key]: value} : {...layer} )
                         });
-                    }}/>
+                    }}/>}
+
+                    <div className="background-plugin-position" style={{transition: '0.3s', left: this.state.show ? 300 : 0, bottom: 30, pointerEvents: 'auto'}}>
+                    <div className="background-preview-button" style={{margin: 5}}>
+                    <div className="background-preview-button-container bg-body" style={{padding: 3, width: 78, height: 78}}>
+                    <div className="background-preview-button-label" style={{width: 72, height: 0, marginTop: 0, padding: 0}}>
+                    <div className="bg-body bg-text" style={{padding: 6}}>Open Street Map</div>
+                    </div>
+                    <div className="background-preview-button-frame" style={{width: 72, height: 72}}>
+                    <img src={bgImage}/>
+                    </div>
+                    </div></div></div>
             </div>
         );
     }

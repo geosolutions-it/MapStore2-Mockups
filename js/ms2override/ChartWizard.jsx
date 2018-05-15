@@ -7,18 +7,18 @@
   */
 const React = require('react');
 
-const {wizardHanlders} = require('../../MapStore2/web/client/components/misc/wizard/enhancers');
-const loadingState = require('../../MapStore2/web/client/components/misc/enhancers/loadingState')(({loading, data}) => loading || !data, {width: 500, height: 200});
+const {wizardHanlders} = require('../../old_ms2_226bfec4/web/client/components/misc/wizard/enhancers');
+const loadingState = require('../../old_ms2_226bfec4/web/client/components/misc/enhancers/loadingState')(({loading, data}) => loading || !data, {width: 500, height: 200});
 
 const ChartType = require('./ChartType');
-const wfsChartOptions = require('../../MapStore2/web/client/components/widgets/builder/wizard/chart/wfsChartOptions');
+const wfsChartOptions = require('../../old_ms2_226bfec4/web/client/components/widgets/builder/wizard/chart/wfsChartOptions');
 const ChartOptions = wfsChartOptions(require('./ChartOptions'));
-const WidgetOptions = require('../../MapStore2/web/client/components/widgets/builder/wizard/chart/WidgetOptions');
-const sampleData = require('../../MapStore2/web/client/components/widgets/enhancers/sampleChartData');
-const wpsChart = require('../../MapStore2/web/client/components/widgets/enhancers/wpsChart');
-const dependenciesToFilter = require('../../MapStore2/web/client/components/widgets/enhancers/dependenciesToFilter');
-const emptyChartState = require('../../MapStore2/web/client/components/widgets/enhancers/emptyChartState');
-const errorChartState = require('../../MapStore2/web/client/components/widgets/enhancers/errorChartState');
+const WidgetOptions = require('../../old_ms2_226bfec4/web/client/components/widgets/builder/wizard/chart/WidgetOptions');
+const sampleData = require('../../old_ms2_226bfec4/web/client/components/widgets/enhancers/sampleChartData');
+const wpsChart = require('../../old_ms2_226bfec4/web/client/components/widgets/enhancers/wpsChart');
+const dependenciesToFilter = require('../../old_ms2_226bfec4/web/client/components/widgets/enhancers/dependenciesToFilter');
+const emptyChartState = require('../../old_ms2_226bfec4/web/client/components/widgets/enhancers/emptyChartState');
+const errorChartState = require('../../old_ms2_226bfec4/web/client/components/widgets/enhancers/errorChartState');
 const {compose, lifecycle} = require('recompose');
 const enhanchePreview = compose(
     dependenciesToFilter,
@@ -27,8 +27,8 @@ const enhanchePreview = compose(
     errorChartState,
     emptyChartState
 );
-const PreviewChart = enhanchePreview(require('../../MapStore2/web/client/components/charts/SimpleChart'));
-const SampleChart = sampleData(require('../../MapStore2/web/client/components/charts/SimpleChart'));
+const PreviewChart = enhanchePreview(require('../../old_ms2_226bfec4/web/client/components/charts/SimpleChart'));
+const SampleChart = sampleData(require('../../old_ms2_226bfec4/web/client/components/charts/SimpleChart'));
 
 const sampleProps = {
     width: 430,
@@ -38,7 +38,7 @@ const sampleProps = {
 
 const isChartOptionsValid = (options = {}) => options.aggregateFunction && options.aggregationAttribute && options.groupByAttributes;
 
-const Wizard = wizardHanlders(require('../../MapStore2/web/client/components/misc/wizard/WizardContainer'));
+const Wizard = wizardHanlders(require('../../old_ms2_226bfec4/web/client/components/misc/wizard/WizardContainer'));
 
 
 const renderPreview = ({data = {}, layer, dependencies={}, setValid = () => {}}) => isChartOptionsValid(data.options)

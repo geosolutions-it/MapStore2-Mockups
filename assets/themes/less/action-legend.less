@@ -1,4 +1,13 @@
 #page-action-legend {
+    .ms-toc-header {
+        border-bottom: 1px solid @ms2-color-shade-lighter;
+    }
+    .toc-default-group {
+        border-bottom: 1px solid @ms2-color-shade-lighter;
+    }
+    .toc-default-layer {
+        margin-right: 15px;
+    }
     @import "./sidegrid.less";
     .msSideGrid {
         margin: 15px;
@@ -36,7 +45,7 @@
         }
     }
 
-    .ms-action-legend {
+    // .ms-action-legend {
         .noUi-target {
             background-color: @ms2-color-primary;
             &.noUi-horizontal {
@@ -54,18 +63,18 @@
                 } 
             }
         }
-    }
+    // }
     /*!!! END - ONLY MOCKUP !!!!*/
 
     .ms-action-legend {
-        .shadow-soft;
+        .shadow-far;
+        pointer-events: auto;
         position: absolute;
         top: 4px;
-        left: @square-btn-size + 4px;
+        left: 4px;
         background-color: @ms2-color-background;
         width: 300px;
         overflow: hidden;
-        max-height: @square-btn-size * 5;
         display: flex;
         flex-direction: column;
         margin: 0;
@@ -90,6 +99,7 @@
         }
         .panel-collapse {
             flex: 1;
+            transition: unset;
             overflow: auto;
             .panel-body {
                 padding: 0;

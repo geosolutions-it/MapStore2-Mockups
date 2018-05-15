@@ -8,15 +8,15 @@
 
 const React = require('react');
 const PropTypes = require('prop-types');
-const Node = require('../../MapStore2/web/client/components/TOC/Node');
+const Node = require('../../old_ms2_226bfec4/web/client/components/TOC/Node');
 const {isObject, isArray} = require('lodash');
 const {ProgressBar, Grid, Row, Col, Button, Glyphicon, Tooltip, OverlayTrigger} = require('react-bootstrap');
-const VisibilityCheck = require('../../MapStore2/web/client/components/TOC/fragments/VisibilityCheck');
-const Title = require('../../MapStore2/web/client/components/TOC/fragments/Title');
-// const WMSLegend = require('../../MapStore2/web/client/components/TOC/fragments/WMSLegend');
-const LayersTool = require('../../MapStore2/web/client/components/TOC/fragments/LayersTool');
+const VisibilityCheck = require('../../old_ms2_226bfec4/web/client/components/TOC/fragments/VisibilityCheck');
+const Title = require('../../old_ms2_226bfec4/web/client/components/TOC/fragments/Title');
+// const WMSLegend = require('../../old_ms2_226bfec4/web/client/components/TOC/fragments/WMSLegend');
+const LayersTool = require('../../old_ms2_226bfec4/web/client/components/TOC/fragments/LayersTool');
 const Slider = require('react-nouislider');
-const tooltip = require('../../MapStore2/web/client/components/misc/enhancers/tooltip');
+const tooltip = require('../../old_ms2_226bfec4/web/client/components/misc/enhancers/tooltip');
 const ButtonT = tooltip(Button);
 
 const timeValue = [
@@ -222,7 +222,7 @@ class DefaultLayer extends React.Component {
                                 <Glyphicon style={{margin: 0, color: '#ffffff'}} glyph="time"/>
                             </ButtonT>
                         </Col>
-                        <Col xs={9} className="mapstore-slider with-tooltip">
+                        <Col xs={9} className="mapstore-slider">
                             <Slider start={[this.state.time]}
                                 disabled={this.state.enableSynch}
                                 range={{min: 0, max: timeValue.length - 1}}

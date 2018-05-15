@@ -8,13 +8,13 @@ const PropTypes = require('prop-types');
  */
 
 const React = require('react');
-const Message = require('../../../MapStore2/web/client/components/I18N/Message');
+const Message = require('../../../old_ms2_226bfec4/web/client/components/I18N/Message');
 const GridCard = require('./GridCard');
 const thumbUrl = require('./style/default.jpg');
 const assign = require('object-assign');
 
 const ConfirmModal = require('./modals/ConfirmModal');
-const LocaleUtils = require('../../../MapStore2/web/client/utils/LocaleUtils');
+const LocaleUtils = require('../../../old_ms2_226bfec4/web/client/utils/LocaleUtils');
 
 // require("./style/mapcard.css");
 

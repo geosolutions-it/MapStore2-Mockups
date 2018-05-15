@@ -18,56 +18,56 @@ class FeaturedMapsList extends React.Component {
                 id: 'viewer',
                 title: 'Viewer',
                 description: 'Simple Viewer',
-                src: require('../../MapStore2/web/client/product/assets/img/Viewer.jpg'),
+                src: require('../../old_ms2_226bfec4/web/client/product/assets/img/Viewer.jpg'),
                 thumbnail: '/assets/img/maps-thumbnails/histo-flowrence.png'
             },
             {
                 id: '3dviewer',
                 title: '3D Viewer',
                 description: 'Simple CesiumJS based 3D Viewer',
-                src: require('../../MapStore2/web/client/product/assets/img/3DViewer.jpg'),
+                src: require('../../old_ms2_226bfec4/web/client/product/assets/img/3DViewer.jpg'),
                 thumbnail: '/assets/img/maps-thumbnails/gtopo30.png'
             },
             {
                 id: 'mouseposition',
                 title: 'Mouse Position Control',
                 description: 'Custom examples',
-                src: require('../../MapStore2/web/client/product/assets/img/MousePosition.jpg'),
+                src: require('../../old_ms2_226bfec4/web/client/product/assets/img/MousePosition.jpg'),
                 thumbnail: '/assets/img/maps-thumbnails/gtopo30.png'
             },
             {
                 id: 'scalebar',
                 title: 'Scale Control',
                 description: 'Custom examples',
-                src: require('../../MapStore2/web/client/product/assets/img/ScaleBar.jpg'),
+                src: require('../../old_ms2_226bfec4/web/client/product/assets/img/ScaleBar.jpg'),
                 thumbnail: '/assets/img/maps-thumbnails/gtopo30.png'
             },
             {
                 id: 'featuregrid',
                 title: 'Feature Editor',
                 description: 'Custom examples',
-                src: require('../../MapStore2/web/client/product/assets/img/FeatureGrid.jpg'),
+                src: require('../../old_ms2_226bfec4/web/client/product/assets/img/FeatureGrid.jpg'),
                 thumbnail: '/assets/img/maps-thumbnails/gtopo30.png'
             },
             {
                 id: 'print',
                 title: 'Printing',
                 description: 'Custom examples',
-                src: require('../../MapStore2/web/client/product/assets/img/Print.jpg'),
+                src: require('../../old_ms2_226bfec4/web/client/product/assets/img/Print.jpg'),
                 thumbnail: '/assets/img/maps-thumbnails/gtopo30.png'
             },
             {
                 id: 'plugins',
                 title: 'Plugins',
                 description: 'Build your own application',
-                src: require('../../MapStore2/web/client/product/assets/img/Plugins.jpg'),
+                src: require('../../old_ms2_226bfec4/web/client/product/assets/img/Plugins.jpg'),
                 thumbnail: '/assets/img/maps-thumbnails/gtopo30.png'
             },
             {
                 id: 'api',
                 title: 'API',
                 description: 'Use APIs to include a MapStore2 map in your application',
-                src: require('../../MapStore2/web/client/product/assets/img/Api.jpg'),
+                src: require('../../old_ms2_226bfec4/web/client/product/assets/img/Api.jpg'),
                 thumbnail: '/assets/img/maps-thumbnails/gtopo30.png'
             }
         ],

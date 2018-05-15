@@ -14,7 +14,7 @@ const {FormGroup, Checkbox, Button, Glyphicon, Col, Row, ButtonGroup} = require(
 const ColorUtils = require('../utils/ColorUtils.js');
 const InfoPopover = require('../components/InfoPopover');
 const Codemirror = require('react-codemirror');
-const ColorPicker = require('../../../MapStore2/web/client/components/style/ColorPicker');
+const ColorPicker = require('../../../old_ms2_226bfec4/web/client/components/style/ColorPicker');
 
 require('codemirror/lib/codemirror.css');
 

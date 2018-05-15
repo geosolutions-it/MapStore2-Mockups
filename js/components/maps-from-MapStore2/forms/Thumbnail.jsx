@@ -11,7 +11,7 @@ const React = require('react');
 const {Glyphicon} = require('react-bootstrap');
 const Dropzone = require('react-dropzone');
 const Spinner = require('react-spinkit');
-const Message = require('../../../../../MapStore2/web/client/components/components/I18N/Message');
+const Message = require('../../../../../old_ms2_226bfec4/web/client/components/components/I18N/Message');
 
 /**
  * A Dropzone area for a thumbnail.

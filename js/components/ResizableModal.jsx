@@ -9,8 +9,8 @@
 const PropTypes = require('prop-types');
 const React = require('react');
 const {Glyphicon} = require('react-bootstrap');
-const Dialog = require('../../MapStore2/web/client/components/misc/Dialog');
-const Toolbar = require('../../MapStore2/web/client/components/misc/toolbar/Toolbar');
+const Dialog = require('../../old_ms2_226bfec4/web/client/components/misc/Dialog');
+const Toolbar = require('../../old_ms2_226bfec4/web/client/components/misc/toolbar/Toolbar');
 
 const sizes = {
     xs: ' ms-xs',

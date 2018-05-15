@@ -37,6 +37,45 @@
 
 #page-faetured-maps,
 #page-home-m {
+
+    .maps-search-container {
+        padding: 0;
+        transition: 0.3s;
+        overflow: hidden;
+        .maps-search {
+            box-shadow: none;
+            margin-top: 0;
+            margin-bottom: 0;
+            .form-group {
+                width: 100%;
+                .input-group {
+                    width: 100%;
+                    
+                    input {
+                        box-shadow: none;
+                        text-align: center;
+                        font-size: @font-size-large;
+                        &:focus {
+                            border-bottom: 2px solid lighten(@ms2-color-primary, 5%) !important;
+                        }
+                    }
+                    &:hover, &:focus, &.focus  {
+                        .shadow-soft;
+                    }
+                }
+                border-bottom: 1px solid @ms2-color-shade-lighter;
+            }
+        }
+    }
+
+    @media screen and (min-width: 1200px) {
+        // .ms2-border-layout-content {
+            .container {
+                width: 90%;
+            }
+        // }
+    }
+
     .navbar-nav > li {
         float: left;
     }
@@ -51,7 +90,7 @@
         z-index: 10;
     }
     .maps-search {
-        width: 500px;
+        width: 90%;
         margin: 15px auto;
         margin-top: 30px;
         .shadow-soft;
@@ -164,8 +203,8 @@
     #page-faetured-maps,
         #page-home-m {
         .maps-search {
-            width: 100%;
-            margin: 0;
+            width: 90%;
+            margin: auto;
         }
         .ms-head-nav {
             display: none;
@@ -192,4 +231,30 @@
         }
     }
 }
+
+#page-faetured-maps,
+#page-home-m {
+        .navbar {
+            .container {
+                display: flex;
+                height: @square-btn-size;
+                .navbar-nav {
+
+                    display: flex;
+                    flex: 1;
+                    align-items: center;
+                    height: 100%;
+                    margin: 0;
+                    &:first-child {
+                        flex: 2;
+                    }
+                    .btn-group {
+                        margin: auto;
+                        margin-right: 0;
+                    }
+                }
+            }
+        }
+        
+    }
 

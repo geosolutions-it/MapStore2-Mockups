@@ -9,7 +9,7 @@ const PropTypes = require('prop-types');
 
 const React = require('react');
 const {Button} = require('react-bootstrap');
-const Modal = require('../../../../MapStore2/web/client/components/misc/Modal');
+const Modal = require('../../../../old_ms2_226bfec4/web/client/components/misc/Modal');
 const Spinner = require('react-spinkit');
 
 /**

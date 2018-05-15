@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   version="1.1"
+   viewBox="0 -240 1200 1200"
+   id="svg6"
+   sodipodi:docname="3d.svg"
+   inkscape:version="0.92.1 r15371">
+  <metadata
+     id="metadata12">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title></dc:title>
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <defs
+     id="defs10" />
+  <sodipodi:namedview
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1"
+     objecttolerance="10"
+     gridtolerance="10"
+     guidetolerance="10"
+     inkscape:pageopacity="0"
+     inkscape:pageshadow="2"
+     inkscape:window-width="1920"
+     inkscape:window-height="1017"
+     id="namedview8"
+     showgrid="false"
+     inkscape:zoom="0.13906433"
+     inkscape:cx="696.68398"
+     inkscape:cy="-256.94758"
+     inkscape:window-x="1912"
+     inkscape:window-y="-8"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="layer2"
+     showguides="false" />
+  <g
+     inkscape:groupmode="layer"
+     id="layer2"
+     inkscape:label="glyph">
+    <path
+       style="fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.74683547;stroke-opacity:1"
+       d="M 0 120 L 0 270 L 225 270 A 150 150 0 0 1 375 420 L 375 495 A 150 150 0 0 1 225 645 L 150 645 L 150 795 L 225 795 A 150 150 0 0 1 375 945 L 375 1020 A 150 150 0 0 1 225 1170 L 0 1170 L 0 1320 L 225 1320 A 300 300 0 0 0 525 1020 L 525 945 A 300 300 0 0 0 422.95703 720.08203 A 300 300 0 0 0 525 495 L 525 420 A 300 300 0 0 0 225 120 L 0 120 z M 675 120 L 675 1320 L 825 1320 L 900 1320 A 300 300 0 0 0 1200 1020 L 1200 420 A 300 300 0 0 0 900 120 L 825 120 L 675 120 z M 825 270 L 900 270 A 150 150 0 0 1 1050 420 L 1050 1020 A 150 150 0 0 1 900 1170 L 825 1170 L 825 270 z "
+       transform="translate(0,-240)"
+       id="path4520" />
+  </g>
+</svg>

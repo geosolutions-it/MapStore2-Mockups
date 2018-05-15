@@ -8,18 +8,18 @@
 
 const React = require('react');
 const PropTypes = require('prop-types');
-const BorderLayout = require('../../MapStore2/web/client/components/layout/BorderLayout');
+const BorderLayout = require('../../old_ms2_226bfec4/web/client/components/layout/BorderLayout');
 const {head, isEqual, isNil, isNumber, isEmpty, range} = require('lodash');
-const Toolbar = require('../../MapStore2/web/client/components/misc/toolbar/Toolbar');
-// const emptyState = require('../../MapStore2/web/client/components/misc/enhancers/emptyState');
-const Portal = require('../../MapStore2/web/client/components/misc/Portal');
+const Toolbar = require('../../old_ms2_226bfec4/web/client/components/misc/toolbar/Toolbar');
+// const emptyState = require('../../old_ms2_226bfec4/web/client/components/misc/enhancers/emptyState');
+const Portal = require('../../old_ms2_226bfec4/web/client/components/misc/Portal');
 const ResizableModal = require('../components/ResizableModal');
 
 const ReactDataGrid = require('react-data-grid');
 const { Row: RowGrid } = ReactDataGrid;
 const {Button, ButtonGroup, Glyphicon, Row, Col, Grid, FormGroup, FormControl, NavItem, Nav} = require('react-bootstrap');
-const Filter = require('../../MapStore2/web/client/components/misc/Filter');
-const SideCard = require('../../MapStore2/web/client/components/misc/cardgrids/SideCard');
+const Filter = require('../../old_ms2_226bfec4/web/client/components/misc/Filter');
+const SideCard = require('../../old_ms2_226bfec4/web/client/components/misc/cardgrids/SideCard');
 const ContainerDimensions = require('react-container-dimensions').default;
 require('react-quill/dist/quill.snow.css');
 const Combobox = require('react-widgets').Combobox;
@@ -30,8 +30,8 @@ const {setOption} = require('../actions/mockups');
 const Codemirror = require('react-codemirror');
 require('codemirror/mode/sql/sql');
 const ItalyMap = require('../components/ItalyMap');
-const {wizardHanlders} = require('../../MapStore2/web/client/components/misc/wizard/enhancers');
-const Wizard = wizardHanlders(require('../../MapStore2/web/client/components/misc/wizard/WizardContainer'));
+const {wizardHanlders} = require('../../old_ms2_226bfec4/web/client/components/misc/wizard/enhancers');
+const Wizard = wizardHanlders(require('../../old_ms2_226bfec4/web/client/components/misc/wizard/WizardContainer'));
 
 const accessField = {
     ALLOW: {

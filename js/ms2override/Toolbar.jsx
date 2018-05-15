@@ -7,7 +7,7 @@
  */
 const React = require('react');
 const {ButtonGroup} = require('react-bootstrap');
-const ToolbarButton = require('../../MapStore2/web/client/components/misc/toolbar/ToolbarButton');
+const ToolbarButton = require('../../old_ms2_226bfec4/web/client/components/misc/toolbar/ToolbarButton');
 const {isFunction} = require('lodash');
 const ReactCSSTransitionGroup = require('react-addons-css-transition-group');
 /**

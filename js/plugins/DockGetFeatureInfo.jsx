@@ -10,17 +10,17 @@ const React = require('react');
 const PropTypes = require('prop-types');
 const {connect} = require('react-redux');
 const Dock = require('react-dock').default;
-const BorderLayout = require('../../MapStore2/web/client/components/layout/BorderLayout');
-const Toolbar = require('../../MapStore2/web/client/components/misc/toolbar/Toolbar');
-const WidgetsBuilder = require('../../MapStore2/web/client/components/widgets/builder/WidgetsBuilder');
+const BorderLayout = require('../../old_ms2_226bfec4/web/client/components/layout/BorderLayout');
+const Toolbar = require('../../old_ms2_226bfec4/web/client/components/misc/toolbar/Toolbar');
+const WidgetsBuilder = require('../../old_ms2_226bfec4/web/client/components/widgets/builder/WidgetsBuilder');
 const {Grid, Col, Row, Nav, NavItem, Glyphicon} = require('react-bootstrap');
-const tooltip = require('../../MapStore2/web/client/components/misc/enhancers/tooltip');
-const SideCard = require('../../MapStore2/web/client/components/misc/cardgrids/SideCard');
-const Portal = require('../../MapStore2/web/client/components/misc/Portal');
+const tooltip = require('../../old_ms2_226bfec4/web/client/components/misc/enhancers/tooltip');
+const SideCard = require('../../old_ms2_226bfec4/web/client/components/misc/cardgrids/SideCard');
+const Portal = require('../../old_ms2_226bfec4/web/client/components/misc/Portal');
 
-const HTMLViewer = require('../../MapStore2/web/client/components/data/identify/viewers/HTMLViewer');
-const TextViewer = require('../../MapStore2/web/client/components/data/identify/viewers/TextViewer');
-const JSONViewer = require('../../MapStore2/web/client/components/data/identify/viewers/JSONViewer');
+const HTMLViewer = require('../../old_ms2_226bfec4/web/client/components/data/identify/viewers/HTMLViewer');
+const TextViewer = require('../../old_ms2_226bfec4/web/client/components/data/identify/viewers/TextViewer');
+const JSONViewer = require('../../old_ms2_226bfec4/web/client/components/data/identify/viewers/JSONViewer');
 
 const {head} = require('lodash');
 const NavItemT = tooltip(NavItem);
@@ -29,8 +29,8 @@ const ReactQuill = require('react-quill');
 const {setOption} = require('../actions/mockups');
 // const { Combobox } = require('react-widgets');
 const ResizableModal = require('../components/ResizableModal');
-const sampleData = require('../../MapStore2/web/client/components/widgets/enhancers/sampleChartData');
-const SampleChart = sampleData(require('../../MapStore2/web/client/components/charts/SimpleChart'));
+const sampleData = require('../../old_ms2_226bfec4/web/client/components/widgets/enhancers/sampleChartData');
+const SampleChart = sampleData(require('../../old_ms2_226bfec4/web/client/components/charts/SimpleChart'));
 const ContainerDimensions = require('react-container-dimensions').default;
 
 const SideCardListDraggable = require('../components/SideCardListDraggable');

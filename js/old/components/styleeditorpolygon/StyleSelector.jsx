@@ -2,7 +2,7 @@ const React = require('react');
 const PropTypes = require('prop-types');
 const {Col, Glyphicon, ButtonGroup, Button, FormGroup, FormControl} = require('react-bootstrap');
 const InfoPopover = require('../InfoPopover');
-const Filter = require('../../../../MapStore2/web/client/components/misc/Filter');
+const Filter = require('../../../../old_ms2_226bfec4/web/client/components/misc/Filter');
 
 class ColorSelector extends React.Component {
 

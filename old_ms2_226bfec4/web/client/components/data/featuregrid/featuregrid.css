@@ -1,0 +1,8 @@
+
+.feature-grid-drag-handle-show .drag-handle {
+    display: inline;
+}
+
+.feature-grid-drag-handle-hide .drag-handle {
+    display: none;
+}

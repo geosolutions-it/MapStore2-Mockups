@@ -8,18 +8,22 @@
 
 const React = require('react');
 const PropTypes = require('prop-types');
-const { Grid, Col, Row, FormGroup, FormControl, Navbar, NavItem, Nav, ControlLabel, Button, Glyphicon, Jumbotron } = require('react-bootstrap');
+const { Grid, Col, Row, FormGroup, FormControl, Navbar, NavItem, Nav, ControlLabel, Button, Glyphicon, Jumbotron, Pagination } = require('react-bootstrap');
 const FeaturedMapsList = require('../components/FeaturedMapsList');
 const MapGrid = require('../components/maps-from-MapStore2/MapGrid');
-const BorderLayout = require('../../MapStore2/web/client/components/layout/BorderLayout');
-const src = require("../../MapStore2/web/client/product/plugins/attribution/geosolutions-brand.png");
-const brand = require('../../MapStore2/web/client/product/assets/img/geosolutions-brand.png');
+const BorderLayout = require('../../old_ms2_226bfec4/web/client/components/layout/BorderLayout');
+const src = require("../../old_ms2_226bfec4/web/client/product/plugins/attribution/geosolutions-brand.png");
+// const brand = require('../../old_ms2_226bfec4/web/client/product/assets/img/geosolutions-brand.png');
 const brandSmall = require('../../assets/img/geosolutions-brand-small.png');
-const tooltip = require('../../MapStore2/web/client/components/misc/enhancers/tooltip');
+const github = require('../../assets/img/GitHub-Mark-32px.png');
+const tooltip = require('../../old_ms2_226bfec4/web/client/components/misc/enhancers/tooltip');
 const ButtonT = tooltip(Button);
 const GlyphiconT = tooltip(Glyphicon);
-const Toolbar = require('../../MapStore2/web/client/components/misc/toolbar/Toolbar');
+const Toolbar = require('../../old_ms2_226bfec4/web/client/components/misc/toolbar/Toolbar');
 const ResizableModal = require('../components/ResizableModal');
+
+const path = '/mockups/mapstore2';
+const ImgT = tooltip(props => (<img {...props}/>));
 
 class FeaturedMaps extends React.Component {
 
@@ -40,30 +44,45 @@ class FeaturedMaps extends React.Component {
     state = {
         open: true,
         selected: false,
+        currentType: 'maps',
         sizePage: 12,
         sizePageFeatured: 4,
         featuredMaps: [
-            { id: 0, title: 'Hello Map', description: 'My first map', thumbnail: '/assets/img/maps-thumbnails/histo-flowrence.png', featured: true },
+            { id: 0, title: 'Hello Map', description: 'My first map', thumbnail: path + '/assets/img/maps-thumbnails/histo-flowrence.png', featured: true },
             { id: 1, title: 'A new Map', description: 'My second map', featured: true },
-            { id: 2, title: 'A new Map', description: 'My second map', thumbnail: '/assets/img/maps-thumbnails/agr.png', featured: true },
-            { id: 3, title: 'A new Map', description: 'My second map', thumbnail: '/assets/img/maps-thumbnails/bolz.jpg', featured: true}
+            { id: 2, title: 'A new Map', description: 'My second map', thumbnail: path + '/assets/img/maps-thumbnails/agr.png', featured: true },
+            { id: 3, title: 'A new Map', description: 'My second map', thumbnail: path + '/assets/img/maps-thumbnails/bolz.jpg', featured: true}
         ],
         maps: [
-            { id: 0, title: 'Hello Map', description: 'My first map', thumbnail: '/assets/img/maps-thumbnails/histo-flowrence.png', featured: true },
+            { id: 0, title: 'Hello Map', description: 'My first map', thumbnail: path + '/assets/img/maps-thumbnails/histo-flowrence.png', featured: true },
             { id: 1, title: 'A new Map', description: 'My second map', featured: true },
-            { id: 2, title: 'A new Map', description: 'My second map', thumbnail: '/assets/img/maps-thumbnails/agr.png', featured: true },
-            { id: 3, title: 'A new Map', description: 'My second map', thumbnail: '/assets/img/maps-thumbnails/bolz.jpg', featured: true},
-            { id: 4, title: 'Hello Map', description: 'My first map', thumbnail: '/assets/img/maps-thumbnails/gtopo30.png' },
-            { id: 5, title: 'A new Map', description: 'My second map', thumbnail: '/assets/img/maps-thumbnails/natural.jpg' },
-            { id: 6, title: 'A new Map', description: 'My second map', thumbnail: '/assets/img/maps-thumbnails/unesco_thumb.png' },
-            { id: 7, title: 'A new Map', description: 'My second map', thumbnail: '/assets/img/maps-thumbnails/us-stats.png' },
-            { id: 8, title: 'Hello Map', description: 'My first map', thumbnail: '/assets/img/maps-thumbnails/wind.png' },
+            { id: 2, title: 'A new Map', description: 'My second map', thumbnail: path + '/assets/img/maps-thumbnails/agr.png', featured: true },
+            { id: 3, title: 'A new Map', description: 'My second map', thumbnail: path + '/assets/img/maps-thumbnails/bolz.jpg', featured: true},
+            { id: 4, title: 'Hello Map', description: 'My first map', thumbnail: path + '/assets/img/maps-thumbnails/gtopo30.png' },
+            { id: 5, title: 'A new Map', description: 'My second map', thumbnail: path + '/assets/img/maps-thumbnails/natural.jpg' },
+            { id: 6, title: 'A new Map', description: 'My second map', thumbnail: path + '/assets/img/maps-thumbnails/unesco_thumb.png' },
+            { id: 7, title: 'A new Map', description: 'My second map', thumbnail: path + '/assets/img/maps-thumbnails/us-stats.png' },
+            { id: 8, title: 'Hello Map', description: 'My first map', thumbnail: path + '/assets/img/maps-thumbnails/wind.png' },
             { id: 9, title: 'A new Map', description: 'My second map' },
             { id: 10, title: 'A new Map', description: 'My second map' },
             { id: 11, title: 'A new Map', description: 'My second map' },
             { id: 12, title: 'A new Map', description: 'My second map' },
             { id: 13, title: 'A new Map', description: 'My second map' },
             { id: 14, title: 'A new Map', description: 'My second map' }
+        ],
+        dashboards: [
+            { id: 'dashboard:0', title: 'Hello Map', description: 'My first map', thumbnail: path + '/assets/img/dashboard.png' },
+            { id: 'dashboard:1', title: 'A new Map', description: 'My second map', thumbnail: path + '/assets/img/dashboard.png' },
+            { id: 'dashboard:2', title: 'A new Map', description: 'My second map', thumbnail: path + '/assets/img/dashboard.png' },
+            { id: 'dashboard:3', title: 'A new Map', description: 'My second map', thumbnail: path + '/assets/img/dashboard.png'},
+            { id: 'dashboard:4', title: 'Hello Map', description: 'My first map', thumbnail: path + '/assets/img/dashboard.png' },
+            { id: 'dashboard:5', title: 'A new Map', description: 'My second map', thumbnail: path + '/assets/img/dashboard.png' },
+            { id: 'dashboard:6', title: 'A new Map', description: 'My second map', thumbnail: path + '/assets/img/dashboard.png' },
+            { id: 'dashboard:7', title: 'A new Map', description: 'My second map', thumbnail: path + '/assets/img/dashboard.png' },
+            { id: 'dashboard:8', title: 'Hello Map', description: 'My first map', thumbnail: path + '/assets/img/dashboard.png' },
+            { id: 'dashboard:9', title: 'A new Map', description: 'My second map', thumbnail: path + '/assets/img/dashboard.png' },
+            { id: 'dashboard:10', title: 'A new Map', description: 'My second map', thumbnail: path + '/assets/img/dashboard.png' },
+            { id: 'dashboard:11', title: 'A new Map', description: 'My second map', thumbnail: path + '/assets/img/dashboard.png' }
         ]
     }
 
@@ -73,7 +92,7 @@ class FeaturedMaps extends React.Component {
                 fluid
                 className="ms-super-fake-navbar"
                 style={{ width: '100%', padding: 0 }}>
-                <Grid fluid style={{ width: '100%', padding: 0 }}>
+                {/*<Grid style={{ padding: 0 }}>
                 <Row className="ms-home-main-navbar">
                     <Col xs={12}>
                         <div className="ms-brand-img">
@@ -87,6 +106,16 @@ class FeaturedMaps extends React.Component {
                                 bsStyle: 'primary'
                             }}
                             buttons={[
+                                {
+                                    glyph: 'search',
+                                    active: this.state.searchActive,
+                                    bsStyle: this.state.searchActive ? 'success' : 'primary',
+                                    onClick: () => {
+                                        this.setState({
+                                            searchActive: !this.state.searchActive
+                                        });
+                                    }
+                                },
                                 {
                                     glyph: 'user',
                                     bsStyle: this.state.login ? 'success' : 'primary',
@@ -108,13 +137,53 @@ class FeaturedMaps extends React.Component {
                             ]}/>
                     </Col>
                 </Row>
-                </Grid>
+                        </Grid>*/}
+
+                {this.state.searchActive ? <Grid key="maps-search-container" fluid className="maps-search-container">
+
+                    <Row>
+                        <Col xs={12} className="text-center">
+                            <h3>Seach for maps</h3>
+                        </Col>
+                    </Row>
+                    <Row>
+                        <Col xs={12}>
+
+                        <div
+                                    id="map-search-bar"
+                                    className={"MapSearchBar maps-search"}>
+                                    <FormGroup>
+                                        <div className="input-group">
+                                            <FormControl
+                                                autoFocus
+                                                key="search-input"
+                                                type="text"
+
+                                                inputRef={ref => { this.input = ref; }}
+                                                style={{
+                                                    textOverflow: "ellipsis"
+                                                }} />
+                                        </div>
+                                        <span className="input-group-addon">
+                                            <Glyphicon glyph="search" />
+                                        </span>
+                                    </FormGroup>
+                                </div>
+                        </Col>
+                    </Row>
+
+                </Grid> : <Grid key="maps-search-container" fluid className="maps-search-container" style={{height: 0}}/>}
+
                 <Grid fluid style={{ width: '100%', padding: 0 }}>
                     <Row>
                         <Col xs={12}>
                             <Navbar
                                 style={{border: 'none', margin: 0, borderTop: '1px solid #ddd'}}>
-                                <Nav>
+
+                                <Nav pullLeft>
+                                <NavItem eventKey={3} href="/">
+                                        <ImgT tooltip="GeoSolutions" tooltipPosition="bottom" height={30} src={brandSmall}/>
+                                    </NavItem>
                                     {this.state.featuredMaps.length > 0 && <NavItem eventKey={1}
                                         onClick={() => {
                                             document.getElementById('featured-maps').scrollIntoView({behavior: "smooth", block: "start"});
@@ -133,6 +202,47 @@ class FeaturedMaps extends React.Component {
                                     }}>
                                         <GlyphiconT tooltip="Examples" glyph="bulb-on" className="ms-head-mob-icon"/><span className="ms-head-nav">Examples</span>
                                     </NavItem>
+                                    <NavItem eventKey={3} href="https://github.com/geosolutions-it/MapStore2">
+                                        <ImgT tooltip="Fork me on GitHub" tooltipPosition="bottom" height={20} src={github}/>
+                                    </NavItem>
+                                </Nav>
+
+                                <Nav pullRight>
+                                <Toolbar
+                            btnDefaultProps={{
+                                className: this.props.mobile ? 'square-button-md' : 'square-button-md',
+                                bsStyle: 'primary'
+                            }}
+                            buttons={[
+                                /*{
+                                    glyph: 'search',
+                                    active: this.state.searchActive,
+                                    bsStyle: this.state.searchActive ? 'success' : 'primary',
+                                    onClick: () => {
+                                        this.setState({
+                                            searchActive: !this.state.searchActive
+                                        });
+                                    }
+                                },*/
+                                {
+                                    glyph: 'user',
+                                    bsStyle: this.state.login ? 'success' : 'primary',
+                                    onClick: () => {
+                                        if (this.state.login) {
+                                            this.setState({
+                                                login: false,
+                                                loginModal: false,
+                                                maps: this.state.maps.map(map => ({...map, canEdit: !this.state.login})),
+                                                featuredMaps: this.state.featuredMaps.map(map => ({...map, canEdit: !this.state.login}))
+                                            });
+                                        } else {
+                                            this.setState({
+                                                loginModal: true
+                                            });
+                                        }
+                                    }
+                                }
+                            ]}/>
                                 </Nav>
                             </Navbar>
                         </Col>
@@ -167,7 +277,7 @@ class FeaturedMaps extends React.Component {
             <BorderLayout
                 header={this.renderHeader()}>
 
-                {!this.props.mobile && <img className="ms-fork-button"
+                {/*!this.props.mobile && <img className="ms-fork-button"
                 src="https://camo.githubusercontent.com/121cd7cbdc3e4855075ea8b558508b91ac463ac2/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f6c6566745f677265656e5f3030373230302e706e67"
                 alt="Fork me on GitHub"
                 data-canonical-src="https://s3.amazonaws.com/github/ribbons/forkme_left_green_007200.png"
@@ -176,12 +286,12 @@ class FeaturedMaps extends React.Component {
                     top: 111,
                     left: 0,
                     border: 0, zIndex: 100
-                }}/>}
+                }}/>*/}
 
-                    <Jumbotron>
+                    <Jumbotron style={{backgroundColor: '#fff', padding: '24px 0 0 0'}}>
                         <Grid>
                             <Row>
-                                <Col xs={12}>
+                                <Col xs={12} className="text-center">
                                     <h1>MapStore2</h1>
                                     <p>
                                     Modern webmapping with OL3, Leaflet and React
@@ -190,8 +300,42 @@ class FeaturedMaps extends React.Component {
                             </Row>
                         </Grid>
                     </Jumbotron>
+                    <Grid key="maps-search-container" fluid className="maps-search-container">
+                    <Row>
+                        <Col xs={12}>
 
-                    <Grid>
+                        <div
+                                    id="map-search-bar"
+                                    className={"MapSearchBar maps-search"}>
+                                    <FormGroup>
+                                        <div className="input-group">
+                                            <FormControl
+                                                key="search-input"
+                                                type="text"
+                                                placeholder={this.state.currentType === 'maps' ? "Search map..." : "Search dashboard..."}
+                                                autoFocus
+                                                inputRef={ref => { this.input = ref; }}
+                                                onChange={(e) => {
+                                                    this.setState({
+                                                        searchText: e.target.value
+                                                    });
+                                                }}
+                                                style={{
+                                                    textOverflow: "ellipsis"
+                                                }} />
+                                                {this.state.searchText && <span className="input-group-addon">
+                                                    <GlyphiconT glyph="search" />
+                                                    <GlyphiconT glyph="1-close" style={{marginLeft: 10}} />
+                                                </span>}
+                                        </div>
+                                    </FormGroup>
+                                </div>
+                        </Col>
+                    </Row>
+
+                </Grid>
+
+                    {/*<Grid>
                         <Row>
                             <Col xs={12}>
                                 <div
@@ -212,9 +356,9 @@ class FeaturedMaps extends React.Component {
                                 </div>
                             </Col>
                         </Row>
-                    </Grid>
+                    </Grid>*/}
 
-                    <Grid>
+                    {/*<Grid>
                         <Row>
                             <Col xs={12}>
                                 <p>MapStore 2 has been developed to create, save and share in a simple and intuitive way maps and mashups created selecting contents coming from well-known sources like Google Maps and OpenStreetMap or from services provided by organizations using open protocols like OGC WMS, WFS, WMTS or TMS and so on.</p>
@@ -225,7 +369,7 @@ class FeaturedMaps extends React.Component {
                                 <hr />
                             </Col>
                         </Row>
-                    </Grid>
+                    </Grid>*/}
 
                     {this.state.featuredMaps.length > 0 && <Grid>
                         <Row>
@@ -277,37 +421,55 @@ class FeaturedMaps extends React.Component {
                     <Grid>
                         <Row>
                             <Col xs={12} id="scroll-maps">
-                                <h3 className="pull-left">Maps</h3>
+                                <h3 className="pull-left">
+                                    <span
+                                        style={{opacity: this.state.currentType === 'maps' ? 1.0 : 0.5,
+                                        cursor: 'pointer'}}
+                                        onClick={() => {
+                                            this.setState({
+                                                currentType: 'maps'
+                                            });
+                                        }}>Maps</span>
+                                    {/*| <span
+                                        style={{opacity: this.state.currentType === 'dashboards' ? 1.0 : 0.5,
+                                        cursor: 'pointer'}}
+                                        onClick={() => {
+                                            this.setState({
+                                                currentType: 'dashboards'
+                                            });
+                                        }}>Dashboards</span>*/}</h3>
                                 {this.state.login && <ButtonT
                                     style={{marginTop: 10}}
-                                    className="square-button-md pull-right"
+                                    className="pull-right"
                                     bsStyle="primary"
-                                    tooltip="Create new map">
-                                    <Glyphicon glyph="plus"/>
+                                    bsSize="sm">
+                                    {/*<Glyphicon glyph="plus"/>*/}
+                                    New Map
                                 </ButtonT>}
                             </Col>
                         </Row>
-                        <Row className={this.props.mobile ? "ms-grid-horizontal" : ''}>
+                        <Row>
                             <MapGrid
                                 viewerUrl={() => { }}
                                 editMap={() => { }}
-                                maps={!this.props.mobile && this.state.maps.filter((map, idx) => idx < this.state.sizePage) || this.state.maps}
+                                maps={this.state.currentType === 'maps' ? this.state.maps.filter((map, idx) => idx < this.state.sizePage)
+                                : this.state.dashboards}
                                 colProps={{ className: 'ms-grid-map', xs: 12, sm: 6, md: 3 }}
                                 deleteMap={() => { }}
                                 openDetails={(map) => {
                                     this.updateFeaturedMaps(map);
                                 }} />
                         </Row>
-                        {/*!this.props.mobile && <Row>
+                        <Row>
                             <Col xs={12} className="text-center">
                             <Pagination bsSize="small" prev next first last ellipsis boundaryLinks
                                 items={1}
                                 maxButtons={3}
                                 activePage={1}/>
                             </Col>
-                        </Row>*/}
+                        </Row>
 
-                        {!this.props.mobile && this.state.sizePage === 12 && <Row>
+                        {/*!this.props.mobile && this.state.sizePage === 12 && <Row>
                             <Col xs={12} className="text-center">
                                 <Button bsStyle="primary" bsSize="sm" onClick={() => {
                                     this.setState({
@@ -317,11 +479,11 @@ class FeaturedMaps extends React.Component {
                                     Show more...
                                 </Button>
                             </Col>
-                        </Row>}
+                            </Row>*/}
 
                         <Row>
                             <Col xs={12}>
-                                {this.state.sizePage} of {this.state.maps.length}
+                                12 of 12
                                 <hr />
                             </Col>
                         </Row>
@@ -329,11 +491,7 @@ class FeaturedMaps extends React.Component {
 
                     <Grid>
                         <Row>
-                            <Col md={6} id="scroll-examples" xs={12}>
-                                <h3 >Examples</h3>
-                                <FeaturedMapsList />
-                            </Col>
-                            <Col md={6} xs={12}>
+                            <Col xs={12} className="text-center">
                                 <h3>Keep in touch and stay up-to-date with the mailing lists</h3>
                             </Col>
                         </Row>
@@ -371,6 +529,102 @@ class FeaturedMaps extends React.Component {
                             </Col>
                         </Row>
                     </Grid>
+
+
+                     {/*<div id="mailinglists" className="container">
+                <Row>
+                    <Col>
+                        <h1 className="color2" style={{align: "center", fontWeight: "bold", margin: "10px" }}><I18N.Message msgId="home.ml.title"/></h1>
+                    </Col>
+                </Row>
+                <Row>
+                    <Col sm={12} md={6}>
+                        <table style={{padding: "5px", margin: "auto"}} cellSpacing="0">
+                            <tbody>
+                            <tr>
+                                <td>
+                                    <img src={googleGroups} height="30" width="136" alt="Google Groups" />
+                                </td>
+                            </tr>
+                            <tr>
+                                <td style={{paddingLeft: "10px", paddingRight: "10px"}}>
+                                    <b><I18N.Message msgId="home.ml.subscribe_users"/></b>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td style={{paddingLeft: "10px", paddingRight: "10px"}}>
+                                    <form action="https://groups.google.com/group/mapstore-users/boxsubscribe">
+                                        <I18N.Message msgId="home.ml.email"/> <input type="text" name="email" />
+                                        <input type="submit" name="sub" value={this.context.messages.home.ml.subscribe} />
+                                    </form>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <a className="link-white-bg" href="https://groups.google.com/group/mapstore-users"><I18N.Message msgId="home.ml.visit_group"/></a>
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </Col>
+                    <Col sm={12} md={6}>
+                        <table style={{padding: "5px", margin: "auto"}} cellSpacing="0">
+                            <tbody>
+                            <tr>
+                                <td>
+                                    <img src={googleGroups} height="30" width="136" alt="Google Groups" />
+                                </td>
+                            </tr>
+                            <tr>
+                                <td style={{paddingLeft: "10px", paddingRight: "10px"}}>
+                                    <b><I18N.Message msgId="home.ml.subscribe_devel"/></b>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td style={{paddingLeft: "10px", paddingRight: "10px"}}>
+                                    <form action="https://groups.google.com/group/mapstore-developers/boxsubscribe">
+                                        <I18N.Message msgId="home.ml.email"/> <input type="text" name="email" />
+                                        <input type="submit" name="sub" value={this.context.messages.home.ml.subscribe} />
+                                    </form>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <a className="link-white-bg" href="https://groups.google.com/group/mapstore-developers"><I18N.Message msgId="home.ml.visit_group"/></a>
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </Col>
+                    <Col sm={12} md={6}>
+                        <table style={{padding: "0", margin: "10px auto"}} cellSpacing="0">
+                            <tbody>
+                            <tr>
+                                <td>
+                                    <img style={{
+                                        background: "white",
+                                        borderRadius: "2px 2px 2px 2px"
+                                    }} src={LinkedinGroup} height="50" width="100" alt="Linkedin Groups" />
+                                </td>
+                            </tr>
+                            <tr>
+                                <td style={{paddingLeft: "10px", paddingRight: "10px"}}>
+                                    <b><I18N.Message msgId="home.LinkedinGroup"/></b>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td style={{padding: "10px"}}>
+                                    <a className="link-white-bg" href="https://www.linkedin.com/groups/7444734/profile"><I18N.Message msgId="home.ml.visit_group"/></a>
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </Col>
+                    <Col sm={12} md={6} style={{padding: "50px 10px"}}>
+                        <Follow options={{size: 'large'}} username="mapstore2" />
+                    </Col>
+                </Row>
+                                </div>*/}
 
                     <ResizableModal
                         show={this.state.loginModal}
@@ -425,6 +679,7 @@ class FeaturedMaps extends React.Component {
     updateFeaturedMaps(map) {
         if (map.featured) {
             this.setState({
+                sizePageFeatured: (this.state.featuredMaps.length - 1) % 4 === 0 ? this.state.featuredMaps.length - 1 : this.state.sizePageFeatured,
                 featuredMaps: this.state.featuredMaps.filter(mapF => mapF.id !== map.id),
                 maps: this.state.maps.map(mapI => mapI.id === map.id ? { ...mapI, featured: false } : { ...mapI })
             });

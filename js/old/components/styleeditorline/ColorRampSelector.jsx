@@ -1,8 +1,8 @@
 const React = require('react');
 const PropTypes = require('prop-types');
-const colorsSchema = require("../../../../MapStore2/web/client/components/style/EqualIntervalComponents/ColorRamp");
-const ColorRampItem = require('../../../../MapStore2/web/client/components/style/EqualIntervalComponents/ColorRampItem');
-const colors = require("../../../../MapStore2/web/client/components/style/EqualIntervalComponents/ExtendColorBrewer");
+const colorsSchema = require("../../../../old_ms2_226bfec4/web/client/components/style/EqualIntervalComponents/ColorRamp");
+const ColorRampItem = require('../../../../old_ms2_226bfec4/web/client/components/style/EqualIntervalComponents/ColorRampItem');
+const colors = require("../../../../old_ms2_226bfec4/web/client/components/style/EqualIntervalComponents/ExtendColorBrewer");
 const Combobox = require('react-widgets').Combobox;
 
 class ColorRampSelector extends React.Component {

@@ -122,14 +122,20 @@ module.exports = {
                 use: [{
                     loader: "react-hot-loader"
                 }],
-                include: [path.join(__dirname, "js"), path.join(__dirname, "MapStore2", "web", "client")]
+                include: [
+                    path.join(__dirname, "js"), path.join(__dirname, "MapStore2", "web", "client"),
+                    path.join(__dirname, "js"), path.join(__dirname, "old_ms2_226bfec4", "web", "client")
+                ]
             }, {
                 test: /\.jsx?$/,
                 exclude: /(ol\.js)$|(Cesium\.js)$/,
                 use: [{
                     loader: "babel-loader"
                 }],
-                include: [path.join(__dirname, "js"), path.join(__dirname, "MapStore2", "web", "client")]
+                include: [
+                    path.join(__dirname, "js"), path.join(__dirname, "MapStore2", "web", "client"),
+                    path.join(__dirname, "js"), path.join(__dirname, "old_ms2_226bfec4", "web", "client")
+                ]
             }
         ]
     },

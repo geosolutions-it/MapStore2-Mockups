@@ -8,19 +8,19 @@
 
 const React = require('react');
 const PropTypes = require('prop-types');
-const BorderLayout = require('../../MapStore2/web/client/components/layout/BorderLayout');
+const BorderLayout = require('../../old_ms2_226bfec4/web/client/components/layout/BorderLayout');
 const {head} = require('lodash');
-const Toolbar = require('../../MapStore2/web/client/components/misc/toolbar/Toolbar');
-const emptyState = require('../../MapStore2/web/client/components/misc/enhancers/emptyState');
-const Portal = require('../../MapStore2/web/client/components/misc/Portal');
+const Toolbar = require('../../old_ms2_226bfec4/web/client/components/misc/toolbar/Toolbar');
+const emptyState = require('../../old_ms2_226bfec4/web/client/components/misc/enhancers/emptyState');
+const Portal = require('../../old_ms2_226bfec4/web/client/components/misc/Portal');
 const ResizableModal = require('../components/ResizableModal');
 const {Table, Glyphicon, Grid, Row, Col, Pagination, DropdownButton, MenuItem, ButtonToolbar, Button} = require('react-bootstrap');
 const ItalyMap = require('../components/ItalyMap');
 const ReactGridLayout = require('react-grid-layout');
-const Thumbnail = require('../../MapStore2/web/client/components/maps/forms/Thumbnail');
-const Metadata = require('../../MapStore2/web/client/components/maps/forms/Metadata');
+const Thumbnail = require('../../old_ms2_226bfec4/web/client/components/maps/forms/Thumbnail');
+const Metadata = require('../../old_ms2_226bfec4/web/client/components/maps/forms/Metadata');
 const ContainerDimensions = require('react-container-dimensions').default;
-const tooltip = require('../../MapStore2/web/client/components/misc/enhancers/tooltip');
+const tooltip = require('../../old_ms2_226bfec4/web/client/components/misc/enhancers/tooltip');
 const ButtonT = tooltip(Button);
 const italy = require('../../assets/json/italy.json');
 const ChartView = require('../components/ChartView');
@@ -42,11 +42,11 @@ const dataLengthItaly = italy.features.map(ft => {
 /*const series = [{dataKey: "variable", color: `#078aa3`}];
 const xAxis = {dataKey: "name", show: false};*/
 
-const sampleData = require('../../MapStore2/web/client/components/widgets/enhancers/sampleChartData');
-const SampleChart = sampleData(require('../../MapStore2/web/client/components/charts/SimpleChart'));
+const sampleData = require('../../old_ms2_226bfec4/web/client/components/widgets/enhancers/sampleChartData');
+const SampleChart = sampleData(require('../../old_ms2_226bfec4/web/client/components/charts/SimpleChart'));
 
-const {wizardHanlders} = require('../../MapStore2/web/client/components/misc/wizard/enhancers');
-const Wizard = wizardHanlders(require('../../MapStore2/web/client/components/misc/wizard/WizardContainer'));
+const {wizardHanlders} = require('../../old_ms2_226bfec4/web/client/components/misc/wizard/enhancers');
+const Wizard = wizardHanlders(require('../../old_ms2_226bfec4/web/client/components/misc/wizard/WizardContainer'));
 require('react-quill/dist/quill.snow.css');
 
 const Sources = require('./dashboard/Sources');

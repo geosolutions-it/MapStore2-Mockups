@@ -9,10 +9,10 @@ const PropTypes = require('prop-types');
 
 const React = require('react');
 const {Glyphicon, Button, Tooltip} = require('react-bootstrap');
-const OverlayTrigger = require('../../../MapStore2/web/client/components/misc/OverlayTrigger');
+const OverlayTrigger = require('../../../old_ms2_226bfec4/web/client/components/misc/OverlayTrigger');
 const Spinner = require('react-spinkit');
 
-require('../../../MapStore2/web/client/components/misc/style/gridcard.css');
+require('../../../old_ms2_226bfec4/web/client/components/misc/style/gridcard.css');
 
 class GridCard extends React.Component {
     static propTypes = {

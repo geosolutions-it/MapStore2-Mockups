@@ -13,8 +13,8 @@ const _ = require('lodash');
 const Select = require('react-select');
 const Spinner = require('react-spinkit');
 const {Button, Glyphicon} = require('react-bootstrap');
-const Message = require('../../MapStore2/web/client/components/I18N/Message');
-const LocaleUtils = require('../../MapStore2/web/client/utils/LocaleUtils');
+const Message = require('../../old_ms2_226bfec4/web/client/components/I18N/Message');
+const LocaleUtils = require('../../old_ms2_226bfec4/web/client/utils/LocaleUtils');
 
 require('react-select/dist/react-select.css');
 

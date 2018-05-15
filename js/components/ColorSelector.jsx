@@ -1,6 +1,6 @@
 const React = require('react');
 const PropTypes = require('prop-types');
-const ColorPicker = require('../../MapStore2/web/client/components/style/ColorPicker');
+const ColorPicker = require('../../old_ms2_226bfec4/web/client/components/style/ColorPicker');
 const {Glyphicon} = require('react-bootstrap');
 
 class ColorSelector extends React.Component {

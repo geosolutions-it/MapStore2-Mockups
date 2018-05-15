@@ -8,14 +8,14 @@
 
 const React = require('react');
 const PropTypes = require('prop-types');
-const Toolbar = require('../../../MapStore2/web/client/components/misc/toolbar/Toolbar');
-const BorderLayout = require('../../../MapStore2/web/client/components/layout/BorderLayout');
+const Toolbar = require('../../../old_ms2_226bfec4/web/client/components/misc/toolbar/Toolbar');
+const BorderLayout = require('../../../old_ms2_226bfec4/web/client/components/layout/BorderLayout');
 const ReactQuill = require('react-quill');
-const WidgetsBuilder = require('../../../MapStore2/web/client/components/widgets/builder/WidgetsBuilder');
+const WidgetsBuilder = require('../../../old_ms2_226bfec4/web/client/components/widgets/builder/WidgetsBuilder');
 const {Grid, Row, Col, FormGroup, FormControl} = require('react-bootstrap');
 const AttributeFilter = require('../../components/AttributeFilter');
 const Select = require('react-select');
-// const SwitchButton = require('../../../MapStore2/web/client/components/misc/switch/SwitchButton');
+// const SwitchButton = require('../../../old_ms2_226bfec4/web/client/components/misc/switch/SwitchButton');
 require('react-select/dist/react-select.css');
 
 class Builder extends React.Component {

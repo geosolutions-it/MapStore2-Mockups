@@ -9,7 +9,7 @@ const PropTypes = require('prop-types');
 
 var React = require('react');
 var BootstrapReact = require('react-bootstrap');
-var I18N = require('../../../MapStore2/web/client/components/I18N/I18N');
+var I18N = require('../../../old_ms2_226bfec4/web/client/components/I18N/I18N');
 var ListGroupItem = BootstrapReact.ListGroupItem;
 var Button = BootstrapReact.Button;
 var Glyphicon = BootstrapReact.Glyphicon;

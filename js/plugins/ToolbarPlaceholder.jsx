@@ -33,7 +33,7 @@ class ToolbarPlaceholder extends React.Component {
     render() {
 
         return (
-            <span id="navigationBar" style={{position: 'absolute', right: this.props.fixed ? 0 : this.props.right, bottom: 50, zIndex: 1}}>
+            <span id="navigationBar" style={{position: 'absolute', right: this.props.fixed ? 0 : this.props.right, bottom: 80, zIndex: 1}}>
                 <span id="navigationBar-container" className="mapToolbar btn-group-vertical">
 
                     <button id="locate-btn" disabled="" type="button" className="square-button btn btn-primary">

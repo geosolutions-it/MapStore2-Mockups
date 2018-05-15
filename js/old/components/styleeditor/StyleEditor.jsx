@@ -2,7 +2,7 @@
 const React = require('react');
 const PropTypes = require('prop-types');
 
-const ConfirmModal = require('../../../../MapStore2/web/client/components/maps/modals/ConfirmModal');
+const ConfirmModal = require('../../../../old_ms2_226bfec4/web/client/components/maps/modals/ConfirmModal');
 const Combobox = require('react-widgets').Combobox;
 const SwitchPanel = require('./SwitchPanel');
 const ColorSelector = require('./ColorSelector');
@@ -12,7 +12,7 @@ const AddPage = require('./AddPage');
 const ClassificationTable = require('./ClassificationTable');
 
 const MarkerList = require('./MarkerList');
-const ColorPicker = require('../../../../MapStore2/web/client/components/style/ColorPicker');
+const ColorPicker = require('../../../../old_ms2_226bfec4/web/client/components/style/ColorPicker');
 const Codemirror = require('react-codemirror');
 const FakeIcons = require('../FakeIcons');
 const {FormGroup, FormControl, OverlayTrigger, Tooltip, Table, Row, Col, Nav, NavItem, Button, ButtonGroup, Glyphicon} = require('react-bootstrap');

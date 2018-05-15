@@ -8,13 +8,13 @@
 
 const React = require('react');
 const PropTypes = require('prop-types');
-const BorderLayout = require('../../MapStore2/web/client/components/layout/BorderLayout');
+const BorderLayout = require('../../old_ms2_226bfec4/web/client/components/layout/BorderLayout');
 const MapGrid = require('../components/maps-from-MapStore2/MapGrid');
 const {Row, Col, Grid, Button, Panel, Glyphicon, Tooltip, OverlayTrigger} = require('react-bootstrap');
-const Thumbnail = require('../../MapStore2/web/client/components/maps/forms/Thumbnail');
-const Metadata = require('../../MapStore2/web/client/components/maps/forms/Metadata');
-const Toolbar = require('../../MapStore2/web/client/components/misc/toolbar/Toolbar');
-const Portal = require('../../MapStore2/web/client/components/misc/Portal');
+const Thumbnail = require('../../old_ms2_226bfec4/web/client/components/maps/forms/Thumbnail');
+const Metadata = require('../../old_ms2_226bfec4/web/client/components/maps/forms/Metadata');
+const Toolbar = require('../../old_ms2_226bfec4/web/client/components/misc/toolbar/Toolbar');
+const Portal = require('../../old_ms2_226bfec4/web/client/components/misc/Portal');
 // const PermissionEditor = require('../components/PermissionEditor');
 
 const ReactQuill = require('react-quill');
