@@ -26,7 +26,8 @@ const startApp = () => {
 
     const StandardRouter = connect((state) => ({
         locale: state.locale || {},
-        pages
+        pages,
+        version: 'mock'
     }))(require('../MapStore2/web/client/components/app/StandardRouter'));
 
     const appStore = require('./stores/store').bind(null, initialState, {}, appEpics);

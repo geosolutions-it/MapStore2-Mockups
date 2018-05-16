@@ -1,0 +1,119 @@
+
+#page-time-filter {
+    @import "../../../MapStore2/web/client/themes/default/less/sidegrid.less";
+    .ms-date-overlay {
+        position: absolute;
+        bottom: 30px;
+        margin-bottom: 8px; 
+        z-index: 500;
+        margin-left: 50%;
+        font-size: 20px;
+        transform: translateX(-50%);
+        pointer-events: none;
+        .text-border(#fff);
+    }
+    .toc-default-layer {
+        .mapstore-side-card {
+            .mapstore-side-preview {
+                width: auto !important;
+                height: 100% !important;
+                > div {
+                    > span {
+                        margin: 0;
+                        font-size: 16px;
+                    }
+                }
+            }
+            .mapstore-side-card-info {
+                border: none;
+                .mapstore-side-card-title {
+                    flex: 1;
+                    font-size: 14px !important;
+                    font-weight: normal;
+                }
+                .mapstore-side-card-desc {
+                    display: none;
+                }
+            }
+
+            .mapstore-side-card-tool {
+                > div {
+                    > span {
+                        margin: 0;
+                    }
+                    > span + span {
+                        margin-left: 8px;
+                    }
+                }
+            }
+        }
+    }
+    .toc-group-children {
+        margin-left: 8px;
+        width: ~"calc(100% - 16px)";
+    }
+    .ms2-border-layout-content {
+        overflow-x: hidden;
+    }
+    .ms-resizable-modal {
+         .modal-content .modal-header .modal-title .ms-title {
+             height: unset;
+             line-height: unset;
+         }
+         #ms-resizable-modal {
+            overflow: visible;
+         }
+        
+        .Select-placeholder {
+            border: none;
+            color: @ms2-color-shade-light !important;
+        }
+        .Select-menu-outer {
+            position: fixed;
+            top: auto;
+            z-index: 500;
+            margin: 0 8px;
+            margin-top: 10px;
+            width: ~"calc(100% - 16px)";
+            left: 0;
+        }
+        label {
+            width: 100%;
+        }
+        .rw-calendar-popup {
+            left: 0;
+            width: 100%;
+            margin-top: 10px;
+            top: auto;
+            position: fixed;
+            .rw-calendar {
+                .shadow-soft;
+                border: none !important;
+            }
+        }
+        .rw-input {
+            color: #333333 !important;
+        }
+        .ms-date-form {
+            display: flex;
+            margin-top: 8px;
+            > div:last-child {
+                flex: 1;
+            }
+            .rw-datetimepicker {
+                height: 34px;
+            }
+        }
+    }
+
+    @media (max-height: 768px) {
+        .ms-resizable-modal {
+            .modal-content {
+                &.ms-sm {
+                    height: ~"calc(100% - 30px)";
+                    top: 15px;
+                }
+            }
+        }
+    }
+}
