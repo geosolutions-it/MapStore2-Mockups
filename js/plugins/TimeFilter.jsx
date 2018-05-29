@@ -21,6 +21,7 @@ const momentLocalizer = require('react-widgets/lib/localizers/moment');
 // const Select = require('react-select');
 // const {head} = require('lodash');
 const tooltip = require('../../MapStore2/web/client/components/misc/enhancers/tooltip');
+const bgImage = require('../../old_ms2_226bfec4/web/client/plugins/background/assets/img/mapnik.jpg');
 const Button = tooltip(ButtonRB);
 momentLocalizer(moment);
 /*
@@ -103,6 +104,16 @@ class TimeFilter extends React.Component {
                 {this.state.date && <div className="ms-date-overlay">
                     {this.state.date && moment(this.state.date).format('DD MMM YYYY')}
                 </div>}
+                <div className="background-plugin-position" style={{transition: '0.3s', left: this.state.show ? 300 : 0, bottom: 30, pointerEvents: 'auto'}}>
+                    <div className="background-preview-button" style={{margin: 5}}>
+                    <div className="background-preview-button-container bg-body" style={{padding: 3, width: 78, height: 78}}>
+                    <div className="background-preview-button-label" style={{width: 72, height: 0, marginTop: 0, padding: 0}}>
+                    <div className="bg-body bg-text" style={{padding: 6}}>Open Street Map</div>
+                    </div>
+                    <div className="background-preview-button-frame" style={{width: 72, height: 72}}>
+                    <img src={bgImage}/>
+                    </div>
+                    </div></div></div>
             </span>
         );
     }

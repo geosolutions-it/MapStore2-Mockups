@@ -21,6 +21,12 @@ class ArchivePlugin extends React.Component {
     static defaultProps = {
         cards: [
             {
+                title: 'Import and export data',
+                desc: 'import/export map configuration',
+                link: 'import-export',
+                src: 'ie.png'
+            },
+            {
                 title: 'Time filter',
                 desc: 'time filter and small TOC updates',
                 link: 'time-filter',

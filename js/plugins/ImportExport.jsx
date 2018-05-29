@@ -17,7 +17,13 @@ const Loader = require('../components/importexport/Loader');
 const {head, join} = require('lodash');
 const ResizableModal = require('../../MapStore2/web/client/components/misc/ResizableModal');
 const Select = require('react-select');
-const StylePolygon = require('../../MapStore2/web/client/components/style/StylePolygon');
+const StyleCanvas = require('../../MapStore2/web/client/components/style/StyleCanvas');
+const ColorSelector = require('../components/importexport/ColorSelector');
+const bgImage = require('../../old_ms2_226bfec4/web/client/plugins/background/assets/img/mapnik.jpg');
+const numberLocalizer = require('react-widgets/lib/localizers/simple-number');
+numberLocalizer();
+const {NumberPicker} = require('react-widgets');
+
 const OverlayDropZone = ({onClose = () => {}, loading, error, type}) => <div
     style={{
         position: 'fixed',
@@ -45,8 +51,13 @@ const OverlayDropZone = ({onClose = () => {}, loading, error, type}) => <div
                     fontSize: 80
                 }}/>
         </div>
-        <h4>
+        <h5>
             {error} not valid
+        </h5>
+        <h4 className="text-danger" style={{backgroundColor: 'rgba(255, 255, 255, 0.7)', padding: 12}}>
+            !!Mockup Message -
+            Here additional message eg. error on shapefile parsing
+            - Mockup Message!!
         </h4>
         <h4>
             Drop a new configuration or vector files here.
@@ -147,7 +158,8 @@ class ImportExport extends React.Component {
                                 this.setState({
                                     loading: false,
                                     displayDropZone: !validTypes,
-                                    shapeModal: type !== 'application/json'
+                                    shapeModal: type !== 'application/json',
+                                    error: null
                                 });
                             }, 1000);
                         } else {
@@ -222,13 +234,6 @@ class ImportExport extends React.Component {
                     })}
                     show={this.state.exportModal}
                     buttons={[
-                        {
-                            text: 'Close',
-                            bsStyle: 'primary',
-                            onClick: () => this.setState({
-                                exportModal: false
-                            })
-                        },
                         {
                             text: 'Export',
                             bsStyle: 'primary',
@@ -328,8 +333,9 @@ class ImportExport extends React.Component {
                             </Col>
                         </Row>
                         <Row>
-                            <Col xs={12}>
-                                <StylePolygon
+                            <Col xs={12} style={{display: 'flex'}}>
+                                <StyleCanvas
+                                    style={{ padding: 0, margin: "auto", display: "block"}}
                                     shapeStyle={
                                         {
                                             color: {
@@ -346,11 +352,59 @@ class ImportExport extends React.Component {
                                             },
                                             width: 4
                                         }
-                                    }/>
+                                    }
+                                    geomType="Polygon"
+                                />
+                            </Col>
+                        </Row>
+                        <Row style={{marginTop: 30}}>
+                            <Col xs={6}>
+                                Stroke:
+                            </Col>
+                            <Col xs={6}>
+                                <ColorSelector
+                                    color={{
+                                        r: 7,
+                                        g: 138,
+                                        b: 163,
+                                        a: 1
+                                    }}/>
+                            </Col>
+                        </Row>
+                        <Row style={{marginTop: 12}}>
+                            <Col xs={6}>
+                                Fill:
+                            </Col>
+                            <Col xs={6}>
+                                <ColorSelector
+                                    color={{
+                                        r: 0,
+                                        g: 0,
+                                        b: 0,
+                                        a: 0.1
+                                    }}/>
+                            </Col>
+                        </Row>
+                        <Row style={{marginTop: 12}}>
+                            <Col xs={6}>
+                                Width:
+                            </Col>
+                            <Col xs={6}>
+                                <NumberPicker min={1} max={15} step={1} value={4}/>
                             </Col>
                         </Row>
                     </Grid>
                 </ResizableModal>
+                <div className="background-plugin-position" style={{transition: '0.3s', left: 0, bottom: 30, pointerEvents: 'auto'}}>
+                    <div className="background-preview-button" style={{margin: 5}}>
+                    <div className="background-preview-button-container bg-body" style={{padding: 3, width: 78, height: 78}}>
+                    <div className="background-preview-button-label" style={{width: 72, height: 0, marginTop: 0, padding: 0}}>
+                    <div className="bg-body bg-text" style={{padding: 6}}>Open Street Map</div>
+                    </div>
+                    <div className="background-preview-button-frame" style={{width: 72, height: 72}}>
+                    <img src={bgImage}/>
+                    </div>
+                    </div></div></div>
             </div>
         );
     }
