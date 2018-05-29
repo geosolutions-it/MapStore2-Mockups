@@ -17,8 +17,7 @@ const SideCard = require('./SideCardM');
 const LayersTool = require('../../../MapStore2/web/client/components/TOC/fragments/LayersTool');
 const tooltip = require('../../../MapStore2/web/client/components/misc/enhancers/tooltip');
 const Glyphicon = tooltip(GlyphiconRB);
-const Slider = require('react-nouislider');
-const {isNumber} = require('lodash');
+const TooltipSlider = require('./TooltipSlider');
 
 class DefaultLayer extends React.Component {
     static propTypes = {
@@ -75,34 +74,16 @@ class DefaultLayer extends React.Component {
                             <img src={this.props.node.legendSrc}/>
                         </Col>
                     </Row> : null}
-                    <Row>
-                        <Col xs={12}>
-                            <small>Opacity: <input
-                            type="text"
-                            value={parseFloat(layerOpacity)}
-                            onChange={(e) => {
-                                if (e.target.value && isNumber(parseFloat(e.target.value))) {
-                                    this.props.onUpdateNode(this.props.node.id, 'layers', {opacity: parseFloat(e.target.value) / 100});
-                                } else {
-                                    this.props.onUpdateNode(this.props.node.id, 'layers', {opacity: 0});
-                                }
-                            }}
-                            style={{
-                                border: 'none',
-                                width: 25,
-                                textAlign: 'right',
-                                paddingRight: 4
-                            }}/>%</small>
-                        </Col>
-                    </Row>
                 </Grid>
-                <Slider start={[layerOpacity]}
+                <TooltipSlider start={[layerOpacity]}
                         disabled={!this.props.node.visibility}
                         range={{min: 0, max: 100}}
                         format={{
                             from: value => Math.round(value),
                             to: value => Math.round(value) + ' %'
                         }}
+                        tooltip
+                        tooltips={[true]}
                         onSlide={(opacity) => {
                             if (isArray(opacity) && opacity[0]) {
                                 this.props.onUpdateNode(this.props.node.id, 'layers', {opacity: parseFloat(opacity[0].replace(' %', '')) / 100});
@@ -158,7 +139,7 @@ class DefaultLayer extends React.Component {
                     size="sm"
                     style={{transform: 'unset', boxShadow: 'none', padding: 0, overflow: 'visible'}}
                     body={
-                        this.props.node.expanded || this.props.node.loadingError ? null : <Slider start={[layerOpacity]}
+                        this.props.node.expanded || this.props.node.loadingError ? null : <TooltipSlider start={[layerOpacity]}
                         disabled={!this.props.node.visibility}
                         range={{min: 0, max: 100}}
                         format={{

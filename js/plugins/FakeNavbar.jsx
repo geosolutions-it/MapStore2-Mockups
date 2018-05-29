@@ -19,7 +19,8 @@ class FakeNavbar extends React.Component {
         onSelect: PropTypes.func,
         show: PropTypes.bool,
         right: PropTypes.number,
-        alwaysShow: PropTypes.bool
+        alwaysShow: PropTypes.bool,
+        dropdown: PropTypes.node
     };
 
     static defaultProps = {
@@ -60,7 +61,7 @@ class FakeNavbar extends React.Component {
                         </div>
                     </span>
                     <div id={'mapstore-burger-menu'} className="pull-right">
-                    <DropdownButton bsStyle={'primary'} className="square-button" pullRight noCaret title={<Glyphicon glyph="menu-hamburger"/>} key={"burger"} >
+                    {this.props.dropdown ? this.props.dropdown : <DropdownButton bsStyle={'primary'} className="square-button" pullRight noCaret title={<Glyphicon glyph="menu-hamburger"/>} key={"burger"} >
                         <span>
                             <li role="heading" className="dropdown-header">
                                 <span>Options</span>
@@ -154,7 +155,7 @@ class FakeNavbar extends React.Component {
                                 <span>About MapStore</span>
                             </a>
                         </li>
-                    </DropdownButton>
+                    </DropdownButton>}
                     </div>
                     <div style={{'float': 'right'}} className="dropdown btn-group btn-group-primary">
                         <button id="dropdown-basic-primary" role="button" aria-haspopup="true" aria-expanded="false" type="button" className="square-button dropdown-toggle btn btn-primary">

@@ -10,18 +10,20 @@ const React = require('react');
 const PropTypes = require('prop-types');
 
 const TOCTimeFilter = require('../components/timefilter/TOCTimeFilter');
-const ResizableModal = require('../../MapStore2/web/client/components/misc/ResizableModal');
-const BorderLayout = require('../../MapStore2/web/client/components/layout/BorderLayout');
-const {Glyphicon, Grid, Row, Col, Radio, Checkbox, Button: ButtonRB} = require('react-bootstrap');
-const {DateTimePicker} = require('react-widgets');
+// const ResizableModal = require('../../MapStore2/web/client/components/misc/ResizableModal');
+// const BorderLayout = require('../../MapStore2/web/client/components/layout/BorderLayout');
+const {Glyphicon, Button: ButtonRB /*, Grid, Row, Col, Radio, Checkbox*/} = require('react-bootstrap');
+const DateFilter = require('../components/timefilter/DateFilter');
+const ContainerDimensions = require('react-container-dimensions').default;
+// const {DateTimePicker} = require('react-widgets');
 const moment = require('moment');
 const momentLocalizer = require('react-widgets/lib/localizers/moment');
-const Select = require('react-select');
-const {head} = require('lodash');
+// const Select = require('react-select');
+// const {head} = require('lodash');
 const tooltip = require('../../MapStore2/web/client/components/misc/enhancers/tooltip');
 const Button = tooltip(ButtonRB);
 momentLocalizer(moment);
-
+/*
 const DayComponent = ({ highlighted = [], date, label }) => head(highlighted.filter(high => high.value && high.value === moment(date).format('MM/DD/YYYY'))) ? (
     <div style={{ color: '#ffffff', backgroundColor: '#5a9aab', margin: '0 .25em' }}>
       {label}
@@ -30,7 +32,7 @@ const DayComponent = ({ highlighted = [], date, label }) => head(highlighted.fil
     <div>
       {label}
     </div>
-);
+);*/
 
 class TimeFilter extends React.Component {
 
@@ -59,19 +61,55 @@ class TimeFilter extends React.Component {
 
     state = {
         showFilter: false,
-        selectCustom: true
+        selectCustom: true,
+        show: false
     };
 
     render() {
 
         return (
             <span>
+                <div style={{position: 'absolute', top: 0, left: 0, height: '100%', width: '100%', pointerEvents: 'none'}}>
+                    <ContainerDimensions>
+                        {({width}) =>
+                        <DateFilter
+                            style={{
+                                top: this.state.show ? 5 : 0,
+                                left: this.state.show ? 305 : 52,
+                                pointerEvents: 'auto'
+                            }}
+                            toggle={width < 1364}
+                            onToggleFilter={(hideLayers) => this.setState({ hideLayers })}/>}
+                    </ContainerDimensions>
+                </div>
+                {!this.state.show && <Button
+                    className="square-button shadow"
+                    bsStyle="primary"
+                    onClick={() => this.setState({ show: true })}
+                    style={{
+                        position: 'absolute',
+                        top: 0,
+                        left: 0
+                    }}>
+                    <Glyphicon glyph="1-layer"/>
+                </Button>}
                 <TOCTimeFilter
+                    show={this.state.show}
+                    onClose={() => this.setState({ show: false })}
                     filterFunction={(layer) => !this.state.hideLayers || this.state.hideLayers && layer.timeOptions}
                     onClickDate={() => this.setState({
                         showFilter: true
                     })}/>
-                <ResizableModal
+                {this.state.date && <div className="ms-date-overlay">
+                    {this.state.date && moment(this.state.date).format('DD MMM YYYY')}
+                </div>}
+            </span>
+        );
+    }
+}
+
+/*
+<ResizableModal
                     size="sm"
                     title={<span><Glyphicon glyph="calendar"/>&nbsp;Filter layers by date</span>}
                     onClose={() => this.setState({
@@ -91,10 +129,13 @@ class TimeFilter extends React.Component {
                         header={
                             <Grid fluid style={{width: '100%'}}>
                                 <Row style={{minHeight: 40}}>
-                                    <Col xs={12}>
+                                    <Col xs={8}>
+                                        <h4 style={{marginTop: 13}}>Select date</h4>
+                                    </Col>
+                                    <Col xs={4}>
                                         {(this.state.date || this.state.hideLayers) && <Button
                                             className="square-button-md"
-                                            tooltip="Clear filter"
+                                            tooltip="Clear date"
                                             onClick={() => this.setState({
                                                 date: null,
                                                 hideLayers: false,
@@ -177,14 +218,7 @@ class TimeFilter extends React.Component {
                         </div>
                     </BorderLayout>
                 </ResizableModal>
-
-                {this.state.date && <div className="ms-date-overlay">
-                    {this.state.date && moment(this.state.date).format('DD MMM YYYY')}
-                </div>}
-            </span>
-        );
-    }
-}
+*/
 
 module.exports = {
     TimeFilterPlugin: TimeFilter

@@ -224,6 +224,16 @@
             "fixed": true
           }
         }
+      ],
+      "import-export": [
+        "ImportExport",
+        "FakeFooter",
+        {
+          "name": "ToolbarPlaceholder",
+          "cfg": {
+            "fixed": true
+          }
+        }
       ]
 	}
 }

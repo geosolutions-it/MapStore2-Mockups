@@ -115,6 +115,10 @@ module.exports = {
         name: 'time-filter',
         path: '/time-filter',
         component: require('./pages/TimeFilter')
+    }, {
+        name: 'import-export',
+        path: '/import-export',
+        component: require('./pages/ImportExport')
     }],
     pluginsDef: require('./plugins.js'),
     initialState: {

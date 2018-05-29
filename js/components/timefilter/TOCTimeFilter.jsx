@@ -41,6 +41,7 @@ class TOCTimeFilter extends React.Component {
         show: PropTypes.bool,
         nodes: PropTypes.array,
         onClickDate: PropTypes.func,
+        onClose: PropTypes.func,
         filterFunction: PropTypes.func
     };
 
@@ -67,7 +68,8 @@ class TOCTimeFilter extends React.Component {
             synced: false
         }],
         onClickDate: () => {},
-        filterFunction: () => true
+        filterFunction: () => true,
+        onClose: () => {}
     };
 
     state = {
@@ -147,11 +149,7 @@ class TOCTimeFilter extends React.Component {
             <Grid fluid style={{margin: 0}} className="ms-toc-header">
                 <Row>
                     <Col xs={12}>
-                        <Glyphicon glyph="1-close" style={{cursor: 'pointer'}} onClick={() => {
-                            this.setState({
-                                show: false
-                            });
-                        }}/>
+                        <Glyphicon glyph="1-close" style={{cursor: 'pointer'}} onClick={() => this.props.onClose()}/>
                         <Glyphicon glyph="1-layer"/>
                     </Col>
                 </Row>
@@ -176,12 +174,12 @@ class TOCTimeFilter extends React.Component {
                                 {
                                     glyph: 'plus',
                                     tooltip: 'Add layer'
-                                },
+                                }/*,
                                 {
                                     glyph: 'calendar',
                                     tooltip: 'Filter layers by date',
                                     onClick: () => this.props.onClickDate()
-                                }
+                                }*/
                             ]}/>
                     </Col>
                 </Row>
@@ -200,7 +198,7 @@ class TOCTimeFilter extends React.Component {
         const Group = this.getDefaultGroup();
         const Layer = this.getDefaultLayer();
         return (
-            <Dock dockStyle={{height: 'calc(100% - 30px)', pointerEvents: 'auto'}} {...dockProps} isVisible size={300} >
+            <Dock dockStyle={{height: 'calc(100% - 30px)', pointerEvents: 'auto'}} {...dockProps} isVisible={this.props.show} size={300} >
                 <BorderLayout
                     header={
                         this.renderHeader()

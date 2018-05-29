@@ -42,7 +42,9 @@ module.exports = {
 
         TOCActionLegendPlugin: require('./plugins/TOCActionLegend'),
 
-        TimeFilterPlugin: require('./plugins/TimeFilter')
+        TimeFilterPlugin: require('./plugins/TimeFilter'),
+
+        ImportExportPlugin: require('./plugins/ImportExport')
 
     },
     requires: {}

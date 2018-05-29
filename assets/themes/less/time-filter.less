@@ -1,6 +1,59 @@
 
 #page-time-filter {
     @import "../../../MapStore2/web/client/themes/default/less/sidegrid.less";
+
+    .mapstore-side-card {
+        // to fix in MapStore2
+        &.ms-sm {
+            height: auto !important;
+            .ms-head {
+                height: @square-btn-size;
+            }
+            .mapstore-side-card-tool {
+                
+                span {
+                    display: inline;
+                    vertical-align: unset;
+                }
+            }
+        }
+        // end fix
+    }
+    
+    .ms-date-filter {
+        .glyph-btn {
+            cursor: pointer;
+            display: block;
+            padding: 8px 0 !important;
+            &:hover {
+                color: @ms2-color-primary;
+            }
+        }
+        .mapstore-side-preview {
+            > .glyph-btn {
+                padding: 8px 0 !important;
+            }
+        }
+        cursor: default !important;
+        .mapstore-side-preview {
+            width: auto !important;
+        }
+        .mapstore-side-card-title span {
+            font-weight: normal;
+        }   
+        .mapstore-side-card-desc {
+            height: auto !important;
+            margin-top: 4px !important;
+            span {
+                font-size: @font-size-large;
+            }
+        }
+    }
+
+    .mapstore-side-preview {
+        padding: 4px !important;
+    }
+
     .ms-date-overlay {
         position: absolute;
         bottom: 30px;
@@ -13,6 +66,13 @@
         .text-border(#fff);
     }
     .toc-default-layer {
+        .glyphicon-calendar {
+            color: @ms2-color-shade-lighter;
+        }
+        .shadow;
+        &.selected {
+            .shadow-far;
+        }
         .mapstore-side-card {
             .mapstore-side-preview {
                 width: auto !important;

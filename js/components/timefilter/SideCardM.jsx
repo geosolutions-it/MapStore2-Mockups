@@ -26,10 +26,13 @@ const React = require('react');
  * @prop {function} onClick callback on card click
  */
 
-module.exports = ({body, className = '', style = {}, onClick=() => {}, size, title, preview, description, caption, tools, selected, ...more} = {}) =>
+module.exports = ({dropUp, body, className = '', style = {}, onClick=() => {}, size, title, preview, description, caption, tools, selected, ...more} = {}) =>
 <div className={`mapstore-side-card${selected ? ' selected' : ''}${size ? ' ms-' + size : ''} ${className}`}
     onClick={() => onClick({title, preview, description, caption, tools, ...more})}
     style={style}>
+    {body && dropUp && <div className="ms-body">
+        {body}
+    </div>}
     <div className="ms-head">
         {preview && <div className="mapstore-side-preview">
             {preview}
@@ -49,7 +52,7 @@ module.exports = ({body, className = '', style = {}, onClick=() => {}, size, tit
             {tools}
         </div>
     </div>
-    {body && <div className="ms-body">
+    {body && !dropUp && <div className="ms-body">
         {body}
     </div>}
 </div>;
