@@ -16,6 +16,11 @@ fs.emptyDir('./www').then(() => {
             if (err) return console.error(error);
             console.log('MapStore2 moved!');
         });
+
+        fs.copy('./www/dist/old_ms2_226bfec4', './www/old_ms2_226bfec4', error => {
+            if (err) return console.error(error);
+            console.log('old_ms2_226bfec4 moved!');
+        });
     });
 
     fs.copy('./assets', './www/assets', err => {

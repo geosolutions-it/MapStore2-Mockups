@@ -108,9 +108,17 @@ module.exports = {
         path: "/home-m",
         component: require('./pages/HomeM.jsx')
     }, {
-        name: '/action-legend',
+        name: 'action-legend',
         path: '/action-legend',
         component: require('./pages/ActionLegend')
+    }, {
+        name: 'time-filter',
+        path: '/time-filter',
+        component: require('./pages/TimeFilter')
+    }, {
+        name: 'import-export',
+        path: '/import-export',
+        component: require('./pages/ImportExport')
     }],
     pluginsDef: require('./plugins.js'),
     initialState: {

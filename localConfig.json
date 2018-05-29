@@ -207,6 +207,33 @@
             "fixed": true
           }
         }
+      ],
+      "time-filter": [
+        {
+          "name": "Background",
+          "cfg": {
+              "showItaly": true
+          }
+        },
+        "TimeFilter",
+        "FakeFooter",
+        "FakeNavbar",
+        {
+          "name": "ToolbarPlaceholder",
+          "cfg": {
+            "fixed": true
+          }
+        }
+      ],
+      "import-export": [
+        "ImportExport",
+        "FakeFooter",
+        {
+          "name": "ToolbarPlaceholder",
+          "cfg": {
+            "fixed": true
+          }
+        }
       ]
 	}
 }

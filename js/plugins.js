@@ -40,7 +40,11 @@ module.exports = {
         FeaturedMapsPlugin: require('./plugins/FeaturedMaps'),
 
 
-        TOCActionLegendPlugin: require('./plugins/TOCActionLegend')
+        TOCActionLegendPlugin: require('./plugins/TOCActionLegend'),
+
+        TimeFilterPlugin: require('./plugins/TimeFilter'),
+
+        ImportExportPlugin: require('./plugins/ImportExport')
 
     },
     requires: {}

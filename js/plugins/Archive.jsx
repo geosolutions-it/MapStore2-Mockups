@@ -21,6 +21,12 @@ class ArchivePlugin extends React.Component {
     static defaultProps = {
         cards: [
             {
+                title: 'Time filter',
+                desc: 'time filter and small TOC updates',
+                link: 'time-filter',
+                src: 'tf.png'
+            },
+            {
                 title: 'Featured maps',
                 desc: 'featured maps desktop',
                 link: 'featured-maps',
