@@ -44,7 +44,11 @@ module.exports = {
 
         TimeFilterPlugin: require('./plugins/TimeFilter'),
 
-        ImportExportPlugin: require('./plugins/ImportExport')
+        ImportExportPlugin: require('./plugins/ImportExport'),
+
+        InfortuniStradaliPlugin: require('./plugins/InfortuniStradali'),
+        DrawerMenuPlugin: require('../MapStore2/web/client/plugins/DrawerMenu'),
+        FakeTOCNewPlugin: require('./plugins/FakeTocPlugin')
 
     },
     requires: {}

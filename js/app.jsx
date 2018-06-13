@@ -30,7 +30,9 @@ const startApp = () => {
         version: 'mock'
     }))(require('../MapStore2/web/client/components/app/StandardRouter'));
 
-    const appStore = require('./stores/store').bind(null, initialState, {}, appEpics);
+    const appStore = require('./stores/store').bind(null, initialState, {
+        controls: require('../MapStore2/web/client/reducers/controls')
+    }, appEpics);
 
     const initialActions = [];
 

@@ -234,6 +234,25 @@
             "fixed": true
           }
         }
+      ],
+      "infortuni-stradali": [
+        {
+          "name": "Background",
+          "cfg": {
+              "showItaly": true
+          }
+        },
+        "InfortuniStradali",
+        "DrawerMenu",
+        "FakeFooter",
+        "FakeNavbar",
+        "FakeTOCNew",
+        {
+          "name": "ToolbarPlaceholder",
+          "cfg": {
+            "fixed": true
+          }
+        }
       ]
 	}
 }

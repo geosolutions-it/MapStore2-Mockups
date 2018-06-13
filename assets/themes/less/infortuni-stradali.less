@@ -1,0 +1,49 @@
+#page-infortuni-stradali {
+    .toc-group-children {
+        margin-left: 8px;// only mock
+        width: ~"calc(100% - 16px)";// only mock
+    }
+    #mapstore-drawermenu {
+        
+        .nav-menu { // apply only in drawer menu
+            height: ~"calc(100% - 30px)"; // only mock
+            > .nav-content {
+                display: flex;
+                > .navHeader {
+                    button {
+                        padding: 0;
+                    }
+                }
+                > .nav-body {
+                    flex: 1;
+                    display: flex;
+                    > .panel {
+                        flex: 1;
+                        display: flex;
+                        margin-bottom: 0;
+                        > .panel-body {
+                            flex: 1;
+                            display: flex;
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
+.ms-infortuni-stradali-container {
+    .ms2-border-layout-content {
+        .rw-calendar-popup {
+            width: 100%;
+            left: 0;
+        }
+    }
+    
+    
+}
+.ms-fake-toc-container {
+    .ms2-border-layout-body {
+        overflow-x: hidden;
+    }
+}

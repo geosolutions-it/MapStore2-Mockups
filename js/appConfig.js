@@ -119,6 +119,10 @@ module.exports = {
         name: 'import-export',
         path: '/import-export',
         component: require('./pages/ImportExport')
+    }, {
+        name: 'infortuni-stradali',
+        path: '/infortuni-stradali',
+        component: require('./pages/InfortuniStradali')
     }],
     pluginsDef: require('./plugins.js'),
     initialState: {
