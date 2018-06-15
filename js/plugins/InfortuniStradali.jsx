@@ -9,7 +9,7 @@
 const React = require('react');
 const PropTypes = require('prop-types');
 const {head} = require('lodash');
-const {Grid, Glyphicon, Row, Col, FormGroup, Checkbox, ControlLabel, ListGroup, ListGroupItem } = require('react-bootstrap');
+const {Grid, Row, Col, FormGroup, Checkbox, ControlLabel, ListGroup, ListGroupItem } = require('react-bootstrap');
 const moment = require('moment');
 const momentLocalizer = require('react-widgets/lib/localizers/moment');
 momentLocalizer(moment);
@@ -205,7 +205,7 @@ module.exports = {
         DrawerMenu: {
             name: 'backgroundswitcher',
             position: 2,
-            icon: <Glyphicon glyph="filter"/>,
+            icon: <i className="fa fa-car"> </i>,
             buttonConfig: {
                 buttonClassName: "square-button no-border",
                 tooltip: "Filtra infortuni"
