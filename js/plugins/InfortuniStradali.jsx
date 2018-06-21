@@ -7,19 +7,33 @@
  */
 
 const React = require('react');
+
 const PropTypes = require('prop-types');
 const {head} = require('lodash');
 const {Grid, Row, Col, FormGroup, Checkbox, ControlLabel, ListGroup, ListGroupItem } = require('react-bootstrap');
+const {setControlProperty} = require('../../MapStore2/web/client/actions/controls');
 const moment = require('moment');
 const momentLocalizer = require('react-widgets/lib/localizers/moment');
 momentLocalizer(moment);
 const { DateTimePicker } = require('react-widgets');
 
-// const TOC = require('../components/infortunistradali/TOCInfortuni');
-// const DockablePanel = require('../../MapStore2/web/client/components/misc/panels/DockablePanel');
 const BorderLayout = require('../../MapStore2/web/client/components/layout/BorderLayout');
 const Toolbar = require('../../MapStore2/web/client/components/misc/toolbar/Toolbar');
 const assign = require('object-assign');
+const url = require('url');
+const Rx = require('rxjs');
+
+const year = (new Date()).getFullYear();
+const start = new Date('1/1/' + year);
+
+const initializePlugin = (action$) =>
+    action$.ofType('@@router/LOCATION_CHANGE')
+        .filter(() => {
+            const path = url.parse(window.location.href, true);
+            return path && path.query && path.query.infortuniPlugin;
+        })
+        .switchMap( () => Rx.Observable.of(setControlProperty('drawer', 'enabled', true), setControlProperty('drawer', 'menu', '2')));
+
 
 class InfortuniStradali extends React.Component {
 
@@ -37,7 +51,10 @@ class InfortuniStradali extends React.Component {
     }
 
     state = {
-        codes: {},
+        codes: {
+            '001': start,
+            '002': new Date()
+        },
         filters: [
             {
                 name: 'Periodo',
@@ -138,6 +155,7 @@ class InfortuniStradali extends React.Component {
                     </div>
                     <div>
                         <DateTimePicker
+                            format={(date) => moment(date).format('DD/MM/YYYY')}
                             time={false}
                             value={this.state.codes[input.code]}
                             onChange={date => this.setState({codes: {...this.state.codes, [input.code]: date}})}/>
@@ -148,6 +166,7 @@ class InfortuniStradali extends React.Component {
             return null;
         }
     };
+
 
     render() {
 
@@ -202,6 +221,7 @@ class InfortuniStradali extends React.Component {
 
 module.exports = {
     InfortuniStradaliPlugin: assign(InfortuniStradali, {
+        disablePluginIf: "{!(request.query && request.query.infortuniPlugin)}",
         DrawerMenu: {
             name: 'backgroundswitcher',
             position: 2,
@@ -212,5 +232,8 @@ module.exports = {
             },
             priority: 2
         }
-    })
+    }),
+    epics: {
+        initializePlugin
+    }
 };
