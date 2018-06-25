@@ -21,6 +21,12 @@ class ArchivePlugin extends React.Component {
     static defaultProps = {
         cards: [
             {
+                title: 'Statistical query engine',
+                desc: 'Thematic maps, use parameters admin and thematic to enable different conditions (eg. /?admin=true&thematic=true#/thematic-maps)',
+                link: 'thematic-maps',
+                src: 'sqt.png'
+            },
+            {
                 title: 'Import and export data',
                 desc: 'import/export map configuration',
                 link: 'import-export',

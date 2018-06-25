@@ -253,6 +253,23 @@
             "fixed": true
           }
         }
+      ],
+      "thematic-maps": [
+        {
+          "name": "Background",
+          "cfg": {
+              "showItaly": true
+          }
+        },
+        "ThematicMapsEditor",
+        "FakeFooter",
+        "FakeNavbar",
+        {
+          "name": "ToolbarPlaceholder",
+          "cfg": {
+            "fixed": true
+          }
+        }
       ]
 	}
 }

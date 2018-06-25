@@ -12,6 +12,7 @@ const {DropdownButton, Glyphicon} = require('react-bootstrap');
 const {setOption} = require('../actions/mockups');
 const {createSelector} = require('reselect');
 const {connect} = require('react-redux');
+const url = require('url');
 
 class FakeNavbar extends React.Component {
 
@@ -33,6 +34,13 @@ class FakeNavbar extends React.Component {
     state = {
         open: true,
         selected: false
+    }
+
+    componentWillMount() {
+        const path = url.parse(window.location.href, true);
+        if (path && path.query && path.query.admin) {
+            this.setState({admin: true});
+        }
     }
 
     render() {
@@ -158,7 +166,7 @@ class FakeNavbar extends React.Component {
                     </DropdownButton>}
                     </div>
                     <div style={{'float': 'right'}} className="dropdown btn-group btn-group-primary">
-                        <button id="dropdown-basic-primary" role="button" aria-haspopup="true" aria-expanded="false" type="button" className="square-button dropdown-toggle btn btn-primary">
+                        <button id="dropdown-basic-primary" role="button" aria-haspopup="true" aria-expanded="false" type="button" className={`square-button dropdown-toggle btn btn-${this.state.admin ? 'success' : 'primary'}`}>
                             <span className="glyphicon glyphicon-user"></span>
                         </button>
                         <ul role="menu" className="dropdown-menu dropdown-menu-right" aria-labelledby="dropdown-basic-primary">

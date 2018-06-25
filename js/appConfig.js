@@ -123,6 +123,10 @@ module.exports = {
         name: 'infortuni-stradali',
         path: '/infortuni-stradali',
         component: require('./pages/InfortuniStradali')
+    }, {
+        name: 'thematic-maps',
+        path: '/thematic-maps',
+        component: require('./pages/ThematicMaps')
     }],
     pluginsDef: require('./plugins.js'),
     initialState: {

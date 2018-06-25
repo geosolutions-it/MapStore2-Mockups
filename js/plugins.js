@@ -48,7 +48,9 @@ module.exports = {
 
         InfortuniStradaliPlugin: require('./plugins/InfortuniStradali'),
         DrawerMenuPlugin: require('../MapStore2/web/client/plugins/DrawerMenu'),
-        FakeTOCNewPlugin: require('./plugins/FakeTocPlugin')
+        FakeTOCNewPlugin: require('./plugins/FakeTocPlugin'),
+
+        ThematicMapsEditorPlugin: require('./plugins/ThematicMapsEditor')
 
     },
     requires: {}
