@@ -21,6 +21,34 @@ class ArchivePlugin extends React.Component {
     static defaultProps = {
         cards: [
             {
+                title: 'Catalog Metadata Template',
+                desc: 'Improvement on catalog card and advanced options',
+                link: 'https://demo.geo-solutions.it/mockups/mapstore2/catalog-template/#/viewer/openlayers/new',
+                src: 'catm.png',
+                absolute: true
+            },
+            {
+                title: 'Annotation improvements',
+                desc: 'Styles, get feature info and measure',
+                link: 'https://demo.geo-solutions.it/mockups/mapstore2/annotation_styles/#/viewer/openlayers/new',
+                src: 'anno.png',
+                absolute: true
+            },
+            {
+                title: 'Background selector improvements',
+                desc: 'Background workflow of edit, save and delete actions',
+                link: 'https://demo.geo-solutions.it/mockups/mapstore2/backgroundedit/#/viewer/openlayers/new',
+                src: 'bg-ed.png',
+                absolute: true
+            },
+            {
+                title: 'Create new map improvements',
+                desc: 'Select different EPSG before create new map',
+                link: 'https://demo.geo-solutions.it/mockups/mapstore2/newmapepsg/#/viewer/openlayers/new',
+                src: 'new-epsg.png',
+                absolute: true
+            },
+            {
                 title: 'Statistical query engine',
                 desc: 'Thematic maps, use parameters admin and thematic to enable different conditions (eg. /?admin=true&thematic=true#/thematic-maps)',
                 link: 'thematic-maps',
@@ -184,6 +212,7 @@ class ArchivePlugin extends React.Component {
                                     desc={m.desc}
                                     src={m.src}
                                     link={m.link}
+                                    absolute={m.absolute}
                                     side={this.getCardSide(width)}/>)}
                             </span>
                         }
