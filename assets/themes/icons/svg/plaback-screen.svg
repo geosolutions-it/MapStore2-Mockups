@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   version="1.1"
+   viewBox="0 -240 1200 1200"
+   id="svg6"
+   sodipodi:docname="plaback-screen.svg"
+   inkscape:version="0.92.1 r15371">
+  <metadata
+     id="metadata12">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title></dc:title>
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <defs
+     id="defs10" />
+  <sodipodi:namedview
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1"
+     objecttolerance="10"
+     gridtolerance="10"
+     guidetolerance="10"
+     inkscape:pageopacity="0"
+     inkscape:pageshadow="2"
+     inkscape:window-width="1920"
+     inkscape:window-height="1017"
+     id="namedview8"
+     showgrid="false"
+     inkscape:zoom="0.13906433"
+     inkscape:cx="-1218.6286"
+     inkscape:cy="1167.9343"
+     inkscape:window-x="-8"
+     inkscape:window-y="-8"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="layer2"
+     showguides="false" />
+  <g
+     inkscape:groupmode="layer"
+     id="layer2"
+     inkscape:label="glyph">
+    <path
+       inkscape:connector-curvature="0"
+       style="fill:currentColor;stroke-width:1.25529575"
+       d="M 0,-27.88672 V 820.7363 h 524.68555 c -1.0356,24.0375 -21.1363,43.2309 -30,65.2793 -11.20911,24.9004 -36.76299,48.9304 -19.58008,77.8711 34.71815,43.5016 98.50267,12.17418 146.33203,20.31248 43.10102,9.0556 130.39824,5.7136 107.03906,-59.97648 -16.74541,-32.3393 -37.72376,-63.583 -51.9082,-96.586 3.35134,-15.7107 35.51738,-2.6053 50.2832,-6.9004 157.65912,-0.075 315.41544,-0.051 473.14844,-0.053 V -27.88672 Z M 107.94922,78.81836 h 983.73628 v 632.7168 c -327.90838,-0.009 -655.81299,-0.0224 -983.73628,-0.0156 z M 476.55664,203.0625 v 400 L 824.57422,403.50195 Z"
+       id="path2-3" />
+  </g>
+</svg>
