@@ -21,6 +21,13 @@ class ArchivePlugin extends React.Component {
     static defaultProps = {
         cards: [
             {
+                title: 'GeoStory',
+                desc: 'Prototype for cascade storytelling',
+                link: 'https://demo.geo-solutions.it/mockups/mapstore2/geostory/#/',
+                src: 'gst.png',
+                absolute: true
+            },
+            {
                 title: 'Catalog Metadata Template',
                 desc: 'Improvement on catalog card and advanced options',
                 link: 'https://demo.geo-solutions.it/mockups/mapstore2/catalog-template/#/viewer/openlayers/new',
